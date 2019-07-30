@@ -29,8 +29,9 @@ void system_init()
   #else
     CONTROL_PORT |= CONTROL_MASK;   // Enable internal pull-up resistors. Normal high operation.
   #endif
-  CONTROL_PCMSK |= CONTROL_MASK;  // Enable specific pins of the Pin Change Interrupt
-  PCICR |= (1 << CONTROL_INT);   // Enable Pin Change Interrupt
+  //TODO:Enable pin change interrupt
+//  CONTROL_PCMSK |= CONTROL_MASK;  // Enable specific pins of the Pin Change Interrupt
+//  PCICR |= (1 << CONTROL_INT);   // Enable Pin Change Interrupt
 }
 
 

@@ -1,106 +1,113 @@
-#  Part of Grbl
 #
-#  Copyright (c) 2009-2011 Simen Svale Skogsrud
-#  Copyright (c) 2012-2016 Sungeun K. Jeon for Gnea Research LLC
+#  There exist several targets which are by default empty and which can be 
+#  used for execution of your targets. These targets are usually executed 
+#  before and after some main targets. They are: 
 #
-#  Grbl is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
+#     .build-pre:              called before 'build' target
+#     .build-post:             called after 'build' target
+#     .clean-pre:              called before 'clean' target
+#     .clean-post:             called after 'clean' target
+#     .clobber-pre:            called before 'clobber' target
+#     .clobber-post:           called after 'clobber' target
+#     .all-pre:                called before 'all' target
+#     .all-post:               called after 'all' target
+#     .help-pre:               called before 'help' target
+#     .help-post:              called after 'help' target
 #
-#  Grbl is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
+#  Targets beginning with '.' are not intended to be called on their own.
 #
-#  You should have received a copy of the GNU General Public License
-#  along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
+#  Main targets can be executed directly, and they are:
+#  
+#     build                    build a specific configuration
+#     clean                    remove built files from a configuration
+#     clobber                  remove all built files
+#     all                      build all configurations
+#     help                     print help mesage
+#  
+#  Targets .build-impl, .clean-impl, .clobber-impl, .all-impl, and
+#  .help-impl are implemented in nbproject/makefile-impl.mk.
+#
+#  Available make variables:
+#
+#     CND_BASEDIR                base directory for relative paths
+#     CND_DISTDIR                default top distribution directory (build artifacts)
+#     CND_BUILDDIR               default top build directory (object files, ...)
+#     CONF                       name of current configuration
+#     CND_ARTIFACT_DIR_${CONF}   directory of build artifact (current configuration)
+#     CND_ARTIFACT_NAME_${CONF}  name of build artifact (current configuration)
+#     CND_ARTIFACT_PATH_${CONF}  path to build artifact (current configuration)
+#     CND_PACKAGE_DIR_${CONF}    directory of package (current configuration)
+#     CND_PACKAGE_NAME_${CONF}   name of package (current configuration)
+#     CND_PACKAGE_PATH_${CONF}   path to package (current configuration)
+#
+# NOCDDL
 
 
-# This is a prototype Makefile. Modify it according to your needs.
-# You should at least check the settings for
-# DEVICE ....... The AVR device you compile for
-# CLOCK ........ Target AVR clock rate in Hertz
-# OBJECTS ...... The object files created from your source files. This list is
-#                usually the same as the list of source files with suffix ".o".
-# PROGRAMMER ... Options to avrdude which define the hardware you use for
-#                uploading to the AVR and the interface where this hardware
-#                is connected.
-# FUSES ........ Parameters for avrdude to flash the fuses appropriately.
-
-DEVICE     ?= atmega328p
-CLOCK      = 16000000
-PROGRAMMER ?= -c avrisp2 -P usb
-SOURCE    = main.c motion_control.c gcode.c spindle_control.c coolant_control.c serial.c \
-             protocol.c stepper.c eeprom.c settings.c planner.c nuts_bolts.c limits.c jog.c\
-             print.c probe.c report.c system.c
-BUILDDIR = build
-SOURCEDIR = grbl
-# FUSES      = -U hfuse:w:0xd9:m -U lfuse:w:0x24:m
-FUSES      = -U hfuse:w:0xd2:m -U lfuse:w:0xff:m
-
-# Tune the lines below only if you know what you are doing:
-
-AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE) -B 10 -F
-
-# Compile flags for avr-gcc v4.8.1. Does not produce -flto warnings.
-# COMPILE = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE) -I. -ffunction-sections
-
-# Compile flags for avr-gcc v4.9.2 compatible with the IDE. Or if you don't care about the warnings. 
-COMPILE = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE) -I. -ffunction-sections -flto
+# Environment 
+MKDIR=mkdir
+CP=cp
+CCADMIN=CCadmin
+RANLIB=ranlib
 
 
-OBJECTS = $(addprefix $(BUILDDIR)/,$(notdir $(SOURCE:.c=.o)))
+# build
+build: .build-post
 
-# symbolic targets:
-all:	grbl.hex
+.build-pre:
+# Add your pre 'build' code here...
 
-$(BUILDDIR)/%.o: $(SOURCEDIR)/%.c
-	$(COMPILE) -MMD -MP -c $< -o $@
+.build-post: .build-impl
+# Add your post 'build' code here...
 
-.S.o:
-	$(COMPILE) -x assembler-with-cpp -c $< -o $(BUILDDIR)/$@
-# "-x assembler-with-cpp" should not be necessary since this is the default
-# file type for the .S (with capital S) extension. However, upper case
-# characters are not always preserved on Windows. To ensure WinAVR
-# compatibility define the file type manually.
 
-#.c.s:
-	$(COMPILE) -S $< -o $(BUILDDIR)/$@
+# clean
+clean: .clean-post
 
-flash:	all
-	$(AVRDUDE) -U flash:w:grbl.hex:i
+.clean-pre:
+# Add your pre 'clean' code here...
+# WARNING: the IDE does not call this target since it takes a long time to
+# simply run make. Instead, the IDE removes the configuration directories
+# under build and dist directly without calling make.
+# This target is left here so people can do a clean when running a clean
+# outside the IDE.
 
-fuse:
-	$(AVRDUDE) $(FUSES)
+.clean-post: .clean-impl
+# Add your post 'clean' code here...
 
-# Xcode uses the Makefile targets "", "clean" and "install"
-install: flash fuse
 
-# if you use a bootloader, change the command below appropriately:
-load: all
-	bootloadHID grbl.hex
+# clobber
+clobber: .clobber-post
 
-clean:
-	rm -f grbl.hex $(BUILDDIR)/*.o $(BUILDDIR)/*.d $(BUILDDIR)/*.elf
+.clobber-pre:
+# Add your pre 'clobber' code here...
 
-# file targets:
-$(BUILDDIR)/main.elf: $(OBJECTS)
-	$(COMPILE) -o $(BUILDDIR)/main.elf $(OBJECTS) -lm -Wl,--gc-sections
+.clobber-post: .clobber-impl
+# Add your post 'clobber' code here...
 
-grbl.hex: $(BUILDDIR)/main.elf
-	rm -f grbl.hex
-	avr-objcopy -j .text -j .data -O ihex $(BUILDDIR)/main.elf grbl.hex
-	avr-size --format=berkeley $(BUILDDIR)/main.elf
-# If you have an EEPROM section, you must also create a hex file for the
-# EEPROM and add it to the "flash" target.
 
-# Targets for code debugging and analysis:
-disasm:	main.elf
-	avr-objdump -d $(BUILDDIR)/main.elf
+# all
+all: .all-post
 
-cpp:
-	$(COMPILE) -E $(SOURCEDIR)/main.c
+.all-pre:
+# Add your pre 'all' code here...
 
-# include generated header dependencies
--include $(BUILDDIR)/$(OBJECTS:.o=.d)
+.all-post: .all-impl
+# Add your post 'all' code here...
+
+
+# help
+help: .help-post
+
+.help-pre:
+# Add your pre 'help' code here...
+
+.help-post: .help-impl
+# Add your post 'help' code here...
+
+
+
+# include project implementation makefile
+include nbproject/Makefile-impl.mk
+
+# include project make variables
+include nbproject/Makefile-variables.mk

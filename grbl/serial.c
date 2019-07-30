@@ -61,24 +61,12 @@ uint8_t serial_get_tx_buffer_count()
   return (TX_RING_BUFFER - (ttail-serial_tx_buffer_head));
 }
 
-
+ISR(SERIAL_RX);
+ISR(SERIAL_UDRE);
 void serial_init()
 {
-  // Set baud rate
-  #if BAUD_RATE < 57600
-    uint16_t UBRR0_value = ((F_CPU / (8L * BAUD_RATE)) - 1)/2 ;
-    UCSR0A &= ~(1 << U2X0); // baud doubler off  - Only needed on Uno XXX
-  #else
-    uint16_t UBRR0_value = ((F_CPU / (4L * BAUD_RATE)) - 1)/2;
-    UCSR0A |= (1 << U2X0);  // baud doubler on for high baud rates, i.e. 115200
-  #endif
-  UBRR0H = UBRR0_value >> 8;
-  UBRR0L = UBRR0_value;
-
-  // enable rx, tx, and interrupt on complete reception of a byte
-  UCSR0B |= (1<<RXEN0 | 1<<TXEN0 | 1<<RXCIE0);
-
-  // defaults to 8-bit, no parity, 1 stop bit
+    UART1_SetRxInterruptHandler(SERIAL_RX);
+    UART1_SetTxInterruptHandler(SERIAL_UDRE);
 }
 
 
@@ -109,8 +97,9 @@ ISR(SERIAL_UDRE)
   uint8_t tail = serial_tx_buffer_tail; // Temporary serial_tx_buffer_tail (to optimize for volatile)
 
   // Send a byte from the buffer
-  UDR0 = serial_tx_buffer[tail];
-
+  USART_TX_clear_ISR_flag();
+  UTXREG = serial_tx_buffer[tail];
+  
   // Update tail position
   tail++;
   if (tail == TX_RING_BUFFER) { tail = 0; }
@@ -142,7 +131,7 @@ uint8_t serial_read()
 
 ISR(SERIAL_RX)
 {
-  uint8_t data = UDR0;
+  uint8_t data = URXREG;
   uint8_t next_head;
 
   // Pick off realtime command characters directly from the serial stream. These characters are
@@ -195,6 +184,7 @@ ISR(SERIAL_RX)
         }
       }
   }
+  USART_RX_clear_ISR_flag();
 }
 
 
