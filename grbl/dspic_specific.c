@@ -7,8 +7,6 @@
 #define ISR_VECTOR_FUNC(func) _ISR_VECTOR_FUNC(func)
 #define DECLARE_VECTOR(func) ISR(func); __attribute__((interrupt, auto_psv)) void ISR_VECTOR_FUNC(func) { func(); }
 
-int SREG;
-
 double trunc(double number) {
     double intval_as_double;
     modf(number, &intval_as_double);

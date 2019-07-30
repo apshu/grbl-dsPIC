@@ -151,7 +151,7 @@ ISR(SERIAL_RX)
             }
             break; 
           #ifdef DEBUG
-            case CMD_DEBUG_REPORT: {uint8_t sreg = SREG; cli(); bit_true(sys_rt_exec_debug,EXEC_DEBUG_REPORT); SREG = sreg;} break;
+            case CMD_DEBUG_REPORT: cli(); bit_true(sys_rt_exec_debug,EXEC_DEBUG_REPORT); sei();} break;
           #endif
           case CMD_FEED_OVR_RESET: system_set_exec_motion_override_flag(EXEC_FEED_OVR_RESET); break;
           case CMD_FEED_OVR_COARSE_PLUS: system_set_exec_motion_override_flag(EXEC_FEED_OVR_COARSE_PLUS); break;

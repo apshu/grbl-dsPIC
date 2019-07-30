@@ -634,6 +634,7 @@ static void protocol_exec_rt_suspend()
             spindle_set_state(SPINDLE_DISABLE,0.0); // De-energize
             coolant_set_state(COOLANT_DISABLE); // De-energize
             st_go_idle(); // Disable steppers
+            //TODO: check if sleep instruction help here
             while (!(sys.abort)) { protocol_exec_rt_system(); } // Do nothing until reset.
             return; // Abort received. Return to re-initialize.
           }    

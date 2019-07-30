@@ -20,8 +20,8 @@ extern "C" {
 #include "../mcc_generated_files/mcc.h"
 
 #define round(d) round_c99(d)
-#define sei() Nop()             //TODO:Enable inteerupts
-#define cli() Nop()             //TODO:Disable inteerupts
+#define sei() __builtin_disi(0)     
+#define cli() __builtin_disi(0x3fff)
 #define ISR(func)   void func(void)
 #define M_PI   3.14159265358979323846264338327950288
 #define _delay_ms(msec) __delay_ms(msec)
@@ -29,7 +29,6 @@ extern "C" {
 #define pgm_read_byte_near(x) (*x)
 #define PSTR(str) (str)
     
-    extern int SREG;
     double trunc(double);
     double round_c99(double);
     long lround(double);
