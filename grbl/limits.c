@@ -32,7 +32,7 @@
 
 void limits_init()
 {
-  LIMIT_DDR &= ~(LIMIT_MASK); // Set as input pins
+  LIMIT_IODIR |= (LIMIT_MASK); // Set as input pins
 
   #ifdef DISABLE_LIMIT_PIN_PULL_UP
     LIMIT_PORT &= ~(LIMIT_MASK); // Normal low operation. Requires external pull-down.

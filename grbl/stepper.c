@@ -512,9 +512,9 @@ void st_reset()
 void stepper_init()
 {
   // Configure step and direction interface pins
-  STEP_DDR |= STEP_MASK;
-  STEPPERS_DISABLE_DDR |= 1<<STEPPERS_DISABLE_BIT;
-  DIRECTION_DDR |= DIRECTION_MASK;
+  STEP_IODIR &= ~(STEP_MASK);
+  STEPPERS_DISABLE_IODIR &= ~(1<<STEPPERS_DISABLE_BIT);
+  DIRECTION_IODIR &= ~(DIRECTION_MASK);
 
   // TODO:Configure Timer 1: Stepper Driver Interrupt
 //  TCCR1B &= ~(1<<WGM13); // waveform generation = 0100 = CTC

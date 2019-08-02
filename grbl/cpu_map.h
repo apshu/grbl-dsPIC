@@ -38,7 +38,7 @@
   #define USART_TX_clear_ISR_flag() do {IFS0bits.U1TXIF = false;} while(0)
 
   // Define step pulse output pins. NOTE: All step bit pins must be on the same port.
-  #define STEP_DDR        TRISD
+  #define STEP_IODIR      TRISD
   #define STEP_PORT       LATD
   #define X_STEP_BIT      2  // Uno Digital Pin 2
   #define Y_STEP_BIT      3  // Uno Digital Pin 3
@@ -46,7 +46,7 @@
   #define STEP_MASK       ((1<<X_STEP_BIT)|(1<<Y_STEP_BIT)|(1<<Z_STEP_BIT)) // All step bits
 
   // Define step direction output pins. NOTE: All direction pins must be on the same port.
-  #define DIRECTION_DDR     TRISD
+  #define DIRECTION_IODIR     TRISD
   #define DIRECTION_PORT    LATD
   #define X_DIRECTION_BIT   5  // Uno Digital Pin 5
   #define Y_DIRECTION_BIT   6  // Uno Digital Pin 6
@@ -54,14 +54,14 @@
   #define DIRECTION_MASK    ((1<<X_DIRECTION_BIT)|(1<<Y_DIRECTION_BIT)|(1<<Z_DIRECTION_BIT)) // All direction bits
 
   // Define stepper driver enable/disable output pin.
-  #define STEPPERS_DISABLE_DDR    TRISB
+  #define STEPPERS_DISABLE_IODIR    TRISB
   #define STEPPERS_DISABLE_PORT   LATB
   #define STEPPERS_DISABLE_BIT    0  // Uno Digital Pin 8
   #define STEPPERS_DISABLE_MASK   (1<<STEPPERS_DISABLE_BIT)
 
   // Define homing/hard limit switch input pins and limit interrupt vectors.
   // NOTE: All limit bit pins must be on the same port, but not on a port with other input pins (CONTROL).
-  #define LIMIT_DDR        TRISB
+  #define LIMIT_IODIR        TRISB
   #define LIMIT_PIN        PORTB
   #define LIMIT_PORT       LATB
   #define X_LIMIT_BIT      1  // Uno Digital Pin 9
@@ -77,7 +77,7 @@
   #define LIMIT_PCMSK      PCMSK0 // Pin change interrupt register
 
   // Define spindle enable and spindle direction output pins.
-  #define SPINDLE_ENABLE_DDR    TRISB
+  #define SPINDLE_ENABLE_IODIR    TRISB
   #define SPINDLE_ENABLE_PORT   LATB
   // Z Limit pin and spindle PWM/enable pin swapped to access hardware PWM on Pin 11.
   #ifdef VARIABLE_SPINDLE
@@ -91,22 +91,22 @@
     #define SPINDLE_ENABLE_BIT    4  // Uno Digital Pin 12
   #endif
   #ifndef USE_SPINDLE_DIR_AS_ENABLE_PIN
-    #define SPINDLE_DIRECTION_DDR   TRISB
+    #define SPINDLE_DIRECTION_IODIR   TRISB
     #define SPINDLE_DIRECTION_PORT  LATB
     #define SPINDLE_DIRECTION_BIT   5  // Uno Digital Pin 13 (NOTE: D13 can't be pulled-high input due to LED.)
   #endif
 
   // Define flood and mist coolant enable output pins.
-  #define COOLANT_FLOOD_DDR   TRISC
+  #define COOLANT_FLOOD_IODIR   TRISC
   #define COOLANT_FLOOD_PORT  LATC
   #define COOLANT_FLOOD_BIT   3  // Uno Analog Pin 3
-  #define COOLANT_MIST_DDR    TRISC
+  #define COOLANT_MIST_IODIR    TRISC
   #define COOLANT_MIST_PORT   LATC
   #define COOLANT_MIST_BIT    4  // Uno Analog Pin 4
 
   // Define user-control controls (cycle start, reset, feed hold) input pins.
   // NOTE: All CONTROLs pins must be on the same port and not on a port with other input pins (limits).
-  #define CONTROL_DDR       TRISC
+  #define CONTROL_IODIR       TRISC
   #define CONTROL_PIN       PORTC
   #define CONTROL_PORT      LATC
   #define CONTROL_RESET_BIT         0  // Uno Analog Pin 0
@@ -120,7 +120,7 @@
   #define CONTROL_INVERT_MASK   CONTROL_MASK // May be re-defined to only invert certain control pins.
 
   // Define probe switch input pin.
-  #define PROBE_DDR       TRISC
+  #define PROBE_IODIR       TRISC
   #define PROBE_PIN       PORTC
   #define PROBE_PORT      LATC
   #define PROBE_BIT       5  // Uno Analog Pin 5
@@ -147,7 +147,7 @@
   #define SPINDLE_TCCRB_INIT_MASK      (1<<CS22)               // 1/64 prescaler -> 0.98kHz (J-tech laser)
 
   // NOTE: On the 328p, these must be the same as the SPINDLE_ENABLE settings.
-  #define SPINDLE_PWM_DDR	  TRISB
+  #define SPINDLE_PWM_IODIR	  TRISB
   #define SPINDLE_PWM_PORT  LATB
   #define SPINDLE_PWM_BIT	  3    // Uno Digital Pin 11
 

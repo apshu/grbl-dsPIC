@@ -14,18 +14,25 @@ double trunc(double number) {
 }
 
 long lround(double number) {
-    return (long)round(number);
+    return (long) round(number);
 }
 
 double round_c99(double d) {
     double int_part, frac_part;
     frac_part = modf(d, &int_part);
-    if(fabs(frac_part) < 0.5)
+    if (fabs(frac_part) < 0.5)
         return int_part;
     return int_part > 0.0 ? int_part + 1.0 : int_part - 1.0;
 }
 
-#ifndef ENABLE_SOFTWARE_DEBOUNCE
-DECLARE_VECTOR(LIMIT_INT_vect);
-#endif
+ISR(LIMIT_INT_vect);
+
+__attribute__((interrupt, auto_psv)) void ISR_VECTOR_FUNC(LIMIT_INT_vect) {
+    if (IFS1bits.CNCIF == 1) {
+        // Clear the flag
+        IFS1bits.CNCIF = 0;
+        LIMIT_INT_vect();
+    }
+}
 DECLARE_VECTOR(CONTROL_INT_vect);
+

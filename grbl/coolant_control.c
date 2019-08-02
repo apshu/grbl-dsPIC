@@ -23,9 +23,9 @@
 
 void coolant_init()
 {
-  COOLANT_FLOOD_DDR |= (1 << COOLANT_FLOOD_BIT); // Configure as output pin
+  COOLANT_FLOOD_IODIR &= ~(1 << COOLANT_FLOOD_BIT); // Configure as output pin
   #ifdef ENABLE_M7
-    COOLANT_MIST_DDR |= (1 << COOLANT_MIST_BIT);
+    COOLANT_MIST_IODIR &= ~(1 << COOLANT_MIST_BIT);
   #endif
   coolant_stop();
 }
