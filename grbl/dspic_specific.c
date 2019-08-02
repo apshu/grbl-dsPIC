@@ -14,7 +14,6 @@ double trunc(double number) {
 }
 
 long lround(double number) {
-    //TODO: implement
     return (long)round(number);
 }
 
