@@ -66,6 +66,8 @@
 #define bit_istrue(x,mask) ((x & mask) != 0)
 #define bit_isfalse(x,mask) ((x & mask) == 0)
 
+ void strrev(char* s);
+ int itoa(int num, char* str, int len, int num_base);
 // Read a floating point value from a string. Line points to the input buffer, char_counter
 // is the indexer pointing to the current character of the line, while float_ptr is
 // a pointer to the result variable. Returns true when it succeeds

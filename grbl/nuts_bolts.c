@@ -20,10 +20,47 @@
 */
 
 #include "grbl.h"
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 
 #define MAX_INT_DIGITS 8 // Maximum number of digits in int32 (and float)
 
+ void strrev(char* s)
+ {
+     int i, j;
+     char c;
+ 
+     for (i = 0, j = strlen(s)-1; i<j; i++, j--) {
+         c = s[i];
+         s[i] = s[j];
+         s[j] = c;
+     }
+ }
+ 
+ int itoa(int num, char* str, int len, int num_base)
+{
+	int sum = num;
+	int i = 0;
+	int digit;
+	if (len == 0)
+		return -1;
+	do
+	{
+		digit = sum % num_base;
+		if (digit < 0xA)
+			str[i++] = '0' + digit;
+		else
+			str[i++] = 'A' + digit - 0xA;
+		sum /= num_base;
+	}while (sum && (i < (len - 1)));
+	if (i == (len - 1) && sum)
+		return -1;
+	str[i] = '\0';
+	strrev(str);
+	return 0;
+}
 
 // Extracts a floating point value from a string. The following code is based loosely on
 // the avr-libc strtod() function by Michael Stumpf and Dmitry Xmelkov and many freely
