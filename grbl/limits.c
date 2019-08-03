@@ -32,12 +32,12 @@
 
 void limits_init()
 {
-  LIMIT_IODIR |= (LIMIT_MASK); // Set as input pins
+  GPIO_confInput(LIMIT_PORT, LIMIT_MASK); // Set as input pins
 
   #ifdef DISABLE_LIMIT_PIN_PULL_UP
-    LIMIT_PORT &= ~(LIMIT_MASK); // Normal low operation. Requires external pull-down.
+    GPIO_pullupDisable(LIMIT_PORT, LIMIT_MASK);  // Normal low operation. Requires external pull-down.
   #else
-    LIMIT_PORT |= (LIMIT_MASK);  // Enable internal pull-up resistors. Normal high operation.
+    GPIO_pullupEnable(LIMIT_PORT, LIMIT_MASK);  // Enable internal pull-up resistors. Normal high operation.
   #endif
 
   if (bit_istrue(settings.flags,BITFLAG_HARD_LIMIT_ENABLE)) {
@@ -68,10 +68,10 @@ void limits_disable()
 // Returns limit state as a bit-wise uint8 variable. Each bit indicates an axis limit, where
 // triggered is 1 and not triggered is 0. Invert mask is applied. Axes are defined by their
 // number in bit position, i.e. Z_AXIS is (1<<2) or bit 2, and Y_AXIS is (1<<1) or bit 1.
-uint8_t limits_get_state()
+gpioport_t limits_get_state()
 {
-  uint8_t limit_state = 0;
-  uint8_t pin = (LIMIT_PIN & LIMIT_MASK);
+  gpioport_t limit_state = 0;
+  gpioport_t pin = GPIO_readLive(LIMIT_PORT) & LIMIT_MASK;
   #ifdef INVERT_LIMIT_PIN_MASK
     pin ^= INVERT_LIMIT_PIN_MASK;
   #endif

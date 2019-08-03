@@ -22,6 +22,7 @@
 #ifndef limits_h
 #define limits_h
 
+#include "dspic_specific.h"
 
 // Initialize the limits module
 void limits_init();
@@ -30,7 +31,7 @@ void limits_init();
 void limits_disable();
 
 // Returns limit state as a bit-wise uint8 variable.
-uint8_t limits_get_state();
+gpioport_t limits_get_state();
 
 // Perform one portion of the homing cycle based on the input settings.
 void limits_go_home(uint8_t cycle_mask);

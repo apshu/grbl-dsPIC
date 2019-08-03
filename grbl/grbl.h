@@ -35,12 +35,12 @@
 
 // Define the Grbl system include files. NOTE: Do not alter organization.
 #include "config.h"
+#include "cpu_map.h"
 #include "core_specific.h"
 #include "nuts_bolts.h"
 #include "settings.h"
 #include "system.h"
 #include "defaults.h"
-#include "cpu_map.h"
 #include "planner.h"
 #include "coolant_control.h"
 #include "eeprom.h"

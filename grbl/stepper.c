@@ -213,8 +213,8 @@ static st_prep_t prep;
 void st_wake_up()
 {
   // Enable stepper drivers.
-  if (bit_istrue(settings.flags,BITFLAG_INVERT_ST_ENABLE)) { STEPPERS_DISABLE_PORT |= (1<<STEPPERS_DISABLE_BIT); }
-  else { STEPPERS_DISABLE_PORT &= ~(1<<STEPPERS_DISABLE_BIT); }
+  if (bit_istrue(settings.flags,BITFLAG_INVERT_ST_ENABLE)) { GPIO_setHigh(STEPPERS_DISABLE_PORT, 1<<STEPPERS_DISABLE_BIT); }
+  else { GPIO_setLow(STEPPERS_DISABLE_PORT, 1<<STEPPERS_DISABLE_BIT); }
 
   // Initialize stepper output bits to ensure first ISR call does not step.
   st.step_outbits = step_port_invert_mask;
@@ -254,8 +254,8 @@ void st_go_idle()
     pin_state = true; // Override. Disable steppers.
   }
   if (bit_istrue(settings.flags,BITFLAG_INVERT_ST_ENABLE)) { pin_state = !pin_state; } // Apply pin invert.
-  if (pin_state) { STEPPERS_DISABLE_PORT |= (1<<STEPPERS_DISABLE_BIT); }
-  else { STEPPERS_DISABLE_PORT &= ~(1<<STEPPERS_DISABLE_BIT); }
+  if (pin_state) { GPIO_setHigh(STEPPERS_DISABLE_PORT, 1<<STEPPERS_DISABLE_BIT); }
+  else { GPIO_setLow(STEPPERS_DISABLE_PORT, 1<<STEPPERS_DISABLE_BIT); }
 }
 
 
@@ -312,13 +312,13 @@ ISR(TIMER1_COMPA_vect)
   if (busy) { return; } // The busy-flag is used to avoid reentering this interrupt
 
   // Set the direction pins a couple of nanoseconds before we step the steppers
-  DIRECTION_PORT = (DIRECTION_PORT & ~DIRECTION_MASK) | (st.dir_outbits & DIRECTION_MASK);
+  GPIO_setTo(DIRECTION_PORT, (GPIO_readStored( DIRECTION_PORT) & ~DIRECTION_MASK) | (st.dir_outbits & DIRECTION_MASK));
 
   // Then pulse the stepping pins
   #ifdef STEP_PULSE_DELAY
-    st.step_bits = (STEP_PORT & ~STEP_MASK) | st.step_outbits; // Store out_bits to prevent overwriting.
+    st.step_bits = (GPIO_readStored(STEP_PORT) & ~STEP_MASK) | st.step_outbits; // Store out_bits to prevent overwriting.
   #else  // Normal operation
-    STEP_PORT = (STEP_PORT & ~STEP_MASK) | st.step_outbits;
+    GPIO_setTo(STEP_PORT,  (GPIO_readStored(STEP_PORT) & ~STEP_MASK) | st.step_outbits);
   #endif
 
   // Enable step pulse reset timer so that The Stepper Port Reset Interrupt can reset the signal after
@@ -453,7 +453,7 @@ ISR(TIMER1_COMPA_vect)
 ISR(TIMER0_OVF_vect)
 {
   // Reset stepping pins (leave the direction pins)
-  STEP_PORT = (STEP_PORT & ~STEP_MASK) | (step_port_invert_mask & STEP_MASK);
+  GPIO_setTo(STEP_PORT, (GPIO_readStored(STEP_PORT) & ~STEP_MASK) | (step_port_invert_mask & STEP_MASK));
   //TODO:Disable timer0
 //  TCCR0B = 0; // Disable Timer0 to prevent re-entering this interrupt when it's not needed.
 }
@@ -465,7 +465,7 @@ ISR(TIMER0_OVF_vect)
   // st_wake_up() routine.
   ISR(TIMER0_COMPA_vect)
   {
-    STEP_PORT = st.step_bits; // Begin step pulse.
+    GPIO_setTo(STEP_PORT, st.step_bits); // Begin step pulse.
   }
 #endif
 
@@ -503,8 +503,8 @@ void st_reset()
   st.dir_outbits = dir_port_invert_mask; // Initialize direction bits to default.
 
   // Initialize step and direction port pins.
-  STEP_PORT = (STEP_PORT & ~STEP_MASK) | step_port_invert_mask;
-  DIRECTION_PORT = (DIRECTION_PORT & ~DIRECTION_MASK) | dir_port_invert_mask;
+  GPIO_setTo(STEP_PORT, (GPIO_readStored(STEP_PORT) & ~STEP_MASK) | step_port_invert_mask);
+  GPIO_setTo(DIRECTION_PORT, (GPIO_readStored(DIRECTION_PORT) & ~DIRECTION_MASK) | dir_port_invert_mask);
 }
 
 
@@ -512,9 +512,9 @@ void st_reset()
 void stepper_init()
 {
   // Configure step and direction interface pins
-  STEP_IODIR &= ~(STEP_MASK);
-  STEPPERS_DISABLE_IODIR &= ~(1<<STEPPERS_DISABLE_BIT);
-  DIRECTION_IODIR &= ~(DIRECTION_MASK);
+  GPIO_confOutput(STEP_PORT, STEP_MASK); //Set as output
+  GPIO_confOutput(STEPPERS_DISABLE_PORT, 1<<STEPPERS_DISABLE_BIT);
+  GPIO_confOutput(DIRECTION_PORT, DIRECTION_MASK);
 
   // TODO:Configure Timer 1: Stepper Driver Interrupt
 //  TCCR1B &= ~(1<<WGM13); // waveform generation = 0100 = CTC

@@ -90,7 +90,7 @@ void PIN_MANAGER_Initialize (void)
     CNPDE = 0x0000;
     CNPUA = 0x0000;
     CNPUB = 0x0000;
-    CNPUC = 0x0000;
+    CNPUC = 0x0400;
     CNPUD = 0x0000;
     CNPUE = 0x0000;
 
@@ -117,8 +117,8 @@ void PIN_MANAGER_Initialize (void)
      ***************************************************************************/
     __builtin_write_RPCON(0x0000); // unlock PPS
 
-    RPOR13bits.RP59R = 0x0001;    //RC11->UART1:U1TX
     RPINR18bits.U1RXR = 0x003A;    //RC10->UART1:U1RX
+    RPOR13bits.RP59R = 0x0001;    //RC11->UART1:U1TX
 
     __builtin_write_RPCON(0x0800); // lock PPS
 

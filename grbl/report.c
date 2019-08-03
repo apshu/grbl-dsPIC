@@ -96,6 +96,19 @@ static void report_util_uint8_setting(uint8_t n, int val) {
   print_uint8_base10(val); 
   report_util_line_feed(); // report_util_setting_string(n); 
 }
+
+#if GPIOPORT_NUMBITS <= 8
+#define report_util_gpio_setting(num, val) do { report_util_uint8_setting(num, val); } while(0)
+#else
+static void report_util_gpio_setting(uint8_t n, gpioport_t val) {
+  report_util_setting_prefix(n); 
+  char buffer[15];
+  itoa(val, buffer, sizeof(buffer), 10);
+  printString(buffer);
+  report_util_line_feed(); // report_util_setting_string(n); 
+}
+#endif
+    
 static void report_util_float_setting(uint8_t n, float val, uint8_t n_decimal) { 
   report_util_setting_prefix(n); 
   printFloat(val,n_decimal);
@@ -184,8 +197,8 @@ void report_grbl_settings() {
   // Print Grbl settings.
   report_util_uint8_setting(0,settings.pulse_microseconds);
   report_util_uint8_setting(1,settings.stepper_idle_lock_time);
-  report_util_uint8_setting(2,settings.step_invert_mask);
-  report_util_uint8_setting(3,settings.dir_invert_mask);
+  report_util_gpio_setting(2,settings.step_invert_mask);
+  report_util_gpio_setting(3,settings.dir_invert_mask);
   report_util_uint8_setting(4,bit_istrue(settings.flags,BITFLAG_INVERT_ST_ENABLE));
   report_util_uint8_setting(5,bit_istrue(settings.flags,BITFLAG_INVERT_LIMIT_PINS));
   report_util_uint8_setting(6,bit_istrue(settings.flags,BITFLAG_INVERT_PROBE_PIN));

@@ -23,11 +23,11 @@
 
 void system_init()
 {
-  CONTROL_IODIR |= (CONTROL_MASK); // Configure as input pins
+  GPIO_confInput(CONTROL_PORT, CONTROL_MASK); // Configure as input pins
   #ifdef DISABLE_CONTROL_PIN_PULL_UP
-    CONTROL_PORT &= ~(CONTROL_MASK); // Normal low operation. Requires external pull-down.
+    GPIO_pullupDisable(CONTROL_PORT, CONTROL_MASK);   // Normal low operation. Requires external pull-down.
   #else
-    CONTROL_PORT |= CONTROL_MASK;   // Enable internal pull-up resistors. Normal high operation.
+    GPIO_pullupEnable(CONTROL_PORT, CONTROL_MASK);   // Enable internal pull-up resistors. Normal high operation.
   #endif
   //TODO:Enable pin change interrupt
 //  CONTROL_PCMSK |= CONTROL_MASK;  // Enable specific pins of the Pin Change Interrupt
@@ -38,10 +38,10 @@ void system_init()
 // Returns control pin state as a uint8 bitfield. Each bit indicates the input pin state, where
 // triggered is 1 and not triggered is 0. Invert mask is applied. Bitfield organization is
 // defined by the CONTROL_PIN_INDEX in the header file.
-uint8_t system_control_get_state()
+gpioport_t system_control_get_state()
 {
-  uint8_t control_state = 0;
-  uint8_t pin = (CONTROL_PIN & CONTROL_MASK);
+  gpioport_t control_state = 0;
+  gpioport_t pin = GPIO_readLive(CONTROL_PORT) & CONTROL_MASK;
   #ifdef INVERT_CONTROL_PIN_MASK
     pin ^= INVERT_CONTROL_PIN_MASK;
   #endif
@@ -63,7 +63,7 @@ uint8_t system_control_get_state()
 // directly from the incoming serial data stream.
 ISR(CONTROL_INT_vect)
 {
-  uint8_t pin = system_control_get_state();
+  gpioport_t pin = system_control_get_state();
   if (pin) {
     if (bit_istrue(pin,CONTROL_PIN_INDEX_RESET)) {
       mc_reset();
@@ -84,7 +84,7 @@ ISR(CONTROL_INT_vect)
 
 
 // Returns if safety door is ajar(T) or closed(F), based on pin state.
-uint8_t system_check_safety_door_ajar()
+gpioport_t system_check_safety_door_ajar()
 {
   #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
     return(system_control_get_state() & CONTROL_PIN_INDEX_SAFETY_DOOR);
