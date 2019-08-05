@@ -74,7 +74,7 @@
     #define Z_LIMIT_BIT    3  // Uno Digital Pin 11
   #endif
   #define LIMIT_MASK       ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT)) // All limit bits
-
+  
   // Define spindle enable and spindle direction output pins.
   #define SPINDLE_ENABLE_PORT   B
   // Z Limit pin and spindle PWM/enable pin swapped to access hardware PWM on Pin 11.
@@ -100,7 +100,7 @@
   #define COOLANT_MIST_BIT    4  // Uno Analog Pin 4
 
   // Define user-control controls (cycle start, reset, feed hold) input pins.
-  // NOTE: All CONTROLs pins must be on the same port and not on a port with other input pins (limits).
+  // NOTE: All CONTROLs pins must be on the same port
   #define CONTROL_PORT              C
   #define CONTROL_RESET_BIT         0  // Uno Analog Pin 0
   #define CONTROL_FEED_HOLD_BIT     1  // Uno Analog Pin 1

@@ -7,6 +7,33 @@
 #define ISR_VECTOR_FUNC(func) _ISR_VECTOR_FUNC(func)
 #define DECLARE_VECTOR(func) ISR(func); __attribute__((interrupt, auto_psv)) void ISR_VECTOR_FUNC(func) { func(); }
 
+#define	THE_PORT_A	-26
+#define	THE_PORT_B	-25
+#define	THE_PORT_C	-24
+#define	THE_PORT_D	-23
+#define	THE_PORT_E	-22
+#define	THE_PORT_F	-21
+#define	THE_PORT_G	-20
+#define	THE_PORT_H	-19
+#define	THE_PORT_I	-18
+#define	THE_PORT_J	-17
+#define	THE_PORT_K	-16
+#define	THE_PORT_L	-15
+#define	THE_PORT_M	-14
+#define	THE_PORT_N	-13
+#define	THE_PORT_O	-12
+#define	THE_PORT_P	-11
+#define	THE_PORT_Q	-10
+#define	THE_PORT_R	-9
+#define	THE_PORT_S	-8
+#define	THE_PORT_T	-7
+#define	THE_PORT_U	-6
+#define	THE_PORT_V	-5
+#define	THE_PORT_W	-4
+#define	THE_PORT_X	-3
+#define	THE_PORT_Y	-2
+#define	THE_PORT_Z	-1
+
 double trunc(double number) {
     double intval_as_double;
     modf(number, &intval_as_double);
@@ -26,13 +53,35 @@ double round_c99(double d) {
 }
 
 ISR(LIMIT_INT_vect);
+ISR(CONTROL_INT_vect);
 
-__attribute__((interrupt, auto_psv)) void ISR_VECTOR_FUNC(LIMIT_INT_vect) {
-    if (IFS1bits.CNCIF == 1) {
-        // Clear the flag
-        IFS1bits.CNCIF = 0;
+static void ISR_handle_pinChange(void) {
+    if (_pre(CNF, LIMIT_PORT) & LIMIT_MASK) {
+        _pre(CNF, LIMIT_PORT) &= ~(LIMIT_MASK);
         LIMIT_INT_vect();
     }
+    if (_pre(CNF, CONTROL_PORT) & CONTROL_MASK) {
+        _pre(CNF, CONTROL_PORT) &= ~(CONTROL_MASK);
+        CONTROL_INT_vect();
+    }
 }
-DECLARE_VECTOR(CONTROL_INT_vect);
+
+__attribute__((interrupt, auto_psv)) void _prepost(_CN, LIMIT_PORT, Interrupt)(void) {
+    if (_prepost(_CN, LIMIT_PORT, IF) == 1) {
+        // Clear the flag
+        _prepost(_CN, LIMIT_PORT, IF) = 0;
+        ISR_handle_pinChange();
+    }
+}
+
+#if _pre(THE_PORT_, LIMIT_PORT) != _pre(THE_PORT_, CONTROL_PORT)
+
+__attribute__((interrupt, auto_psv)) void _prepost(_CN, CONTROL_PORT, Interrupt)(void) {
+    if (_prepost(_CN, CONTROL_PORT, IF) == 1) {
+        // Clear the flag
+        _prepost(_CN, CONTROL_PORT, IF) = 0;
+        ISR_handle_pinChange();
+    }
+}
+#endif
 

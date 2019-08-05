@@ -38,6 +38,8 @@ extern "C" {
 #define GPIO_confOutput(port, bitmask)            do { _pre(TRIS, port) &= ~(bitmask); } while (0)
 #define GPIO_pullupEnable(port, bitmask)          do { _pre(CNPU, port) |=  (bitmask); } while (0)
 #define GPIO_pullupDisable(port, bitmask)         do { _pre(CNPU, port) &= ~(bitmask); } while (0)
+#define GPIO_pinchgNotifyEnable(port, bitmask)    do { _pre(CNCON, port) |= _prepost(_CNCON, port, _ON_MASK) | _prepost(_CNCON, port, _CNSTYLE_MASK); _pre(CNEN0, port) |= (bitmask); _pre(CNEN1, port) = _pre(CNEN0, port); } while (0)  //Enable edge change detect
+#define GPIO_pinchgNotifyDisable(port, bitmask)   do { _pre(CNEN0, port) |= ~(bitmask); _pre(CNEN1, port) = _pre(CNEN0, port); } while (0)
     
     double trunc(double);
     double round_c99(double);

@@ -41,9 +41,7 @@ void limits_init()
   #endif
 
   if (bit_istrue(settings.flags,BITFLAG_HARD_LIMIT_ENABLE)) {
-      //TODO: Implement interrupt on pin change 
-//    LIMIT_PCMSK |= LIMIT_MASK; // Enable specific pins of the Pin Change Interrupt
-//    PCICR |= (1 << LIMIT_INT); // Enable Pin Change Interrupt
+      GPIO_pinchgNotifyEnable(LIMIT_PORT, LIMIT_MASK);
   } else {
     limits_disable();
   }
@@ -59,9 +57,7 @@ void limits_init()
 // Disables hard limits.
 void limits_disable()
 {
-      //TODO: Implement interrupt on pin change 
-//  LIMIT_PCMSK &= ~LIMIT_MASK;  // Disable specific pins of the Pin Change Interrupt
-//  PCICR &= ~(1 << LIMIT_INT);  // Disable Pin Change Interrupt
+    GPIO_pinchgNotifyDisable(LIMIT_PORT, LIMIT_MASK);  // Disable Pin Change Interrupt
 }
 
 
