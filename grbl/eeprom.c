@@ -23,8 +23,7 @@
 ****************************************************************************/
 #include "grbl.h"
 
-static uint8_t EEPROM_emuBuffer[2046];
-static bool isEEP_firstAccess = true;
+static uint8_t EEPROM_emuBuffer[2046] __attribute__((persistent));
 
 /*! \brief  Read byte from EEPROM.
  *
@@ -37,10 +36,6 @@ static bool isEEP_firstAccess = true;
  */
 unsigned char eeprom_get_char( unsigned int addr )
 {
-    if (isEEP_firstAccess) {
-        memset(EEPROM_emuBuffer, 0xFF, sizeof(EEPROM_emuBuffer));
-        isEEP_firstAccess = false;
-    }
     if (addr < sizeof(EEPROM_emuBuffer)) {
         return EEPROM_emuBuffer[addr];
     }
@@ -66,10 +61,6 @@ unsigned char eeprom_get_char( unsigned int addr )
  */
 void eeprom_put_char( unsigned int addr, unsigned char new_value )
 {
-    if (isEEP_firstAccess) {
-        memset(EEPROM_emuBuffer, 0xFF, sizeof(EEPROM_emuBuffer));
-        isEEP_firstAccess = false;
-    }
     if (addr < sizeof(EEPROM_emuBuffer)) {
         EEPROM_emuBuffer[addr] = new_value;
     }
