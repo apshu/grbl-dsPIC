@@ -34,6 +34,13 @@
 #define	THE_PORT_Y	-2
 #define	THE_PORT_Z	-1
 
+void PWM_SPINDLE_init(void) {
+    _prepost(S, SPINDLE_PWM_PERIPHERAL, _COMPARE_Initialize)();
+    _post(SPINDLE_PWM_PERIPHERAL, PRL) = SPINDLE_PWM_MAX_VALUE;
+    _post(SPINDLE_PWM_PERIPHERAL, PRL) = 0;
+    PWM_SPINDLE_halt();
+}
+
 double trunc(double number) {
     double intval_as_double;
     modf(number, &intval_as_double);

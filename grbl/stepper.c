@@ -231,7 +231,7 @@ void st_wake_up()
   #endif
 
   // Enable Stepper Driver Interrupt
-  // TODO:Enable Stepper Driver Interrupt
+  // TODO:DSPIC:Enable Stepper Driver Interrupt
 //  TIMSK1 |= (1<<OCIE1A);
 }
 
@@ -240,7 +240,7 @@ void st_wake_up()
 void st_go_idle()
 {
   // Disable Stepper Driver Interrupt. Allow Stepper Port Reset Interrupt to finish, if active.
-    //TODO: stop steppers
+    //TODO:DSPIC: stop steppers
 //  TIMSK1 &= ~(1<<OCIE1A); // Disable Timer1 interrupt
 //  TCCR1B = (TCCR1B & ~((1<<CS12) | (1<<CS11))) | (1<<CS10); // Reset clock to no prescaling.
   busy = false;
@@ -323,7 +323,7 @@ ISR(TIMER1_COMPA_vect)
 
   // Enable step pulse reset timer so that The Stepper Port Reset Interrupt can reset the signal after
   // exactly settings.pulse_microseconds microseconds, independent of the main Timer1 prescaler.
-    //TODO: reset timer counter
+    //TODO:DSPIC:reset timer counter
 //  TCNT0 = st.step_pulse_time; // Reload Timer0 counter
 //  TCCR0B = (1<<CS01); // Begin Timer0. Full speed, 1/8 prescaler
 
@@ -344,7 +344,7 @@ ISR(TIMER1_COMPA_vect)
       #endif
 
       // Initialize step segment timing per step and load number of steps to execute.
-        //TODO:reset cycles_per_tick
+        //TODO:DSPIC:reset cycles_per_tick
 //      OCR1A = st.exec_segment->cycles_per_tick;
       st.step_count = st.exec_segment->n_step; // NOTE: Can sometimes be zero when moving slow.
       // If the new segment starts a new planner block, initialize stepper variables and counters.
@@ -454,7 +454,7 @@ ISR(TIMER0_OVF_vect)
 {
   // Reset stepping pins (leave the direction pins)
   GPIO_setTo(STEP_PORT, (GPIO_readStored(STEP_PORT) & ~STEP_MASK) | (step_port_invert_mask & STEP_MASK));
-  //TODO:Disable timer0
+  //TODO:DSPIC:Disable timer0
 //  TCCR0B = 0; // Disable Timer0 to prevent re-entering this interrupt when it's not needed.
 }
 #ifdef STEP_PULSE_DELAY
@@ -516,7 +516,7 @@ void stepper_init()
   GPIO_confOutput(STEPPERS_DISABLE_PORT, 1<<STEPPERS_DISABLE_BIT);
   GPIO_confOutput(DIRECTION_PORT, DIRECTION_MASK);
 
-  // TODO:Configure Timer 1: Stepper Driver Interrupt
+  // TODO:DSPIC:Configure Timer 1: Stepper Driver Interrupt
 //  TCCR1B &= ~(1<<WGM13); // waveform generation = 0100 = CTC
 //  TCCR1B |=  (1<<WGM12);
 //  TCCR1A &= ~((1<<WGM11) | (1<<WGM10));
@@ -524,13 +524,13 @@ void stepper_init()
   // TCCR1B = (TCCR1B & ~((1<<CS12) | (1<<CS11))) | (1<<CS10); // Set in st_go_idle().
   // TIMSK1 &= ~(1<<OCIE1A);  // Set in st_go_idle().
 
-  // TODO:Configure Timer 0: Stepper Port Reset Interrupt
+  // TODO:DSPIC:Configure Timer 0: Stepper Port Reset Interrupt
 //  TIMSK0 &= ~((1<<OCIE0B) | (1<<OCIE0A) | (1<<TOIE0)); // Disconnect OC0 outputs and OVF interrupt.
 //  TCCR0A = 0; // Normal operation
 //  TCCR0B = 0; // Disable Timer0 until needed
 //  TIMSK0 |= (1<<TOIE0); // Enable Timer0 overflow interrupt
   #ifdef STEP_PULSE_DELAY
-    //TODO:Step pulse delay
+    //TODO:DSPIC:Step pulse delay
 //    TIMSK0 |= (1<<OCIE0A); // Enable Timer0 Compare Match A interrupt
   #endif
 }

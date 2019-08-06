@@ -83,12 +83,12 @@ void SCCP1_COMPARE_Initialize (void)
     CCP1TMRL = 0x00;
     //TMR 0; 
     CCP1TMRH = 0x00;
-    //PR 1000; 
-    CCP1PRL = 0x3E8;
+    //PR 10000; 
+    CCP1PRL = 0x2710;
     //PR 0; 
     CCP1PRH = 0x00;
-    //CMP 0; 
-    CCP1RAL = 0x00;
+    //CMP 500; 
+    CCP1RAL = 0x1F4;
     //CMP 0; 
     CCP1RBL = 0x00;
     //BUF 0; 

@@ -13,6 +13,7 @@ extern "C" {
 #endif
 
 #include "dspic_specific.h"
+    void PWM_SPINDLE_init(void);
 
 
 #ifdef	__cplusplus

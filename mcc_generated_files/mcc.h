@@ -54,9 +54,10 @@
 #include <stdbool.h>
 #include "interrupt_manager.h"
 #include "traps.h"
-#include "watchdog.h"
 #include "reset.h"
+#include "watchdog.h"
 #include "uart1.h"
+#include "sccp1_compare.h"
 
 #ifndef _XTAL_FREQ
 #define _XTAL_FREQ  8000000UL

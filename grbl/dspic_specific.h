@@ -41,6 +41,11 @@ extern "C" {
 #define GPIO_pinchgNotifyEnable(port, bitmask)    do { _pre(CNCON, port) |= _prepost(_CNCON, port, _ON_MASK) | _prepost(_CNCON, port, _CNSTYLE_MASK); _pre(CNEN0, port) |= (bitmask); _pre(CNEN1, port) = _pre(CNEN0, port); } while (0)  //Enable edge change detect
 #define GPIO_pinchgNotifyDisable(port, bitmask)   do { _pre(CNEN0, port) |= ~(bitmask); _pre(CNEN1, port) = _pre(CNEN0, port); } while (0)
     
+#define PWM_SPINDLE_halt()                        _prepost(S, SPINDLE_PWM_PERIPHERAL, _COMPARE_Stop)()
+#define PWM_SPINDLE_unpause()                     _prepost(S, SPINDLE_PWM_PERIPHERAL, _COMPARE_Start)()
+#define PWM_SPINDLE_isEnabled()                   (_post(SPINDLE_PWM_PERIPHERAL,CON1Lbits).CCPON)
+#define PWM_SPINDLE_setDutyCycle(dutyCycle)       _prepost(S, SPINDLE_PWM_PERIPHERAL, _COMPARE_SingleCompare16ValueSet)(dutyCycle)
+    
     double trunc(double);
     double round_c99(double);
     long lround(double);
