@@ -1,7 +1,6 @@
 #include <xc.h>
 #include <math.h>
 #include "grbl.h"
-#include "dspic_specific.h"
 
 #define _ISR_VECTOR_FUNC(func) _##func(void)
 #define ISR_VECTOR_FUNC(func) _ISR_VECTOR_FUNC(func)
@@ -37,7 +36,7 @@
 void PWM_SPINDLE_init(void) {
     _prepost(S, SPINDLE_PWM_PERIPHERAL, _COMPARE_Initialize)();
     _post(SPINDLE_PWM_PERIPHERAL, PRL) = SPINDLE_PWM_MAX_VALUE;
-    _post(SPINDLE_PWM_PERIPHERAL, PRL) = 0;
+    _post(SPINDLE_PWM_PERIPHERAL, PRH) = 0;
     PWM_SPINDLE_halt();
 }
 
