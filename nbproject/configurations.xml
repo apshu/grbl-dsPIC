@@ -42,6 +42,8 @@
         <itemPath>mcc_generated_files/mcc.h</itemPath>
         <itemPath>mcc_generated_files/system.h</itemPath>
         <itemPath>mcc_generated_files/sccp1_compare.h</itemPath>
+        <itemPath>mcc_generated_files/sccp2_tmr.h</itemPath>
+        <itemPath>mcc_generated_files/sccp3_compare.h</itemPath>
       </logicalFolder>
       <itemPath>grbl/dspic_specific.h</itemPath>
       <itemPath>grbl/core_specific.h</itemPath>
@@ -85,6 +87,8 @@
         <itemPath>mcc_generated_files/mcc.c</itemPath>
         <itemPath>mcc_generated_files/pin_manager.c</itemPath>
         <itemPath>mcc_generated_files/sccp1_compare.c</itemPath>
+        <itemPath>mcc_generated_files/sccp2_tmr.c</itemPath>
+        <itemPath>mcc_generated_files/sccp3_compare.c</itemPath>
       </logicalFolder>
       <itemPath>grbl/dspic_specific.c</itemPath>
       <itemPath>main.c</itemPath>

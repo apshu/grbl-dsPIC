@@ -91,3 +91,19 @@ __attribute__((interrupt, auto_psv)) void _prepost(_CN, CONTROL_PORT, Interrupt)
 }
 #endif
 
+ISR(TIMER1_COMPA_vect);
+void _prepost(S,STEPPERS_STEP_TIMER, _TMR_Timer32CallBack)(void) {
+    TIMER1_COMPA_vect();
+}
+
+ISR(TIMER0_OVF_vect);
+void _prepost(S,STEPPERS_STEP_RESET_TIMER, _COMPARE_TimerCallBack)(void) {
+    TIMER0_OVF_vect();
+}
+
+#ifdef STEP_PULSE_DELAY
+ISR(TIMER0_COMPA_vect);
+void _prepost(S,STEPPERS_STEP_RESET_TIMER, _COMPARE_CallBack)(void) {
+    TIMER0_COMPA_vect();
+}
+#endif

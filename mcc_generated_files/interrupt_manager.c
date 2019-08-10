@@ -52,6 +52,18 @@
 */
 void INTERRUPT_Initialize (void)
 {
+    //    CCPI: CCP2 Capture/Compare Event
+    //    Priority: 1
+        IPC5bits.CCP2IP = 1;
+    //    CCTI: CCP2 Timer Event
+    //    Priority: 1
+        IPC6bits.CCT2IP = 1;
+    //    CCPI: CCP3 Capture/Compare Event
+    //    Priority: 1
+        IPC8bits.CCP3IP = 1;
+    //    CCTI: CCP3 Timer Event
+    //    Priority: 1
+        IPC9bits.CCT3IP = 1;
     //    UEVTI: UART1 Event
     //    Priority: 1
         IPC47bits.U1EVTIP = 1;

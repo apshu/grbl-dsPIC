@@ -50,13 +50,17 @@
 #include "traps.h"
 #include "uart1.h"
 #include "sccp1_compare.h"
+#include "sccp2_tmr.h"
+#include "sccp3_compare.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
-    INTERRUPT_Initialize();
     CLOCK_Initialize();
+    INTERRUPT_Initialize();
+    SCCP3_COMPARE_Initialize();
     SCCP1_COMPARE_Initialize();
+    SCCP2_TMR_Initialize();
     UART1_Initialize();
     INTERRUPT_GlobalEnable();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);

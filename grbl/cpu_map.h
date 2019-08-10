@@ -61,9 +61,11 @@
   #define DIRECTION_MASK    ((1<<X_DIRECTION_BIT)|(1<<Y_DIRECTION_BIT)|(1<<Z_DIRECTION_BIT)) // All direction bits
 
   // Define stepper driver enable/disable output pin.
-  #define STEPPERS_DISABLE_PORT   B
-  #define STEPPERS_DISABLE_BIT    0  // Uno Digital Pin 8
-  #define STEPPERS_DISABLE_MASK   (1<<STEPPERS_DISABLE_BIT)
+  #define STEPPERS_DISABLE_PORT         B
+  #define STEPPERS_DISABLE_BIT          0  // Uno Digital Pin 8
+  #define STEPPERS_DISABLE_MASK         (1<<STEPPERS_DISABLE_BIT)
+  #define STEPPERS_STEP_TIMER           CCP2
+  #define STEPPERS_STEP_RESET_TIMER     CCP3
 
   // Define homing/hard limit switch input pins and limit interrupt vectors.
   // NOTE: All limit bit pins must be on the same port, but not on a port with other input pins (CONTROL).

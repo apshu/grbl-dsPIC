@@ -12,12 +12,15 @@
 extern "C" {
 #endif
 
-#define F_CPU   80000000UL
+#define F_CPU   _XTAL_FREQ
 #define FCY     F_CPU
+#define TIMER0_TICKS_PER_MICROSECOND  ((F_CPU/1000000)/2)
+#define TIMER1_TICKS_PER_MICROSECOND   ((F_CPU/1000000)/2)
     
 #include <xc.h>
 #include <libpic30.h>
 #include "../mcc_generated_files/mcc.h"
+#include "cpu_map.h"
     
 #define round(d) round_c99(d)
 #define sei() __builtin_disi(0)     
@@ -45,7 +48,18 @@ extern "C" {
 #define PWM_SPINDLE_unpause()                     _prepost(S, SPINDLE_PWM_PERIPHERAL, _COMPARE_Start)()
 #define PWM_SPINDLE_isEnabled()                   (_post(SPINDLE_PWM_PERIPHERAL,CON1Lbits).CCPON)
 #define PWM_SPINDLE_setDutyCycle(dutyCycle)       _prepost(S, SPINDLE_PWM_PERIPHERAL, _COMPARE_SingleCompare16ValueSet)(dutyCycle)
-    
+#define TIMER0_initNormalCountingAndOverflowInterrupt() do { TIMER0_loadCount(0); _prepost(S,STEPPERS_STEP_RESET_TIMER, _COMPARE_Start)(); } while(0)
+#define TIMER0_stopCounting()                           do { } while(0)   //Done by hardware
+#define TIMER0_startDiv8()                              do { } while(0)   //Done by hardware
+#define TIMER0_loadCount(val)                           do { _post(STEPPERS_STEP_RESET_TIMER, PRL) = val; } while(0)
+#define TIMER0_loadStepPulseDelay(val)                  do { _post(STEPPERS_STEP_RESET_TIMER, RBL) = val; } while(0)
+#define TIMER0A_enableCompareMatchInterrupt()           do { } while(0)   //Done by hardware
+#define TIMER1_initClearTimerOnCompare()                do { } while(0)   //Done by hardware
+#define TIMER1_fullSpeed()                              do { } while(0)
+#define TIMER1A_disableOutputCompareInterrupt()         _prepost(S,STEPPERS_STEP_TIMER, _TMR_Stop)()
+#define TIMER1A_setCompareMatchValue(val)               _prepost(S,STEPPERS_STEP_TIMER, _TMR_Period32BitSet)(val)
+#define TIMER1A_enableOutputCompareInterrupt()          _prepost(S,STEPPERS_STEP_TIMER, _TMR_Start)()   
+
     double trunc(double);
     double round_c99(double);
     long lround(double);
