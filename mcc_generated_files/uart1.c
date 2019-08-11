@@ -107,8 +107,8 @@ void UART1_Initialize(void)
     U1STA = 0x00;
     // URXISEL RX_ONE_WORD; UTXBE enabled; UTXISEL TX_BUF_EMPTY; URXBE enabled; STPMD disabled; TXWRE disabled; 
     U1STAH = 0x22;
-    // BaudRate = 115200; Frequency = 8000000 Hz; BRG 16; 
-    U1BRG = 0x10;
+    // BaudRate = 115200; Frequency = 180000000 Hz; BRG 390; 
+    U1BRG = 0x186;
     // BRG 0; 
     U1BRGH = 0x00;
     // P1 0; 
