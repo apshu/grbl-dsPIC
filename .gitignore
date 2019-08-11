@@ -5,3 +5,5 @@
 *.d
 
 README.md
+/datasheet
+/nbproject/private
