@@ -120,7 +120,7 @@
 
   // Variable spindle configuration below. Do not change unless you know what you are doing.
   // NOTE: Only used when variable spindle is enabled.
-  #define SPINDLE_PWM_MAX_VALUE     10000 // Don't change. 328p fast PWM mode fixes top value as 255.
+  #define SPINDLE_PWM_MAX_VALUE     22500 // Don't change. 328p fast PWM mode fixes top value as 255.
   #ifndef SPINDLE_PWM_MIN_VALUE
     #define SPINDLE_PWM_MIN_VALUE   1   // Must be greater than zero.
   #endif
