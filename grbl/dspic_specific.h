@@ -37,8 +37,11 @@ extern "C" {
 #define GPIO_setTo(port, value)                   do { _pre(LAT, port)   =  (value)  ; } while (0)
 #define GPIO_readStored(port)                     ( _pre(LAT, port) )
 #define GPIO_readLive(port)                       ( _pre(PORT, port) )
-#define GPIO_confInput(port, bitmask)             do { _pre(TRIS, port) |=  (bitmask); } while (0)
-#define GPIO_confOutput(port, bitmask)            do { _pre(TRIS, port) &= ~(bitmask); } while (0)
+#define GPIO_confAnalog(port, bitmask)            do { _pre(ANSEL, port) |=  (bitmask); } while (0)
+#define GPIO_confDigital(port, bitmask)           do { _pre(ANSEL, port) &=  ~(bitmask); } while (0)
+#include "anselhelper.h"
+#define GPIO_confInput(port, bitmask)             do { _pre(GPIO_confDigital, port)(bitmask); _pre(TRIS, port) |=  (bitmask); } while (0)
+#define GPIO_confOutput(port, bitmask)            do { _pre(GPIO_confDigital, port)(bitmask); _pre(TRIS, port) &= ~(bitmask); } while (0)
 #define GPIO_pullupEnable(port, bitmask)          do { _pre(CNPU, port) |=  (bitmask); } while (0)
 #define GPIO_pullupDisable(port, bitmask)         do { _pre(CNPU, port) &= ~(bitmask); } while (0)
 #define GPIO_pinchgNotifyEnable(port, bitmask)    do { _pre(CNCON, port) |= _prepost(_CNCON, port, _ON_MASK) | _prepost(_CNCON, port, _CNSTYLE_MASK); _pre(CNEN0, port) |= (bitmask); _pre(CNEN1, port) = _pre(CNEN0, port); } while (0)  //Enable edge change detect
