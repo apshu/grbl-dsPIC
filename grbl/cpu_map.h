@@ -70,13 +70,9 @@
   // Define homing/hard limit switch input pins and limit interrupt vectors.
   // NOTE: All limit bit pins must be on the same port, but not on a port with other input pins (CONTROL).
   #define LIMIT_PORT       B
-  #define X_LIMIT_BIT      1  // Uno Digital Pin 9
+  #define X_LIMIT_BIT      7  // Uno Digital Pin 9
   #define Y_LIMIT_BIT      2  // Uno Digital Pin 10
-  #ifdef VARIABLE_SPINDLE // Z Limit pin and spindle enabled swapped to access hardware PWM on Pin 11.
-    #define Z_LIMIT_BIT	   4 // Uno Digital Pin 12
-  #else
-    #define Z_LIMIT_BIT    3  // Uno Digital Pin 11
-  #endif
+  #define Z_LIMIT_BIT	   13 // Uno Digital Pin 12
   #define LIMIT_MASK       ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT)) // All limit bits
   
   // Define spindle enable and spindle direction output pins.
@@ -105,11 +101,11 @@
 
   // Define user-control controls (cycle start, reset, feed hold) input pins.
   // NOTE: All CONTROLs pins must be on the same port
-  #define CONTROL_PORT              C
-  #define CONTROL_RESET_BIT         0  // Uno Analog Pin 0
-  #define CONTROL_FEED_HOLD_BIT     1  // Uno Analog Pin 1
-  #define CONTROL_CYCLE_START_BIT   2  // Uno Analog Pin 2
-  #define CONTROL_SAFETY_DOOR_BIT   1  // Uno Analog Pin 1 NOTE: Safety door is shared with feed hold. Enabled by config define.
+  #define CONTROL_PORT              E
+  #define CONTROL_RESET_BIT         7  // Uno Analog Pin 0
+  #define CONTROL_FEED_HOLD_BIT     8  // Uno Analog Pin 1
+  #define CONTROL_CYCLE_START_BIT   9  // Uno Analog Pin 2
+  #define CONTROL_SAFETY_DOOR_BIT   13  // Uno Analog Pin 1 NOTE: Safety door is shared with feed hold. Enabled by config define.
   #define CONTROL_MASK              ((1<<CONTROL_RESET_BIT)|(1<<CONTROL_FEED_HOLD_BIT)|(1<<CONTROL_CYCLE_START_BIT)|(1<<CONTROL_SAFETY_DOOR_BIT))
   #define CONTROL_INVERT_MASK       CONTROL_MASK // May be re-defined to only invert certain control pins.
 
