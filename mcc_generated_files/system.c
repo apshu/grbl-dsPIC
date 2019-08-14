@@ -52,6 +52,7 @@
 #include "sccp1_compare.h"
 #include "sccp2_tmr.h"
 #include "sccp3_compare.h"
+#include "memory/flash.h"
 
 void SYSTEM_Initialize(void)
 {

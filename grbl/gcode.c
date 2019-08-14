@@ -109,7 +109,7 @@ uint8_t gc_execute_line(char *line)
   uint8_t char_counter;
   char letter;
   float value;
-  uint8_t int_value = 0;
+  uint16_t int_value = 0;
   uint16_t mantissa = 0;
   if (gc_parser_flags & GC_PARSER_JOG_MOTION) { char_counter = 3; } // Start parsing after `$J=`
   else { char_counter = 0; }
@@ -280,6 +280,19 @@ uint8_t gc_execute_line(char *line)
               gc_block.modal.override = OVERRIDE_PARKING_MOTION;
               break;
           #endif
+            case 500:
+              if (!eeprom_to_NVN_storage()) {
+                  FAIL(STATUS_SETTING_READ_FAIL);
+              }
+              break;
+            case 501:
+              if (!eeprom_recall_NVN_storage()) {
+                  FAIL(STATUS_SETTING_READ_FAIL);
+              }
+              if(!read_global_settings()) {
+                  FAIL(STATUS_SETTING_READ_FAIL);
+              }
+              break;
           default: FAIL(STATUS_GCODE_UNSUPPORTED_COMMAND); // [Unsupported M command]
         }
 
