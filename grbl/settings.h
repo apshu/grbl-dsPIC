@@ -113,6 +113,9 @@ typedef struct {
 } settings_t;
 extern settings_t settings;
 
+// Initialize the configuration subsystem (load settings from EEPROM) - no status output
+uint8_t read_global_settings(void);
+
 // Initialize the configuration subsystem (load settings from EEPROM)
 void settings_init();
 
