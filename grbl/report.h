@@ -63,6 +63,8 @@
 #define STATUS_GCODE_G43_DYNAMIC_AXIS_ERROR 37
 #define STATUS_GCODE_MAX_VALUE_EXCEEDED 38
 
+#define STATUS_ATX_POWER_FAIL 50
+
 // Define Grbl alarm codes. Valid values (1-255). 0 is reserved.
 #define ALARM_HARD_LIMIT_ERROR      EXEC_ALARM_HARD_LIMIT
 #define ALARM_SOFT_LIMIT_ERROR      EXEC_ALARM_SOFT_LIMIT
@@ -86,6 +88,8 @@
 #define MESSAGE_RESTORE_DEFAULTS 9
 #define MESSAGE_SPINDLE_RESTORE 10
 #define MESSAGE_SLEEP_MODE 11
+#define MESSAGE_ATX_POWER_ON 12
+#define MESSAGE_ATX_POWER_OFF 13
 
 // Prints linefeed
 void report_util_line_feed(void);

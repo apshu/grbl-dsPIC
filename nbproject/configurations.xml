@@ -26,6 +26,7 @@
         <itemPath>grbl/spindle_control.h</itemPath>
         <itemPath>grbl/stepper.h</itemPath>
         <itemPath>grbl/system.h</itemPath>
+        <itemPath>grbl/atx.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -79,6 +80,7 @@
         <itemPath>grbl/stepper.c</itemPath>
         <itemPath>grbl/system.c</itemPath>
         <itemPath>grbl/coolant_control.c</itemPath>
+        <itemPath>grbl/atx.c</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -357,6 +359,7 @@
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="memories.configurationmemory" value="true"/>
         <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="true"/>

@@ -26,6 +26,9 @@
 #ifndef cpu_map_h
 #define cpu_map_h
 
+#include "config.h"
+
+
 #define __prepost(pre, mid, post)                       pre##mid##post
 #define _prepost(pre, mid, post)                        __prepost(pre, mid, post)
 #define __post(mid, post)                                 mid##post
@@ -132,5 +135,17 @@
   // the config.h file.
 #endif
 */
+#ifdef ENABLE_ATX_POWER
+#define ATX_POWER_ON_PORT C
+#define ATX_POWER_ON_BIT  6
+#define ATX_POWER_ON_MASK  (1<<ATX_POWER_ON_BIT)
+#define ATX_POWER_PGOOD_PORT E
+#define ATX_POWER_PGOOD_BIT  2
+#define ATX_POWER_PGOOD_MASK  (1<<ATX_POWER_PGOOD_BIT)
 
+//#define ATX_POWER_ON()    do { GPIO_setLow(ATX_POWER_ON_PORT, ATX_POWER_ON_MASK); GPIO_confOutput(ATX_POWER_ON_PORT, ATX_POWER_ON_MASK);  GPIO_setLow(ATX_POWER_ON_PORT, ATX_POWER_ON_MASK); } while (0)
+//#define ATX_POWER_OFF()   do { GPIO_confInput(ATX_POWER_ON_PORT, ATX_POWER_ON_MASK);   } while (0)
+//#define ATX_IS_ON()       (bit_istrue(GPIO_readLive(ATX_POWER_PGOOD_PORT), ATX_POWER_PGOOD_MASK))    
+#endif
+    
 #endif

@@ -62,6 +62,8 @@
 #define NON_MODAL_GO_HOME_1 30 // G30 (Do not alter value)
 #define NON_MODAL_SET_HOME_1 40 // G30.1 (Do not alter value)
 #define NON_MODAL_ABSOLUTE_OVERRIDE 53 // G53 (Do not alter value)
+#define NON_MODAL_ATX_ON 80 // M80 
+#define NON_MODAL_ATX_OFF 81 // M81 
 #define NON_MODAL_SET_COORDINATE_OFFSET 92 // G92 (Do not alter value)
 #define NON_MODAL_RESET_COORDINATE_OFFSET 102 //G92.1 (Do not alter value)
 

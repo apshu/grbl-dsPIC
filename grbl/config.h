@@ -636,4 +636,23 @@
 /* The M119 command displays GPIO status. Accepts no parameters. */
 #define ENABLE_M119                   // Default disabled. Uncomment to enable
 
+/* ATX power supply control. 
+ * M80 command turns on the ATX power supply
+ * and M81 command turns off the ATX power supply
+ * There are sever pin_map settings to configure:
+ *  ATX_POWER_ON_PORT / PIN    Configure the PC ATX power supply pin
+ *  ATX_POWER_PGOOD_PORT / PIN  <Optional> if your power supply features a PGOOD feedback, you can connect to this pin,
+ *                                     Turn on / turn off sequence checks if the PSU woke up successfully
+ *  ATX_POWR_PGOOD_TIMEOUT             <Optional> Timeout for PGOOD setting (on or off) before reporting error
+ * 
+ * Macros to fully customize behavior <see atx.c>
+ * ATX_POWER_ON() 
+ * ATX_POWER_OFF()
+ * ATX_IS_ON()    
+ */
+#define ENABLE_ATX_POWER              
+//#define ATX_POWER_DEFAULT_ON          // Default disabled. Uncomment to enable
+#define ATX_POWER_PGOOD_TIMEOUT   300   //[msec] PGOOD setting time before reporting an ERROR
+#define ATX_POWER_PGOOD_DEBOUNCE  50    //[msec] PGOOD Accepted after this long setady state
+
 #endif

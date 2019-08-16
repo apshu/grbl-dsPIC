@@ -274,6 +274,14 @@ uint8_t gc_execute_line(char *line)
               case 9: gc_block.modal.coolant = COOLANT_DISABLE; break; // M9 disables both M7 and M8.
             }
             break;
+#ifdef ENABLE_ATX_POWER
+            case 80:
+                gc_block.non_modal_command = NON_MODAL_ATX_ON;
+                break;
+            case 81:
+                gc_block.non_modal_command = NON_MODAL_ATX_OFF;
+                break;
+#endif
 #ifdef ENABLE_M119
             case 119:
                 report_gpio_status();
@@ -659,6 +667,25 @@ uint8_t gc_execute_line(char *line)
             FAIL(STATUS_GCODE_G53_INVALID_MOTION_MODE); // [G53 G0/1 not active]
           }
           break;
+        case NON_MODAL_ATX_ON:
+            if (bit_istrue(value_words,bit(WORD_S))) {
+                report_feedback_message(atx_power_isOn() ? MESSAGE_ATX_POWER_ON : MESSAGE_ATX_POWER_OFF );
+            } else {
+                if (!atx_power_on()) {
+                   system_set_exec_alarm(EXEC_ALARM_ATX_POWER_FAIL);
+                   report_feedback_message(MESSAGE_ATX_POWER_OFF);
+                   FAIL(STATUS_ATX_POWER_FAIL);
+                }
+                report_feedback_message(MESSAGE_ATX_POWER_ON);
+            }
+            break;
+        case NON_MODAL_ATX_OFF:
+            if (!atx_power_off()) {
+               system_set_exec_alarm(EXEC_ALARM_ATX_POWER_FAIL);
+               report_feedback_message(MESSAGE_ATX_POWER_ON);
+               FAIL(STATUS_ATX_POWER_FAIL);
+            }
+            report_feedback_message(MESSAGE_ATX_POWER_OFF);
       }
   }
 

@@ -174,6 +174,20 @@ void report_feedback_message(uint8_t message_code)
       printPgmString(PSTR("Restoring spindle")); break;
     case MESSAGE_SLEEP_MODE:
       printPgmString(PSTR("Sleeping")); break;
+    case MESSAGE_ATX_POWER_ON:
+#ifdef ENABLE_ATX_POWER
+      printPgmString(PSTR("ATX on")); 
+#else
+      printPgmString(PSTR("ATX not supported")); 
+#endif
+      break;
+    case MESSAGE_ATX_POWER_OFF:
+#ifdef ENABLE_ATX_POWER
+      printPgmString(PSTR("ATX off")); 
+#else
+      printPgmString(PSTR("ATX not supported")); 
+#endif
+      break;
   }
   report_util_feedback_line_feed();
 }
@@ -451,6 +465,9 @@ void report_build_info(char *line)
   #endif
   #ifdef ENABLE_M500_M501
     serial_write('F');
+  #endif 
+  #ifdef ENABLE_ATX_POWER
+    serial_write('X');
   #endif 
   // NOTE: Compiled values, like override increments/max/min values, may be added at some point later.
   serial_write(',');
