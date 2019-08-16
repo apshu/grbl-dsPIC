@@ -27,6 +27,7 @@
 #include "grbl.h"
 
 static uint8_t EEPROM_ramBuffer[2048];
+#ifdef ENABLE_M500_M501
 static bool eeprom_firstAccess = true;
 static __prog__ uint8_t EEPROM_FLASH_storage[2048] __attribute__((space(prog), aligned(FLASH_ERASE_PAGE_SIZE_IN_PC_UNITS))) = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66};
 
@@ -116,6 +117,7 @@ bool eeprom_to_NVN_storage(void) {
     //FLASH verify
     return eeprom_NVN_compare_RAM();
 }
+#endif 
 
 /*! \brief  Read byte from EEPROM.
  *
@@ -127,9 +129,11 @@ bool eeprom_to_NVN_storage(void) {
  *  \return  The byte read from the EEPROM address.
  */
 unsigned char eeprom_get_char(unsigned int addr) {
+#ifdef ENABLE_M500_M501
     if (eeprom_firstAccess) {
         eeprom_recall_NVN_storage();
     }
+#endif
     if (addr < sizeof (EEPROM_ramBuffer)) {
         return EEPROM_ramBuffer[addr];
     }
@@ -154,9 +158,11 @@ unsigned char eeprom_get_char(unsigned int addr) {
  *  \param  new_value  New EEPROM value.
  */
 void eeprom_put_char(unsigned int addr, unsigned char new_value) {
+#ifdef ENABLE_M500_M501
     if (eeprom_firstAccess) {
         eeprom_recall_NVN_storage();
     }
+#endif
     if (addr < sizeof (EEPROM_ramBuffer)) {
         EEPROM_ramBuffer[addr] = new_value;
     }

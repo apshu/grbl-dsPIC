@@ -92,18 +92,295 @@ __attribute__((interrupt, auto_psv)) void _prepost(_CN, CONTROL_PORT, Interrupt)
 #endif
 
 ISR(TIMER1_COMPA_vect);
-void _prepost(S,STEPPERS_STEP_TIMER, _TMR_Timer32CallBack)(void) {
+
+void _prepost(S, STEPPERS_STEP_TIMER, _TMR_Timer32CallBack)(void) {
     TIMER1_COMPA_vect();
 }
 
 ISR(TIMER0_OVF_vect);
-void _prepost(S,STEPPERS_STEP_RESET_TIMER, _COMPARE_TimerCallBack)(void) {
+
+void _prepost(S, STEPPERS_STEP_RESET_TIMER, _COMPARE_TimerCallBack)(void) {
     TIMER0_OVF_vect();
 }
 
 #ifdef STEP_PULSE_DELAY
 ISR(TIMER0_COMPA_vect);
-void _prepost(S,STEPPERS_STEP_RESET_TIMER, _COMPARE_CallBack)(void) {
+
+void _prepost(S, STEPPERS_STEP_RESET_TIMER, _COMPARE_CallBack)(void) {
     TIMER0_COMPA_vect();
 }
 #endif
+
+#ifdef ENABLE_M119
+
+void report_gpio_status(void) {
+    printPgmString(PSTR("<GPIO:"));
+    // <editor-fold defaultstate="collapsed" desc="Outputting '10HL' status to each available port Out:1 or 0 In:H or L">
+#ifdef PORTA
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('A');
+    serial_write('=');
+    report_gpio_to_string(TRISA, PORTA, LATA);
+#endif
+#ifdef PORTB
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('B');
+    serial_write('=');
+    report_gpio_to_string(TRISB, PORTB, LATB);
+#endif
+#ifdef PORTC
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('C');
+    serial_write('=');
+    report_gpio_to_string(TRISC, PORTC, LATC);
+#endif
+#ifdef PORTD
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('D');
+    serial_write('=');
+    report_gpio_to_string(TRISD, PORTD, LATD);
+#endif
+#ifdef PORTE
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('E');
+    serial_write('=');
+    report_gpio_to_string(TRISE, PORTE, LATE);
+#endif
+#ifdef PORTF
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('F');
+    serial_write('=');
+    report_gpio_to_string(TRISF, PORTF, LATF);
+#endif
+#ifdef PORTG
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('G');
+    serial_write('=');
+    report_gpio_to_string(TRISG, PORTG, LATG);
+#endif
+#ifdef PORTH
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('H');
+    serial_write('=');
+    report_gpio_to_string(TRISH, PORTH, LATH);
+#endif
+#ifdef PORTI
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('I');
+    serial_write('=');
+    report_gpio_to_string(TRISI, PORTI, LATI);
+#endif
+#ifdef PORTJ
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('J');
+    serial_write('=');
+    report_gpio_to_string(TRISJ, PORTJ, LATJ);
+#endif
+#ifdef PORTK
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('K');
+    serial_write('=');
+    report_gpio_to_string(TRISK, PORTK, LATK);
+#endif
+#ifdef PORTL
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('L');
+    serial_write('=');
+    report_gpio_to_string(TRISL, PORTL, LATL);
+#endif
+#ifdef PORTM
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('M');
+    serial_write('=');
+    report_gpio_to_string(TRISM, PORTM, LATM);
+#endif
+#ifdef PORTN
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('N');
+    serial_write('=');
+    report_gpio_to_string(TRISN, PORTN, LATN);
+#endif
+#ifdef PORTO
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('O');
+    serial_write('=');
+    report_gpio_to_string(TRISO, PORTO, LATO);
+#endif
+#ifdef PORTP
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('P');
+    serial_write('=');
+    report_gpio_to_string(TRISP, PORTP, LATP);
+#endif
+#ifdef PORTQ
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('Q');
+    serial_write('=');
+    report_gpio_to_string(TRISQ, PORTQ, LATQ);
+#endif
+#ifdef PORTR
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('R');
+    serial_write('=');
+    report_gpio_to_string(TRISR, PORTR, LATR);
+#endif
+#ifdef PORTS
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('S');
+    serial_write('=');
+    report_gpio_to_string(TRISS, PORTS, LATS);
+#endif
+#ifdef PORTT
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('T');
+    serial_write('=');
+    report_gpio_to_string(TRIST, PORTT, LATT);
+#endif
+#ifdef PORTU
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('U');
+    serial_write('=');
+    report_gpio_to_string(TRISU, PORTU, LATU);
+#endif
+#ifdef PORTV
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('V');
+    serial_write('=');
+    report_gpio_to_string(TRISV, PORTV, LATV);
+#endif
+#ifdef PORTW
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('W');
+    serial_write('=');
+    report_gpio_to_string(TRISW, PORTW, LATW);
+#endif
+#ifdef PORTX
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('X');
+    serial_write('=');
+    report_gpio_to_string(TRISX, PORTX, LATX);
+#endif
+#ifdef PORTY
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('Y');
+    serial_write('=');
+    report_gpio_to_string(TRISY, PORTY, LATY);
+#endif
+#ifdef PORTZ
+#ifndef _I_AM_FIRST_PORTDEF_
+#define _I_AM_FIRST_PORTDEF_
+#else
+    serial_write(' ');
+#endif
+    serial_write('Z');
+    serial_write('=');
+    report_gpio_to_string(TRISZ, PORTZ, LATZ);
+#endif
+#undef _I_AM_FIRST_PORTDEF_
+    // </editor-fold>
+    report_field_pin_state();
+    serial_write('>');
+    report_util_line_feed();
+}
+#endif
+

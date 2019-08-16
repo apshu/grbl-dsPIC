@@ -20,6 +20,9 @@
 #ifndef report_h
 #define report_h
 
+#include "cpu_map.h"
+
+
 // Define Grbl status codes. Valid values (0-255)
 #define STATUS_OK 0
 #define STATUS_EXPECTED_COMMAND_LETTER 1
@@ -84,6 +87,9 @@
 #define MESSAGE_SPINDLE_RESTORE 10
 #define MESSAGE_SLEEP_MODE 11
 
+// Prints linefeed
+void report_util_line_feed(void);
+
 // Prints system status messages.
 void report_status_message(uint8_t status_code);
 
@@ -123,6 +129,17 @@ void report_execute_startup_message(char *line, uint8_t status_code);
 
 // Prints build info and user info
 void report_build_info(char *line);
+
+#ifdef ENABLE_M119
+//Prints named pins and GPIO status for debugging
+void report_gpio_status(void);
+
+//Prints GPIO state based on direction reg and  live and stored values
+void report_gpio_to_string(gpioport_t portDirection, gpioport_t livePort, gpioport_t storedPort);
+#endif
+
+//Prints the pin state field 'Pn'
+void report_field_pin_state(void);
 
 #ifdef DEBUG
   void report_realtime_debug();

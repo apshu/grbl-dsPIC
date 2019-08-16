@@ -624,5 +624,16 @@
 
 // Paste default settings definitions here.
 
+/* This command is implemented for emulated EEPROM solution
+   Storing the buffered EEPROM data and recalling 
+   from external / internal NVM storage gives an opportunity to 
+   level FLASH wear.
+   Disabling this command requires reinitializing all $$ parameters,
+   as these params will be stored in RAM 
+ */
+#define ENABLE_M500_M501              // Default disabled. Uncomment to enable
+
+/* The M119 command displays GPIO status. Accepts no parameters. */
+#define ENABLE_M119                   // Default disabled. Uncomment to enable
 
 #endif

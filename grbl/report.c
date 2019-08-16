@@ -31,7 +31,7 @@
 
 // Internal report utilities to reduce flash with repetitive tasks turned into functions.
 void report_util_setting_prefix(uint8_t n) { serial_write('$'); print_uint8_base10(n); serial_write('='); }
-static void report_util_line_feed() { printPgmString(PSTR("\r\n")); }
+void report_util_line_feed(void) { printPgmString(PSTR("\r\n")); }
 static void report_util_feedback_line_feed() { serial_write(']'); report_util_line_feed(); }
 static void report_util_gcode_modes_G() { printPgmString(PSTR(" G")); }
 static void report_util_gcode_modes_M() { printPgmString(PSTR(" M")); }
@@ -449,6 +449,9 @@ void report_build_info(char *line)
   #ifndef FORCE_BUFFER_SYNC_DURING_WCO_CHANGE // NOTE: Shown when disabled.
     serial_write('W');
   #endif
+  #ifdef ENABLE_M500_M501
+    serial_write('F');
+  #endif 
   // NOTE: Compiled values, like override increments/max/min values, may be added at some point later.
   serial_write(',');
   print_uint8_base10(BLOCK_BUFFER_SIZE-1);
@@ -467,6 +470,60 @@ void report_echo_line_received(char *line)
   report_util_feedback_line_feed();
 }
 
+void report_field_pin_state(void) {
+    uint8_t lim_pin_state = limits_get_state();
+    uint8_t ctrl_pin_state = system_control_get_state();
+    uint8_t prb_pin_state = probe_get_state();
+    if (lim_pin_state | ctrl_pin_state | prb_pin_state) {
+        printPgmString(PSTR("|Pn:"));
+        if (prb_pin_state) {
+            serial_write('P');
+        }
+        if (lim_pin_state) {
+            if (bit_istrue(lim_pin_state, bit(X_AXIS))) {
+                serial_write('X');
+            }
+            if (bit_istrue(lim_pin_state, bit(Y_AXIS))) {
+                serial_write('Y');
+            }
+            if (bit_istrue(lim_pin_state, bit(Z_AXIS))) {
+                serial_write('Z');
+            }
+        }
+        if (ctrl_pin_state) {
+#ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
+            if (bit_istrue(ctrl_pin_state, CONTROL_PIN_INDEX_SAFETY_DOOR)) {
+                serial_write('D');
+            }
+#endif
+            if (bit_istrue(ctrl_pin_state, CONTROL_PIN_INDEX_RESET)) {
+                serial_write('R');
+            }
+            if (bit_istrue(ctrl_pin_state, CONTROL_PIN_INDEX_FEED_HOLD)) {
+                serial_write('H');
+            }
+            if (bit_istrue(ctrl_pin_state, CONTROL_PIN_INDEX_CYCLE_START)) {
+                serial_write('S');
+            }
+        }
+    }
+}
+
+#ifdef ENABLE_M119
+void report_gpio_to_string(gpioport_t portDirection, gpioport_t livePort, gpioport_t storedPort) {
+    uint_fast8_t bitnum;
+    for(bitnum=GPIOPORT_NUMBITS;bitnum;) {
+        --bitnum;
+        if (GPIO_isInput((portDirection >> bitnum) & 1)) {
+            //Input pin
+            serial_write( bit_istrue(livePort, 1<<bitnum) ? 'H' : 'L' );
+        } else {
+            //Output pin
+            serial_write( bit_istrue(storedPort, 1<<bitnum) ? '1' : '0' );
+        }
+    }
+}
+#endif 
 
  // Prints real-time data. This function grabs a real-time snapshot of the stepper subprogram
  // and the actual location of the CNC machine. Users may change the following function to their
@@ -575,26 +632,7 @@ void report_realtime_status()
   #endif
 
   #ifdef REPORT_FIELD_PIN_STATE
-    uint8_t lim_pin_state = limits_get_state();
-    uint8_t ctrl_pin_state = system_control_get_state();
-    uint8_t prb_pin_state = probe_get_state();
-    if (lim_pin_state | ctrl_pin_state | prb_pin_state) {
-      printPgmString(PSTR("|Pn:"));
-      if (prb_pin_state) { serial_write('P'); }
-      if (lim_pin_state) {
-        if (bit_istrue(lim_pin_state,bit(X_AXIS))) { serial_write('X'); }
-        if (bit_istrue(lim_pin_state,bit(Y_AXIS))) { serial_write('Y'); }
-        if (bit_istrue(lim_pin_state,bit(Z_AXIS))) { serial_write('Z'); }
-      }
-      if (ctrl_pin_state) {
-        #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
-          if (bit_istrue(ctrl_pin_state,CONTROL_PIN_INDEX_SAFETY_DOOR)) { serial_write('D'); }
-        #endif
-        if (bit_istrue(ctrl_pin_state,CONTROL_PIN_INDEX_RESET)) { serial_write('R'); }
-        if (bit_istrue(ctrl_pin_state,CONTROL_PIN_INDEX_FEED_HOLD)) { serial_write('H'); }
-        if (bit_istrue(ctrl_pin_state,CONTROL_PIN_INDEX_CYCLE_START)) { serial_write('S'); }
-      }
-    }
+    report_field_pin_state();
   #endif
 
   #ifdef REPORT_FIELD_WORK_COORD_OFFSET

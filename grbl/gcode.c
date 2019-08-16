@@ -274,12 +274,18 @@ uint8_t gc_execute_line(char *line)
               case 9: gc_block.modal.coolant = COOLANT_DISABLE; break; // M9 disables both M7 and M8.
             }
             break;
+#ifdef ENABLE_M119
+            case 119:
+                report_gpio_status();
+                break;
+#endif
           #ifdef ENABLE_PARKING_OVERRIDE_CONTROL
             case 56:
               word_bit = MODAL_GROUP_M9;
               gc_block.modal.override = OVERRIDE_PARKING_MOTION;
               break;
           #endif
+#ifdef ENABLE_M500_M501
             case 500:
               if (!eeprom_to_NVN_storage()) {
                   FAIL(STATUS_SETTING_READ_FAIL);
@@ -293,6 +299,7 @@ uint8_t gc_execute_line(char *line)
                   FAIL(STATUS_SETTING_READ_FAIL);
               }
               break;
+#endif
           default: FAIL(STATUS_GCODE_UNSUPPORTED_COMMAND); // [Unsupported M command]
         }
 
