@@ -103,8 +103,8 @@
 #pragma config SPI2PIN = PPS    //SPI2 Pin Select bit->SPI2 uses I/O remap (PPS) pins
 
 // FALTREG
-#pragma config CTXT1 = OFF    //Specifies Interrupt Priority Level (IPL) Associated to Alternate Working Register 1 bits->Not Assigned
-#pragma config CTXT2 = OFF    //Specifies Interrupt Priority Level (IPL) Associated to Alternate Working Register 2 bits->Not Assigned
+#pragma config CTXT1 = IPL7    //Specifies Interrupt Priority Level (IPL) Associated to Alternate Working Register 1 bits->Alternate Register set assigned to IPL level 7
+#pragma config CTXT2 = IPL6    //Specifies Interrupt Priority Level (IPL) Associated to Alternate Working Register 2 bits->Alternate Register set assigned to IPL level 6
 #pragma config CTXT3 = OFF    //Specifies Interrupt Priority Level (IPL) Associated to Alternate Working Register 3 bits->Not Assigned
 #pragma config CTXT4 = OFF    //Specifies Interrupt Priority Level (IPL) Associated to Alternate Working Register 4 bits->Not Assigned
 

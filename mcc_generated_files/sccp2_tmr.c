@@ -139,7 +139,7 @@ void __attribute__ ((weak)) SCCP2_TMR_Timer32CallBack(void)
     // Add your custom callback code here
 }
 
-void __attribute__ ( ( interrupt, no_auto_psv ) ) _CCT2Interrupt ( void )
+void __attribute__ ( ( interrupt, no_auto_psv, context ) ) _CCT2Interrupt ( void )
 {
     /* Check if the Timer Interrupt/Status is set */
     if(IFS1bits.CCT2IF)

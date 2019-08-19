@@ -53,41 +53,41 @@
 void INTERRUPT_Initialize (void)
 {
     //    CCPI: CCP2 Capture/Compare Event
-    //    Priority: 1
-        IPC5bits.CCP2IP = 1;
+    //    Priority: 7
+        IPC5bits.CCP2IP = 7;
     //    CCTI: CCP2 Timer Event
-    //    Priority: 1
-        IPC6bits.CCT2IP = 1;
+    //    Priority: 7
+        IPC6bits.CCT2IP = 7;
     //    CCPI: CCP3 Capture/Compare Event
-    //    Priority: 1
-        IPC8bits.CCP3IP = 1;
+    //    Priority: 6
+        IPC8bits.CCP3IP = 6;
     //    CCTI: CCP3 Timer Event
-    //    Priority: 1
-        IPC9bits.CCT3IP = 1;
+    //    Priority: 6
+        IPC9bits.CCT3IP = 6;
     //    UEVTI: UART2 Event
     //    Priority: 1
         IPC47bits.U2EVTIP = 1;
     //    UTXI: UART2 TX
-    //    Priority: 1
-        IPC7bits.U2TXIP = 1;
+    //    Priority: 2
+        IPC7bits.U2TXIP = 2;
     //    UEI: UART2 Error Interrupt
     //    Priority: 1
         IPC12bits.U2EIP = 1;
     //    URXI: UART2 RX
-    //    Priority: 1
-        IPC6bits.U2RXIP = 1;
+    //    Priority: 2
+        IPC6bits.U2RXIP = 2;
     //    UEVTI: UART1 Event
     //    Priority: 1
         IPC47bits.U1EVTIP = 1;
     //    UTXI: UART1 TX
-    //    Priority: 1
-        IPC3bits.U1TXIP = 1;
+    //    Priority: 2
+        IPC3bits.U1TXIP = 2;
     //    UEI: UART1 Error Interrupt
     //    Priority: 1
         IPC12bits.U1EIP = 1;
     //    URXI: UART1 RX
-    //    Priority: 1
-        IPC2bits.U1RXIP = 1;
+    //    Priority: 2
+        IPC2bits.U1RXIP = 2;
     //    TI: Timer 1
     //    Priority: 1
         IPC0bits.T1IP = 1;

@@ -114,7 +114,7 @@ void __attribute__ ((weak)) SCCP3_COMPARE_CallBack(void)
     // Add your custom callback code here
 }
 
-void __attribute__ ( ( interrupt, no_auto_psv ) ) _CCP3Interrupt ( void )
+void __attribute__ ( ( interrupt, no_auto_psv, context ) ) _CCP3Interrupt ( void )
 {
     if(IFS2bits.CCP3IF)
     {
@@ -130,7 +130,7 @@ void __attribute__ ((weak)) SCCP3_COMPARE_TimerCallBack(void)
     // Add your custom callback code here
 }
 
-void __attribute__ ( ( interrupt, no_auto_psv ) ) _CCT3Interrupt ( void )
+void __attribute__ ( ( interrupt, no_auto_psv, context ) ) _CCT3Interrupt ( void )
 {
     if(IFS2bits.CCT3IF)
     {
