@@ -65,8 +65,8 @@ ISR(SERIAL_RX);
 ISR(SERIAL_UDRE);
 void serial_init()
 {
-    _prepost(UART,SERIAL_PERIPHERAL,_SetRxInterruptHandler(SERIAL_RX);
-    _prepost(UART,SERIAL_PERIPHERAL,_SetTxInterruptHandler(SERIAL_UDRE);
+    _prepost(UART,SERIAL_PERIPHERAL,_SetRxInterruptHandler)(SERIAL_RX);
+    _prepost(UART,SERIAL_PERIPHERAL,_SetTxInterruptHandler)(SERIAL_UDRE);
 }
 
 
