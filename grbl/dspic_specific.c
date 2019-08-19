@@ -103,6 +103,39 @@ void _prepost(S, STEPPERS_STEP_RESET_TIMER, _COMPARE_TimerCallBack)(void) {
     TIMER0_OVF_vect();
 }
 
+#ifdef ENABLE_SOFTWARE_DEBOUNCE
+ISR(WDT_vect);
+volatile uint_fast8_t TIMER_WDT_count = 0;
+volatile bool TIMER_WDT_enabled = false;
+
+void TIMERWDT_init32ms(void) {
+    TIMERWDT_stop();
+    TIMER_WDT_count = 0;
+}
+
+void TIMERWDT_restartAndEnableInterrupt(void) {
+    TIMER_WDT_count = 0;
+    TIMER_WDT_enabled = true;
+}
+
+void TIMERWDT_stop(void) {
+    cli();
+    TIMER_WDT_enabled = false;
+    sei();
+}
+#endif
+
+void _post(TIMER_10ms_TIMER, _TimerCallBack)(void) {
+#ifdef ENABLE_SOFTWARE_DEBOUNCE
+    if (TIMER_WDT_enabled) {
+        if (++TIMER_WDT_count > 3) {
+            TIMER_WDT_count = 0;
+            WDT_vect();
+        }
+    }
+#endif
+}
+
 #ifdef STEP_PULSE_DELAY
 ISR(TIMER0_COMPA_vect);
 

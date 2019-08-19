@@ -53,6 +53,7 @@
 #include "sccp2_tmr.h"
 #include "sccp3_compare.h"
 #include "memory/flash.h"
+#include "tmr1.h"
 
 void SYSTEM_Initialize(void)
 {
@@ -63,6 +64,7 @@ void SYSTEM_Initialize(void)
     SCCP1_COMPARE_Initialize();
     SCCP2_TMR_Initialize();
     UART1_Initialize();
+    TMR1_Initialize();
     INTERRUPT_GlobalEnable();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);
 }

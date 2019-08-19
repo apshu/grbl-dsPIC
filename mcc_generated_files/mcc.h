@@ -61,6 +61,7 @@
 #include "sccp2_tmr.h"
 #include "sccp3_compare.h"
 #include "memory/flash.h"
+#include "tmr1.h"
 
 #ifndef _XTAL_FREQ
 #define _XTAL_FREQ  180000000UL

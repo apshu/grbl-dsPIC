@@ -78,6 +78,8 @@
   #define Z_LIMIT_BIT	   13 // Uno Digital Pin 12
   #define LIMIT_MASK       ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT)) // All limit bits
   
+  #define TIMER_10ms_TIMER TMR1
+
   // Define spindle enable and spindle direction output pins.
   #define SPINDLE_ENABLE_PORT   B
   // Z Limit pin and spindle PWM/enable pin swapped to access hardware PWM on Pin 11.

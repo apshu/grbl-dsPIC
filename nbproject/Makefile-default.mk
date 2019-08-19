@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=grbl/eeprom.c grbl/gcode.c grbl/jog.c grbl/limits.c grbl/main.c grbl/motion_control.c grbl/nuts_bolts.c grbl/planner.c grbl/print.c grbl/probe.c grbl/protocol.c grbl/report.c grbl/serial.c grbl/settings.c grbl/spindle_control.c grbl/stepper.c grbl/system.c grbl/coolant_control.c mcc_generated_files/memory/flash.s mcc_generated_files/memory/flash_demo.c mcc_generated_files/reset.c mcc_generated_files/system.c mcc_generated_files/traps.c mcc_generated_files/clock.c mcc_generated_files/interrupt_manager.c mcc_generated_files/uart1.c mcc_generated_files/mcc.c mcc_generated_files/pin_manager.c mcc_generated_files/sccp1_compare.c mcc_generated_files/sccp2_tmr.c mcc_generated_files/sccp3_compare.c grbl/dspic_specific.c grbl/atx.c
+SOURCEFILES_QUOTED_IF_SPACED=grbl/eeprom.c grbl/gcode.c grbl/jog.c grbl/limits.c grbl/main.c grbl/motion_control.c grbl/nuts_bolts.c grbl/planner.c grbl/print.c grbl/probe.c grbl/protocol.c grbl/report.c grbl/serial.c grbl/settings.c grbl/spindle_control.c grbl/stepper.c grbl/system.c grbl/coolant_control.c grbl/atx.c mcc_generated_files/memory/flash.s mcc_generated_files/memory/flash_demo.c mcc_generated_files/reset.c mcc_generated_files/system.c mcc_generated_files/traps.c mcc_generated_files/clock.c mcc_generated_files/interrupt_manager.c mcc_generated_files/uart1.c mcc_generated_files/mcc.c mcc_generated_files/pin_manager.c mcc_generated_files/sccp1_compare.c mcc_generated_files/sccp2_tmr.c mcc_generated_files/sccp3_compare.c grbl/dspic_specific.c mcc_generated_files/tmr1.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/grbl/eeprom.o ${OBJECTDIR}/grbl/gcode.o ${OBJECTDIR}/grbl/jog.o ${OBJECTDIR}/grbl/limits.o ${OBJECTDIR}/grbl/main.o ${OBJECTDIR}/grbl/motion_control.o ${OBJECTDIR}/grbl/nuts_bolts.o ${OBJECTDIR}/grbl/planner.o ${OBJECTDIR}/grbl/print.o ${OBJECTDIR}/grbl/probe.o ${OBJECTDIR}/grbl/protocol.o ${OBJECTDIR}/grbl/report.o ${OBJECTDIR}/grbl/serial.o ${OBJECTDIR}/grbl/settings.o ${OBJECTDIR}/grbl/spindle_control.o ${OBJECTDIR}/grbl/stepper.o ${OBJECTDIR}/grbl/system.o ${OBJECTDIR}/grbl/coolant_control.o ${OBJECTDIR}/mcc_generated_files/memory/flash.o ${OBJECTDIR}/mcc_generated_files/memory/flash_demo.o ${OBJECTDIR}/mcc_generated_files/reset.o ${OBJECTDIR}/mcc_generated_files/system.o ${OBJECTDIR}/mcc_generated_files/traps.o ${OBJECTDIR}/mcc_generated_files/clock.o ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o ${OBJECTDIR}/mcc_generated_files/uart1.o ${OBJECTDIR}/mcc_generated_files/mcc.o ${OBJECTDIR}/mcc_generated_files/pin_manager.o ${OBJECTDIR}/mcc_generated_files/sccp1_compare.o ${OBJECTDIR}/mcc_generated_files/sccp2_tmr.o ${OBJECTDIR}/mcc_generated_files/sccp3_compare.o ${OBJECTDIR}/grbl/dspic_specific.o ${OBJECTDIR}/grbl/atx.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/grbl/eeprom.o.d ${OBJECTDIR}/grbl/gcode.o.d ${OBJECTDIR}/grbl/jog.o.d ${OBJECTDIR}/grbl/limits.o.d ${OBJECTDIR}/grbl/main.o.d ${OBJECTDIR}/grbl/motion_control.o.d ${OBJECTDIR}/grbl/nuts_bolts.o.d ${OBJECTDIR}/grbl/planner.o.d ${OBJECTDIR}/grbl/print.o.d ${OBJECTDIR}/grbl/probe.o.d ${OBJECTDIR}/grbl/protocol.o.d ${OBJECTDIR}/grbl/report.o.d ${OBJECTDIR}/grbl/serial.o.d ${OBJECTDIR}/grbl/settings.o.d ${OBJECTDIR}/grbl/spindle_control.o.d ${OBJECTDIR}/grbl/stepper.o.d ${OBJECTDIR}/grbl/system.o.d ${OBJECTDIR}/grbl/coolant_control.o.d ${OBJECTDIR}/mcc_generated_files/memory/flash.o.d ${OBJECTDIR}/mcc_generated_files/memory/flash_demo.o.d ${OBJECTDIR}/mcc_generated_files/reset.o.d ${OBJECTDIR}/mcc_generated_files/system.o.d ${OBJECTDIR}/mcc_generated_files/traps.o.d ${OBJECTDIR}/mcc_generated_files/clock.o.d ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o.d ${OBJECTDIR}/mcc_generated_files/uart1.o.d ${OBJECTDIR}/mcc_generated_files/mcc.o.d ${OBJECTDIR}/mcc_generated_files/pin_manager.o.d ${OBJECTDIR}/mcc_generated_files/sccp1_compare.o.d ${OBJECTDIR}/mcc_generated_files/sccp2_tmr.o.d ${OBJECTDIR}/mcc_generated_files/sccp3_compare.o.d ${OBJECTDIR}/grbl/dspic_specific.o.d ${OBJECTDIR}/grbl/atx.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/grbl/eeprom.o ${OBJECTDIR}/grbl/gcode.o ${OBJECTDIR}/grbl/jog.o ${OBJECTDIR}/grbl/limits.o ${OBJECTDIR}/grbl/main.o ${OBJECTDIR}/grbl/motion_control.o ${OBJECTDIR}/grbl/nuts_bolts.o ${OBJECTDIR}/grbl/planner.o ${OBJECTDIR}/grbl/print.o ${OBJECTDIR}/grbl/probe.o ${OBJECTDIR}/grbl/protocol.o ${OBJECTDIR}/grbl/report.o ${OBJECTDIR}/grbl/serial.o ${OBJECTDIR}/grbl/settings.o ${OBJECTDIR}/grbl/spindle_control.o ${OBJECTDIR}/grbl/stepper.o ${OBJECTDIR}/grbl/system.o ${OBJECTDIR}/grbl/coolant_control.o ${OBJECTDIR}/grbl/atx.o ${OBJECTDIR}/mcc_generated_files/memory/flash.o ${OBJECTDIR}/mcc_generated_files/memory/flash_demo.o ${OBJECTDIR}/mcc_generated_files/reset.o ${OBJECTDIR}/mcc_generated_files/system.o ${OBJECTDIR}/mcc_generated_files/traps.o ${OBJECTDIR}/mcc_generated_files/clock.o ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o ${OBJECTDIR}/mcc_generated_files/uart1.o ${OBJECTDIR}/mcc_generated_files/mcc.o ${OBJECTDIR}/mcc_generated_files/pin_manager.o ${OBJECTDIR}/mcc_generated_files/sccp1_compare.o ${OBJECTDIR}/mcc_generated_files/sccp2_tmr.o ${OBJECTDIR}/mcc_generated_files/sccp3_compare.o ${OBJECTDIR}/grbl/dspic_specific.o ${OBJECTDIR}/mcc_generated_files/tmr1.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/grbl/eeprom.o.d ${OBJECTDIR}/grbl/gcode.o.d ${OBJECTDIR}/grbl/jog.o.d ${OBJECTDIR}/grbl/limits.o.d ${OBJECTDIR}/grbl/main.o.d ${OBJECTDIR}/grbl/motion_control.o.d ${OBJECTDIR}/grbl/nuts_bolts.o.d ${OBJECTDIR}/grbl/planner.o.d ${OBJECTDIR}/grbl/print.o.d ${OBJECTDIR}/grbl/probe.o.d ${OBJECTDIR}/grbl/protocol.o.d ${OBJECTDIR}/grbl/report.o.d ${OBJECTDIR}/grbl/serial.o.d ${OBJECTDIR}/grbl/settings.o.d ${OBJECTDIR}/grbl/spindle_control.o.d ${OBJECTDIR}/grbl/stepper.o.d ${OBJECTDIR}/grbl/system.o.d ${OBJECTDIR}/grbl/coolant_control.o.d ${OBJECTDIR}/grbl/atx.o.d ${OBJECTDIR}/mcc_generated_files/memory/flash.o.d ${OBJECTDIR}/mcc_generated_files/memory/flash_demo.o.d ${OBJECTDIR}/mcc_generated_files/reset.o.d ${OBJECTDIR}/mcc_generated_files/system.o.d ${OBJECTDIR}/mcc_generated_files/traps.o.d ${OBJECTDIR}/mcc_generated_files/clock.o.d ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o.d ${OBJECTDIR}/mcc_generated_files/uart1.o.d ${OBJECTDIR}/mcc_generated_files/mcc.o.d ${OBJECTDIR}/mcc_generated_files/pin_manager.o.d ${OBJECTDIR}/mcc_generated_files/sccp1_compare.o.d ${OBJECTDIR}/mcc_generated_files/sccp2_tmr.o.d ${OBJECTDIR}/mcc_generated_files/sccp3_compare.o.d ${OBJECTDIR}/grbl/dspic_specific.o.d ${OBJECTDIR}/mcc_generated_files/tmr1.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/grbl/eeprom.o ${OBJECTDIR}/grbl/gcode.o ${OBJECTDIR}/grbl/jog.o ${OBJECTDIR}/grbl/limits.o ${OBJECTDIR}/grbl/main.o ${OBJECTDIR}/grbl/motion_control.o ${OBJECTDIR}/grbl/nuts_bolts.o ${OBJECTDIR}/grbl/planner.o ${OBJECTDIR}/grbl/print.o ${OBJECTDIR}/grbl/probe.o ${OBJECTDIR}/grbl/protocol.o ${OBJECTDIR}/grbl/report.o ${OBJECTDIR}/grbl/serial.o ${OBJECTDIR}/grbl/settings.o ${OBJECTDIR}/grbl/spindle_control.o ${OBJECTDIR}/grbl/stepper.o ${OBJECTDIR}/grbl/system.o ${OBJECTDIR}/grbl/coolant_control.o ${OBJECTDIR}/mcc_generated_files/memory/flash.o ${OBJECTDIR}/mcc_generated_files/memory/flash_demo.o ${OBJECTDIR}/mcc_generated_files/reset.o ${OBJECTDIR}/mcc_generated_files/system.o ${OBJECTDIR}/mcc_generated_files/traps.o ${OBJECTDIR}/mcc_generated_files/clock.o ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o ${OBJECTDIR}/mcc_generated_files/uart1.o ${OBJECTDIR}/mcc_generated_files/mcc.o ${OBJECTDIR}/mcc_generated_files/pin_manager.o ${OBJECTDIR}/mcc_generated_files/sccp1_compare.o ${OBJECTDIR}/mcc_generated_files/sccp2_tmr.o ${OBJECTDIR}/mcc_generated_files/sccp3_compare.o ${OBJECTDIR}/grbl/dspic_specific.o ${OBJECTDIR}/grbl/atx.o
+OBJECTFILES=${OBJECTDIR}/grbl/eeprom.o ${OBJECTDIR}/grbl/gcode.o ${OBJECTDIR}/grbl/jog.o ${OBJECTDIR}/grbl/limits.o ${OBJECTDIR}/grbl/main.o ${OBJECTDIR}/grbl/motion_control.o ${OBJECTDIR}/grbl/nuts_bolts.o ${OBJECTDIR}/grbl/planner.o ${OBJECTDIR}/grbl/print.o ${OBJECTDIR}/grbl/probe.o ${OBJECTDIR}/grbl/protocol.o ${OBJECTDIR}/grbl/report.o ${OBJECTDIR}/grbl/serial.o ${OBJECTDIR}/grbl/settings.o ${OBJECTDIR}/grbl/spindle_control.o ${OBJECTDIR}/grbl/stepper.o ${OBJECTDIR}/grbl/system.o ${OBJECTDIR}/grbl/coolant_control.o ${OBJECTDIR}/grbl/atx.o ${OBJECTDIR}/mcc_generated_files/memory/flash.o ${OBJECTDIR}/mcc_generated_files/memory/flash_demo.o ${OBJECTDIR}/mcc_generated_files/reset.o ${OBJECTDIR}/mcc_generated_files/system.o ${OBJECTDIR}/mcc_generated_files/traps.o ${OBJECTDIR}/mcc_generated_files/clock.o ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o ${OBJECTDIR}/mcc_generated_files/uart1.o ${OBJECTDIR}/mcc_generated_files/mcc.o ${OBJECTDIR}/mcc_generated_files/pin_manager.o ${OBJECTDIR}/mcc_generated_files/sccp1_compare.o ${OBJECTDIR}/mcc_generated_files/sccp2_tmr.o ${OBJECTDIR}/mcc_generated_files/sccp3_compare.o ${OBJECTDIR}/grbl/dspic_specific.o ${OBJECTDIR}/mcc_generated_files/tmr1.o
 
 # Source Files
-SOURCEFILES=grbl/eeprom.c grbl/gcode.c grbl/jog.c grbl/limits.c grbl/main.c grbl/motion_control.c grbl/nuts_bolts.c grbl/planner.c grbl/print.c grbl/probe.c grbl/protocol.c grbl/report.c grbl/serial.c grbl/settings.c grbl/spindle_control.c grbl/stepper.c grbl/system.c grbl/coolant_control.c mcc_generated_files/memory/flash.s mcc_generated_files/memory/flash_demo.c mcc_generated_files/reset.c mcc_generated_files/system.c mcc_generated_files/traps.c mcc_generated_files/clock.c mcc_generated_files/interrupt_manager.c mcc_generated_files/uart1.c mcc_generated_files/mcc.c mcc_generated_files/pin_manager.c mcc_generated_files/sccp1_compare.c mcc_generated_files/sccp2_tmr.c mcc_generated_files/sccp3_compare.c grbl/dspic_specific.c grbl/atx.c
+SOURCEFILES=grbl/eeprom.c grbl/gcode.c grbl/jog.c grbl/limits.c grbl/main.c grbl/motion_control.c grbl/nuts_bolts.c grbl/planner.c grbl/print.c grbl/probe.c grbl/protocol.c grbl/report.c grbl/serial.c grbl/settings.c grbl/spindle_control.c grbl/stepper.c grbl/system.c grbl/coolant_control.c grbl/atx.c mcc_generated_files/memory/flash.s mcc_generated_files/memory/flash_demo.c mcc_generated_files/reset.c mcc_generated_files/system.c mcc_generated_files/traps.c mcc_generated_files/clock.c mcc_generated_files/interrupt_manager.c mcc_generated_files/uart1.c mcc_generated_files/mcc.c mcc_generated_files/pin_manager.c mcc_generated_files/sccp1_compare.c mcc_generated_files/sccp2_tmr.c mcc_generated_files/sccp3_compare.c grbl/dspic_specific.c mcc_generated_files/tmr1.c
 
 
 
@@ -221,6 +221,13 @@ ${OBJECTDIR}/grbl/coolant_control.o: grbl/coolant_control.c  nbproject/Makefile-
 	${MP_CC} $(MP_EXTRA_CC_PRE)  grbl/coolant_control.c  -o ${OBJECTDIR}/grbl/coolant_control.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/grbl/coolant_control.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -O0 -msmart-io=1 -Wall -msfr-warn=off  
 	@${FIXDEPS} "${OBJECTDIR}/grbl/coolant_control.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/grbl/atx.o: grbl/atx.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/grbl" 
+	@${RM} ${OBJECTDIR}/grbl/atx.o.d 
+	@${RM} ${OBJECTDIR}/grbl/atx.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  grbl/atx.c  -o ${OBJECTDIR}/grbl/atx.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/grbl/atx.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/grbl/atx.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 ${OBJECTDIR}/mcc_generated_files/memory/flash_demo.o: mcc_generated_files/memory/flash_demo.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/mcc_generated_files/memory" 
 	@${RM} ${OBJECTDIR}/mcc_generated_files/memory/flash_demo.o.d 
@@ -312,12 +319,12 @@ ${OBJECTDIR}/grbl/dspic_specific.o: grbl/dspic_specific.c  nbproject/Makefile-${
 	${MP_CC} $(MP_EXTRA_CC_PRE)  grbl/dspic_specific.c  -o ${OBJECTDIR}/grbl/dspic_specific.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/grbl/dspic_specific.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -O0 -msmart-io=1 -Wall -msfr-warn=off  
 	@${FIXDEPS} "${OBJECTDIR}/grbl/dspic_specific.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/grbl/atx.o: grbl/atx.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/grbl" 
-	@${RM} ${OBJECTDIR}/grbl/atx.o.d 
-	@${RM} ${OBJECTDIR}/grbl/atx.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  grbl/atx.c  -o ${OBJECTDIR}/grbl/atx.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/grbl/atx.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -O0 -msmart-io=1 -Wall -msfr-warn=off  
-	@${FIXDEPS} "${OBJECTDIR}/grbl/atx.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+${OBJECTDIR}/mcc_generated_files/tmr1.o: mcc_generated_files/tmr1.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/mcc_generated_files" 
+	@${RM} ${OBJECTDIR}/mcc_generated_files/tmr1.o.d 
+	@${RM} ${OBJECTDIR}/mcc_generated_files/tmr1.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  mcc_generated_files/tmr1.c  -o ${OBJECTDIR}/mcc_generated_files/tmr1.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/mcc_generated_files/tmr1.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/mcc_generated_files/tmr1.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 else
 ${OBJECTDIR}/grbl/eeprom.o: grbl/eeprom.c  nbproject/Makefile-${CND_CONF}.mk
@@ -446,6 +453,13 @@ ${OBJECTDIR}/grbl/coolant_control.o: grbl/coolant_control.c  nbproject/Makefile-
 	${MP_CC} $(MP_EXTRA_CC_PRE)  grbl/coolant_control.c  -o ${OBJECTDIR}/grbl/coolant_control.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/grbl/coolant_control.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -O0 -msmart-io=1 -Wall -msfr-warn=off  
 	@${FIXDEPS} "${OBJECTDIR}/grbl/coolant_control.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/grbl/atx.o: grbl/atx.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/grbl" 
+	@${RM} ${OBJECTDIR}/grbl/atx.o.d 
+	@${RM} ${OBJECTDIR}/grbl/atx.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  grbl/atx.c  -o ${OBJECTDIR}/grbl/atx.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/grbl/atx.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/grbl/atx.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 ${OBJECTDIR}/mcc_generated_files/memory/flash_demo.o: mcc_generated_files/memory/flash_demo.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/mcc_generated_files/memory" 
 	@${RM} ${OBJECTDIR}/mcc_generated_files/memory/flash_demo.o.d 
@@ -537,12 +551,12 @@ ${OBJECTDIR}/grbl/dspic_specific.o: grbl/dspic_specific.c  nbproject/Makefile-${
 	${MP_CC} $(MP_EXTRA_CC_PRE)  grbl/dspic_specific.c  -o ${OBJECTDIR}/grbl/dspic_specific.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/grbl/dspic_specific.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -O0 -msmart-io=1 -Wall -msfr-warn=off  
 	@${FIXDEPS} "${OBJECTDIR}/grbl/dspic_specific.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
-${OBJECTDIR}/grbl/atx.o: grbl/atx.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/grbl" 
-	@${RM} ${OBJECTDIR}/grbl/atx.o.d 
-	@${RM} ${OBJECTDIR}/grbl/atx.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  grbl/atx.c  -o ${OBJECTDIR}/grbl/atx.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/grbl/atx.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -O0 -msmart-io=1 -Wall -msfr-warn=off  
-	@${FIXDEPS} "${OBJECTDIR}/grbl/atx.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+${OBJECTDIR}/mcc_generated_files/tmr1.o: mcc_generated_files/tmr1.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/mcc_generated_files" 
+	@${RM} ${OBJECTDIR}/mcc_generated_files/tmr1.o.d 
+	@${RM} ${OBJECTDIR}/mcc_generated_files/tmr1.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  mcc_generated_files/tmr1.c  -o ${OBJECTDIR}/mcc_generated_files/tmr1.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/mcc_generated_files/tmr1.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -fno-short-double -O0 -msmart-io=1 -Wall -msfr-warn=off  
+	@${FIXDEPS} "${OBJECTDIR}/mcc_generated_files/tmr1.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 
