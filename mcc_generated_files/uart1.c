@@ -103,8 +103,8 @@ void UART1_Initialize(void)
     U1MODE = (0x8080 & ~(1<<15));  // disabling UART ON bit
     // STSEL 1 Stop bit sent, 1 checked at RX; BCLKMOD disabled; SLPEN disabled; FLO Off; BCLKSEL FOSC; C0EN disabled; RUNOVF disabled; UTXINV disabled; URXINV disabled; HALFDPLX disabled; 
     U1MODEH = 0x400;
-    // OERIE disabled; RXBKIF disabled; RXBKIE disabled; ABDOVF disabled; OERR disabled; TXCIE disabled; TXCIF disabled; FERIE disabled; TXMTIE disabled; ABDOVE disabled; CERIE disabled; CERIF disabled; PERIE disabled; 
-    U1STA = 0x00;
+    // OERIE enabled; RXBKIF disabled; RXBKIE disabled; ABDOVF disabled; OERR disabled; TXCIE disabled; TXCIF disabled; FERIE disabled; TXMTIE disabled; ABDOVE disabled; CERIE disabled; CERIF disabled; PERIE disabled; 
+    U1STA = 0x200;
     // URXISEL RX_ONE_WORD; UTXBE enabled; UTXISEL TX_BUF_EMPTY; URXBE enabled; STPMD disabled; TXWRE disabled; 
     U1STAH = 0x22;
     // BaudRate = 115200; Frequency = 180000000 Hz; BRG 390; 
@@ -147,6 +147,7 @@ void UART1_Initialize(void)
     U1MODEbits.UARTEN = 1;   // enabling UART ON bit
     U1MODEbits.UTXEN = 1;
     U1MODEbits.URXEN = 1;
+    IEC3bits.U1EIE = 1;   //Enable overrun error handling
 }
 
 /**
@@ -234,7 +235,9 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _U1EInterrupt( void )
 {
     if ((U1STAbits.OERR == 1))
     {
-        U1STAbits.OERR = 0;
+//        U1STAbits.OERR = 0;  
+        U1MODEbits.UARTEN = 0; //OERR errata workaround
+        U1MODEbits.UARTEN = 1; //OERR errata workaround
     }
     
     IFS3bits.U1EIF = 0;
