@@ -57,6 +57,7 @@
 #include "stepper.h"
 #include "jog.h"
 #include "atx.h"
+#include "btserial.h"
 
 // ---------------------------------------------------------------------------------------
 // COMPILE-TIME ERROR CHECKING OF DEFINE VALUES:

@@ -54,15 +54,17 @@
 #include "sccp3_compare.h"
 #include "memory/flash.h"
 #include "tmr1.h"
+#include "uart2.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
-    CLOCK_Initialize();
     INTERRUPT_Initialize();
+    CLOCK_Initialize();
     SCCP3_COMPARE_Initialize();
     SCCP1_COMPARE_Initialize();
     SCCP2_TMR_Initialize();
+    UART2_Initialize();
     UART1_Initialize();
     TMR1_Initialize();
     INTERRUPT_GlobalEnable();

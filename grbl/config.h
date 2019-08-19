@@ -166,7 +166,7 @@
 // Enables a second coolant control pin via the mist coolant g-code command M7 on the Arduino Uno
 // analog pin 4. Only use this option if you require a second coolant control pin.
 // NOTE: The M8 flood coolant control pin on analog pin 3 will still be functional regardless.
-// #define ENABLE_M7 // Disabled by default. Uncomment to enable.
+ #define ENABLE_M7 // Disabled by default. Uncomment to enable.
 
 // This option causes the feed hold input to act as a safety door switch. A safety door, when triggered,
 // immediately forces a feed hold and then safely de-energizes the machine. Resuming is blocked until
@@ -654,5 +654,15 @@
 //#define ATX_POWER_DEFAULT_ON          // Default disabled. Uncomment to enable
 #define ATX_POWER_PGOOD_TIMEOUT   300   //[msec] PGOOD setting time before reporting an ERROR
 #define ATX_POWER_PGOOD_DEBOUNCE  50    //[msec] PGOOD Accepted after this long setady state
+
+// Bluetooth serial is just a second serial port to receive data and send status. 
+// Bytes are inserted as they come over the serial port, not checking for line end.
+// Make sure you are only using one port at a time.
+// Best if both serial ports have the same baud-rate.
+#define ENABLE_BLUETOOTH_SERIAL         // Uncomment if Bluetooth serial port feature is needed
+
+// Least ISR load is generated if identical baud rates are set, and TX for standard
+// serial and bluetooth are shared.
+#define BLUETOOTH_SERIAL_SHARE_TX       // Comment if baudrates are different. 
 
 #endif

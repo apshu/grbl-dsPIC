@@ -27,6 +27,7 @@
         <itemPath>grbl/stepper.h</itemPath>
         <itemPath>grbl/system.h</itemPath>
         <itemPath>grbl/atx.h</itemPath>
+        <itemPath>grbl/btserial.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -50,6 +51,7 @@
         <itemPath>mcc_generated_files/sccp2_tmr.h</itemPath>
         <itemPath>mcc_generated_files/sccp3_compare.h</itemPath>
         <itemPath>mcc_generated_files/tmr1.h</itemPath>
+        <itemPath>mcc_generated_files/uart2.h</itemPath>
       </logicalFolder>
       <itemPath>grbl/dspic_specific.h</itemPath>
       <itemPath>grbl/core_specific.h</itemPath>
@@ -82,6 +84,7 @@
         <itemPath>grbl/system.c</itemPath>
         <itemPath>grbl/coolant_control.c</itemPath>
         <itemPath>grbl/atx.c</itemPath>
+        <itemPath>grbl/btserial.c</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -102,6 +105,7 @@
         <itemPath>mcc_generated_files/sccp2_tmr.c</itemPath>
         <itemPath>mcc_generated_files/sccp3_compare.c</itemPath>
         <itemPath>mcc_generated_files/tmr1.c</itemPath>
+        <itemPath>mcc_generated_files/uart2.c</itemPath>
       </logicalFolder>
       <itemPath>grbl/dspic_specific.c</itemPath>
       <itemPath>main.c</itemPath>

@@ -87,7 +87,7 @@ void serial_write(uint8_t data) {
   serial_tx_buffer_head = next_head;
 
   // Enable Data Register Empty Interrupt to make sure tx-streaming is running
-  UCSR0B |=  (1 << UDRIE0);
+  SERIAL_ISR_ENABLE = true;
 }
 
 
@@ -107,7 +107,7 @@ ISR(SERIAL_UDRE)
   serial_tx_buffer_tail = tail;
 
   // Turn off Data Register Empty Interrupt to stop tx-streaming if this concludes the transfer
-  if (tail == serial_tx_buffer_head) { UCSR0B &= ~(1 << UDRIE0); }
+  if (tail == serial_tx_buffer_head) { SERIAL_ISR_ENABLE = false; }
 }
 
 
@@ -128,10 +128,7 @@ uint8_t serial_read()
   }
 }
 
-
-ISR(SERIAL_RX)
-{
-  uint8_t data = URXREG;
+void serial_receive_single_byte(uint_fast8_t data) {
   uint8_t next_head;
 
   // Pick off realtime command characters directly from the serial stream. These characters are
@@ -184,9 +181,14 @@ ISR(SERIAL_RX)
         }
       }
   }
-  USART_RX_clear_ISR_flag();
 }
 
+ISR(SERIAL_RX)
+{
+  uint8_t data = URXREG;
+  serial_receive_single_byte(data);
+  USART_RX_clear_ISR_flag();
+}
 
 void serial_reset_read_buffer()
 {

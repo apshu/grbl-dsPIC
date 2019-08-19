@@ -51,6 +51,7 @@
 
 #include <xc.h>
 #include <stdio.h>
+#include "../grbl/grbl.h"
 #include "pin_manager.h"
 
 /**
@@ -77,7 +78,7 @@ void PIN_MANAGER_Initialize (void)
     TRISA = 0x001F;
     TRISB = 0xBFFD;
     TRISC = 0xF7FF;
-    TRISD = 0xFFFF;
+    TRISD = 0xFFFD;
     TRISE = 0xFFFF;
 
     /****************************************************************************
@@ -118,8 +119,14 @@ void PIN_MANAGER_Initialize (void)
     __builtin_write_RPCON(0x0000); // unlock PPS
 
     RPOR13bits.RP59R = 0x0001;    //RC11->UART1:U1TX
-    RPOR7bits.RP46R = 0x000F;    //RB14->SCCP1:OCM1
     RPINR18bits.U1RXR = 0x003A;    //RC10->UART1:U1RX
+    RPOR7bits.RP46R = 0x000F;    //RB14->SCCP1:OCM1
+#ifdef BLUETOOTH_SERIAL_SHARE_TX
+    RPOR16bits.RP65R = 0x0001;    //RD1->UART1:U1TX
+#else
+    RPOR16bits.RP65R = 0x0003;    //RD1->UART2:U2TX
+#endif
+    RPINR19bits.U2RXR = 0x0040;    //RD0->UART2:U2RX
 
     __builtin_write_RPCON(0x0800); // lock PPS
 

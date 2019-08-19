@@ -40,15 +40,25 @@
     typedef _prepost(uint,GPIOPORT_NUMBITS,_t) gpioport_t; //gpioport_t now defined from GPIOPORT_NUMBITS
 
   // Define serial port pins and interrupt vectors.
-  #define SERIAL_RX                 U1RXInterrupt
-  #define SERIAL_UDRE               U1TXInterrupt
-  #define URXREG                    U1RXREG
-  #define UTXREG                    U1TXREG
-  #define UCSR0B                    IEC0
-  #define UDRIE0                    _IEC0_U1TXIE_POSITION
-  #define USART_RX_clear_ISR_flag() do {IFS0bits.U1RXIF = false;} while(0)
-  #define USART_TX_clear_ISR_flag() do {IFS0bits.U1TXIF = false;} while(0)
+  #define SERIAL_PERIPHERAL                   U1
+  #define BLUETOOTH_SERIAL_PERIPHERAL         U2
 
+  #define SERIAL_RX                 _pre(SERIAL_PERIPHERAL,RXInterrupt)
+  #define SERIAL_UDRE               _pre(SERIAL_PERIPHERAL,TXInterrupt)
+  #define URXREG                    _pre(SERIAL_PERIPHERAL,RXREG)
+  #define UTXREG                    _pre(SERIAL_PERIPHERAL,TXREG)
+  #define SERIAL_ISR_ENABLE         _prepost(_,SERIAL_PERIPHERAL,TXIE)
+  #define USART_RX_clear_ISR_flag() do {_prepost(_,SERIAL_PERIPHERAL,RXIF) = false;} while(0)
+  #define USART_TX_clear_ISR_flag() do {_prepost(_,SERIAL_PERIPHERAL,TXIF) = false;} while(0)
+  
+  #define BLUETOOTH_SERIAL_RX                 _pre(BLUETOOTH_SERIAL_PERIPHERAL,RXInterrupt)
+  #define BLUETOOTH_SERIAL_UDRE               _pre(BLUETOOTH_SERIAL_PERIPHERAL,TXInterrupt)
+  #define BLUETOOTH_URXREG                    _pre(BLUETOOTH_SERIAL_PERIPHERAL,RXREG)
+  #define BLUETOOTH_UTXREG                    _pre(BLUETOOTH_SERIAL_PERIPHERAL,TXREG)
+  #define BLUETOOTH_SERIAL_ISR_ENABLE         _pre(BLUETOOTH_SERIAL_PERIPHERAL,TXIE)
+  #define BLUETOOTH_USART_RX_clear_ISR_flag() do {_prepost(_,BLUETOOTH_SERIAL_PERIPHERAL,RXIF) = false;} while(0)
+  #define BLUETOOTH_USART_TX_clear_ISR_flag() do {_prepost(_,BLUETOOTH_SERIAL_PERIPHERAL,TXIF) = false;} while(0)
+    
   // Define step pulse output pins. NOTE: All step bit pins must be on the same port.
   #define STEP_PORT       D
   #define X_STEP_BIT      2  // Uno Digital Pin 2

@@ -59,4 +59,8 @@ uint8_t serial_get_rx_buffer_count();
 // NOTE: Not used except for debugging and ensuring no TX bottlenecks.
 uint8_t serial_get_tx_buffer_count();
 
+// Put a byte from serial RX buffer to command buffer
+// Called from ISR
+void serial_receive_single_byte(uint_fast8_t data);
+
 #endif

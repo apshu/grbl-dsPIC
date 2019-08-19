@@ -64,6 +64,18 @@ void INTERRUPT_Initialize (void)
     //    CCTI: CCP3 Timer Event
     //    Priority: 1
         IPC9bits.CCT3IP = 1;
+    //    UEVTI: UART2 Event
+    //    Priority: 1
+        IPC47bits.U2EVTIP = 1;
+    //    UTXI: UART2 TX
+    //    Priority: 1
+        IPC7bits.U2TXIP = 1;
+    //    UEI: UART2 Error Interrupt
+    //    Priority: 1
+        IPC12bits.U2EIP = 1;
+    //    URXI: UART2 RX
+    //    Priority: 1
+        IPC6bits.U2RXIP = 1;
     //    UEVTI: UART1 Event
     //    Priority: 1
         IPC47bits.U1EVTIP = 1;
