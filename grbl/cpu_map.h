@@ -40,24 +40,24 @@
     typedef _prepost(uint,GPIOPORT_NUMBITS,_t) gpioport_t; //gpioport_t now defined from GPIOPORT_NUMBITS
 
   // Define serial port pins and interrupt vectors.
-  #define SERIAL_PERIPHERAL                   U1
-  #define BLUETOOTH_SERIAL_PERIPHERAL         U2
+  #define SERIAL_PERIPHERAL                   1
+  #define BLUETOOTH_SERIAL_PERIPHERAL         2
 
-  #define SERIAL_RX                 _pre(SERIAL_PERIPHERAL,RXInterrupt)
-  #define SERIAL_UDRE               _pre(SERIAL_PERIPHERAL,TXInterrupt)
-  #define URXREG                    _pre(SERIAL_PERIPHERAL,RXREG)
-  #define UTXREG                    _pre(SERIAL_PERIPHERAL,TXREG)
-  #define SERIAL_ISR_ENABLE         _prepost(_,SERIAL_PERIPHERAL,TXIE)
-  #define USART_RX_clear_ISR_flag() do {_prepost(_,SERIAL_PERIPHERAL,RXIF) = false;} while(0)
-  #define USART_TX_clear_ISR_flag() do {_prepost(_,SERIAL_PERIPHERAL,TXIF) = false;} while(0)
+  #define SERIAL_RX                 _prepost(U,SERIAL_PERIPHERAL,RXInterrupt)
+  #define SERIAL_UDRE               _prepost(U,SERIAL_PERIPHERAL,TXInterrupt)
+  #define URXREG                    _prepost(U,SERIAL_PERIPHERAL,RXREG)
+  #define UTXREG                    _prepost(U,SERIAL_PERIPHERAL,TXREG)
+  #define SERIAL_ISR_ENABLE         _prepost(_U,SERIAL_PERIPHERAL,TXIE)
+  #define USART_RX_clear_ISR_flag() do {_prepost(_U,SERIAL_PERIPHERAL,RXIF) = false;} while(0)
+  #define USART_TX_clear_ISR_flag() do {_prepost(_U,SERIAL_PERIPHERAL,TXIF) = false;} while(0)
   
-  #define BLUETOOTH_SERIAL_RX                 _pre(BLUETOOTH_SERIAL_PERIPHERAL,RXInterrupt)
-  #define BLUETOOTH_SERIAL_UDRE               _pre(BLUETOOTH_SERIAL_PERIPHERAL,TXInterrupt)
-  #define BLUETOOTH_URXREG                    _pre(BLUETOOTH_SERIAL_PERIPHERAL,RXREG)
-  #define BLUETOOTH_UTXREG                    _pre(BLUETOOTH_SERIAL_PERIPHERAL,TXREG)
-  #define BLUETOOTH_SERIAL_ISR_ENABLE         _pre(BLUETOOTH_SERIAL_PERIPHERAL,TXIE)
-  #define BLUETOOTH_USART_RX_clear_ISR_flag() do {_prepost(_,BLUETOOTH_SERIAL_PERIPHERAL,RXIF) = false;} while(0)
-  #define BLUETOOTH_USART_TX_clear_ISR_flag() do {_prepost(_,BLUETOOTH_SERIAL_PERIPHERAL,TXIF) = false;} while(0)
+  #define BLUETOOTH_SERIAL_RX                 _prepost(U,BLUETOOTH_SERIAL_PERIPHERAL,RXInterrupt)
+  #define BLUETOOTH_SERIAL_UDRE               _prepost(U,BLUETOOTH_SERIAL_PERIPHERAL,TXInterrupt)
+  #define BLUETOOTH_URXREG                    _prepost(U,BLUETOOTH_SERIAL_PERIPHERAL,RXREG)
+  #define BLUETOOTH_UTXREG                    _prepost(U,BLUETOOTH_SERIAL_PERIPHERAL,TXREG)
+  #define BLUETOOTH_SERIAL_ISR_ENABLE         _prepost(U,BLUETOOTH_SERIAL_PERIPHERAL,TXIE)
+  #define BLUETOOTH_USART_RX_clear_ISR_flag() do {_prepost(_U,BLUETOOTH_SERIAL_PERIPHERAL,RXIF) = false;} while(0)
+  #define BLUETOOTH_USART_TX_clear_ISR_flag() do {_prepost(_U,BLUETOOTH_SERIAL_PERIPHERAL,TXIF) = false;} while(0)
     
   // Define step pulse output pins. NOTE: All step bit pins must be on the same port.
   #define STEP_PORT       D
