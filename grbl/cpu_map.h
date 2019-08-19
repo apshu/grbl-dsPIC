@@ -55,7 +55,7 @@
   #define BLUETOOTH_SERIAL_UDRE               _prepost(U,BLUETOOTH_SERIAL_PERIPHERAL,TXInterrupt)
   #define BLUETOOTH_URXREG                    _prepost(U,BLUETOOTH_SERIAL_PERIPHERAL,RXREG)
   #define BLUETOOTH_UTXREG                    _prepost(U,BLUETOOTH_SERIAL_PERIPHERAL,TXREG)
-  #define BLUETOOTH_SERIAL_ISR_ENABLE         _prepost(U,BLUETOOTH_SERIAL_PERIPHERAL,TXIE)
+  #define BLUETOOTH_SERIAL_ISR_ENABLE         _prepost(_U,BLUETOOTH_SERIAL_PERIPHERAL,TXIE)
   #define BLUETOOTH_USART_RX_clear_ISR_flag() do {_prepost(_U,BLUETOOTH_SERIAL_PERIPHERAL,RXIF) = false;} while(0)
   #define BLUETOOTH_USART_TX_clear_ISR_flag() do {_prepost(_U,BLUETOOTH_SERIAL_PERIPHERAL,TXIF) = false;} while(0)
     

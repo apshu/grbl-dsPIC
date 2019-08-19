@@ -24,7 +24,7 @@
 #define RX_RING_BUFFER (RX_BUFFER_SIZE+1)
 #define TX_RING_BUFFER (TX_BUFFER_SIZE+1)
 
-uint8_t serial_rx_buffer[RX_RING_BUFFER];
+volatile uint8_t serial_rx_buffer[RX_RING_BUFFER];
 uint8_t serial_rx_buffer_head = 0;
 volatile uint8_t serial_rx_buffer_tail = 0;
 
@@ -67,6 +67,9 @@ void serial_init()
 {
     _prepost(UART,SERIAL_PERIPHERAL,_SetRxInterruptHandler)(SERIAL_RX);
     _prepost(UART,SERIAL_PERIPHERAL,_SetTxInterruptHandler)(SERIAL_UDRE);
+#ifdef ENABLE_BLUETOOTH_SERIAL
+    bluetooth_serial_init();
+#endif
 }
 
 
@@ -88,6 +91,9 @@ void serial_write(uint8_t data) {
 
   // Enable Data Register Empty Interrupt to make sure tx-streaming is running
   SERIAL_ISR_ENABLE = true;
+#ifndef BLUETOOTH_SERIAL_SHARE_TX
+  bluetooth_serial_write(data); //Send same byte to BT serial port
+#endif
 }
 
 
@@ -186,8 +192,8 @@ void serial_receive_single_byte(uint_fast8_t data) {
 ISR(SERIAL_RX)
 {
   uint8_t data = URXREG;
-  serial_receive_single_byte(data);
   USART_RX_clear_ISR_flag();
+  serial_receive_single_byte(data);
 }
 
 void serial_reset_read_buffer()

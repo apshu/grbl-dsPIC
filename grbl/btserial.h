@@ -12,9 +12,9 @@
 extern "C" {
 #endif
 
-
-
-
+    void bluetooth_serial_init(void);
+    void bluetooth_serial_write(uint8_t data);
+    
 #ifdef	__cplusplus
 }
 #endif
