@@ -55,12 +55,14 @@ int main(void)
   #else
     sys.state = STATE_IDLE;
   #endif
-  
+
+  #ifdef ENABLE_ATX_POWER
   if (!atx_power_init()) {
       system_set_exec_alarm(EXEC_ALARM_ATX_POWER_FAIL);
       report_alarm_message(EXEC_ALARM_ATX_POWER_FAIL);
       sys.state = STATE_ALARM;
   }; //Init ATX power supply
+  #endif
   // Check for power-up and set system alarm if homing is enabled to force homing cycle
   // by setting Grbl's alarm state. Alarm locks out all g-code commands, including the
   // startup scripts, but allows access to settings and internal commands. Only a homing
