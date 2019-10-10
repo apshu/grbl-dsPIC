@@ -37,13 +37,14 @@ Grbl includes full acceleration management with look ahead. That means the contr
 - New commands `M90`* and `M91`* for ATX power supplies. `M90` turns on and `M91` turns off an ATX power supply. Compile-time config setting allows PGOOD signal monitoring.
 
 - New command `M280`* for RC servo control. `P` selects servo channel, `S` values between 0 and 200 sets angle, bigger numbers set high pulse width. Negative numbers turns the servo off. 
-* `T1` specifies analog servo type. (Futaba 50Hz)
-* `T2` means digital RC servo. (600Hz Futaba)
-* `T3` creates PWM for 4-20mA analog servos, 0-100% = 0-200deg PWM at 1kHz.
-* `T4` enables PWM at 10kHz for 0-10V servos 0-100% = 0-200deg
+   * `T1` specifies analog servo type. (Futaba 50Hz)
+   * `T2` means digital RC servo. (600Hz Futaba)
+   * `T3` creates PWM for 4-20mA analog servos, 0-100% = 0-200deg PWM at 1kHz.
+   * `T4` enables PWM at 10kHz for 0-10V servos 0-100% = 0-200deg
 
 - New command `M116`* for PWM control. Parameter `P` selects the channel. (default 0)Optional `R` parameter sets PWM frequency. If a channel is disabled, `R` parameter is mandatory to enable the channel. Parameter `S` selects duty cycle. `S` param is mandatory for all commands, except indibit PWM. S0.0...1.0 set duty cycle 0%...100%. Negative `S` values sets high pulse length in uSec. If parameter `I` is defined, the PWM channel is unconditionnaly turned off.
 
+```
 List of Supported G-Codes in Grbl v2.0:
   - Non-Modal Commands: G4, G10L2, G10L20, G28, G30, G28.1, G30.1, G53, G92, G92.1
   - Motion Modes: G0, G1, G2, G3, G38.2, G38.3, G38.4, G38.5, G80
