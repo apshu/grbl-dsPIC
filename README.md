@@ -30,15 +30,41 @@ Grbl includes full acceleration management with look ahead. That means the contr
 ## Update Summary for v2.0a
 - **IMPORTANT:** This update is for dsPIC dual core devices. No ATtiny or Mega compatibility
 
-- New commads M500* and M501* to store and restore configuration on request. The automatic parameter storage is disabled to minimize NVM storage wear. If you change configuration please don't forget to save with M500. At first firmware flashing, the configuration is not automatically saved!
+- New commads `M500`* and `M501`* to store and restore configuration on request. The automatic parameter storage is disabled to minimize NVM storage wear. If you change configuration please don't forget to save with `M500`. At first firmware flashing, the configuration is not automatically saved!
 
-- New command M119* to query GPIO state.
+- New command `M119`* to query GPIO state.
 
-- New commands M90* and M91* for ATX power supplies. This command turns on/off an ATX power supply. Compile-time config setting allows PGOOD signal monitoring.
+- New commands `M90`* and `M91`* for ATX power supplies. `M90` turns on and `M91` turns off an ATX power supply. Compile-time config setting allows PGOOD signal monitoring.
 
-- New command M280* for RC servo control. P selects servo channel, S values between 0 and 200 sets angle, bigger numbers set high pulse width. Negative numbers turns the servo off. If T parameter present, specifies the servo type.
+- New command `M280`* for RC servo control. `P` selects servo channel, `S` values between 0 and 200 sets angle, bigger numbers set high pulse width. Negative numbers turns the servo off. 
+* `T1` specifies analog servo type. (Futaba 50Hz)
+* `T2` means digital RC servo. (600Hz Futaba)
+* `T3` creates PWM for 4-20mA analog servos, 0-100% = 0-200deg PWM at 1kHz.
+* `T4` enables PWM at 10kHz for 0-10V servos 0-100% = 0-200deg
 
-- New command M116* for PWM control. Parameter P selects the channel. (default 0)Optional 'R' parameter sets PWM frequency. If a channel is disabled, 'R' parameter is mandatory to enable the channel. Parameter S selects duty cycle. S param is mandatory for all commands, except indibit PWM. S0.0...1.0 set duty cycle 0%...100%. Negative 'S' values sets high pulse length in uSec. If parameter 'I' is defined, the PWM channel is unconditionnaly turned off.
+- New command `M116`* for PWM control. Parameter `P` selects the channel. (default 0)Optional `R` parameter sets PWM frequency. If a channel is disabled, `R` parameter is mandatory to enable the channel. Parameter `S` selects duty cycle. `S` param is mandatory for all commands, except indibit PWM. S0.0...1.0 set duty cycle 0%...100%. Negative `S` values sets high pulse length in uSec. If parameter `I` is defined, the PWM channel is unconditionnaly turned off.
+
+List of Supported G-Codes in Grbl v2.0:
+  - Non-Modal Commands: G4, G10L2, G10L20, G28, G30, G28.1, G30.1, G53, G92, G92.1
+  - Motion Modes: G0, G1, G2, G3, G38.2, G38.3, G38.4, G38.5, G80
+  - Feed Rate Modes: G93, G94
+  - Unit Modes: G20, G21
+  - Distance Modes: G90, G91
+  - Arc IJK Distance Modes: G91.1
+  - Plane Select Modes: G17, G18, G19
+  - Tool Length Offset Modes: G43.1, G49
+  - Cutter Compensation Modes: G40
+  - Coordinate System Modes: G54, G55, G56, G57, G58, G59
+  - Control Modes: G61
+  - Program Flow: M0, M1, M2, M30*
+  - Coolant Control: M7*, M8, M9
+  - Spindle Control: M3, M4, M5
+  - PWM/servo output: M116*, M280*
+  - ATX power supply control: M80*, M81*
+  - Pins status: M119*
+  - Configuration storage: M500*, M501*
+  - Valid Non-Command Words: F, I, J, K, L, N, P, R, S, T, X, Y, Z
+```
 
 ## Update Summary for v1.1
 - **IMPORTANT:** Your EEPROM will be wiped and restored with new settings. This is due to the addition of two new spindle speed '$' settings.
@@ -88,10 +114,6 @@ List of Supported G-Codes in Grbl v1.1:
   - Program Flow: M0, M1, M2, M30*
   - Coolant Control: M7*, M8, M9
   - Spindle Control: M3, M4, M5
-  - PWM/servo output: 
-  - ATX power supply control: M80*, M81*
-  - Pins status: M119*
-  -Configuration storage: M500*, M501*
   - Valid Non-Command Words: F, I, J, K, L, N, P, R, S, T, X, Y, Z
 ```
 
