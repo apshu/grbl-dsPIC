@@ -52,20 +52,32 @@
 #include "sccp1_compare.h"
 #include "sccp2_tmr.h"
 #include "sccp3_compare.h"
+#include "sccp4_compare.h"
+#include "sccp5_compare.h"
+#include "sccp6_compare.h"
+#include "sccp7_compare.h"
+#include "sccp8_compare.h"
 #include "memory/flash.h"
 #include "tmr1.h"
 #include "uart2.h"
+#include "pwm.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
-    INTERRUPT_Initialize();
     CLOCK_Initialize();
-    SCCP3_COMPARE_Initialize();
+    INTERRUPT_Initialize();
     SCCP1_COMPARE_Initialize();
     SCCP2_TMR_Initialize();
-    UART2_Initialize();
+    SCCP3_COMPARE_Initialize();
+    SCCP4_COMPARE_Initialize();
+    SCCP5_COMPARE_Initialize();
+    SCCP6_COMPARE_Initialize();
+    SCCP7_COMPARE_Initialize();
+    SCCP8_COMPARE_Initialize();
     UART1_Initialize();
+    PWM_Initialize();
+    UART2_Initialize();
     TMR1_Initialize();
     INTERRUPT_GlobalEnable();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);

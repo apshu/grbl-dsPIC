@@ -64,8 +64,10 @@
 #define NON_MODAL_ABSOLUTE_OVERRIDE 53 // G53 (Do not alter value)
 #define NON_MODAL_ATX_ON 80 // M80 
 #define NON_MODAL_ATX_OFF 81 // M81 
+#define NON_MODAL_SERVO_POSITION 85 // M280 set analog servo position or pulse in uSec
 #define NON_MODAL_SET_COORDINATE_OFFSET 92 // G92 (Do not alter value)
 #define NON_MODAL_RESET_COORDINATE_OFFSET 102 //G92.1 (Do not alter value)
+#define NON_MODAL_PWMDC 116 // M116 set pwm duty cycle and frequency
 
 // Modal Group G1: Motion modes
 #define MOTION_MODE_SEEK 0 // G0 (Default: Must be zero)

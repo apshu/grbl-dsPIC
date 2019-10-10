@@ -66,7 +66,7 @@
 #pragma config OSCIOFNC = ON    //OSC2 Pin Function bit->OSC2 is general purpose digital I/O pin
 #pragma config FCKSM = CSECMD    //Clock Switching Mode bits->Clock switching is enabled,Fail-safe Clock Monitor is disabled
 #pragma config PLLKEN = PLLKEN_ON    //PLLKEN->reserved as PLLKEN_ON
-#pragma config XTCFG = G3    //XT Config->24-32 MHz crystals
+#pragma config XTCFG = G1    //XT Config->8-16 MHz crystals
 #pragma config XTBST = ENABLE    //XT Boost->Boost the kick-start
 
 // FWDT
@@ -99,7 +99,7 @@
 // FDEVOPT
 #pragma config ALTI2C1 = OFF    //Alternate I2C1 Pin bit->I2C1 mapped to SDA1/SCL1 pins
 #pragma config ALTI2C2 = OFF    //Alternate I2C2 Pin bit->I2C2 mapped to SDA2/SCL2 pins
-#pragma config SMBEN = SMBUS    //SM Bus Enable->SMBus input threshold is enabled
+#pragma config SMBEN = STANDARD    //SM Bus Enable->Standard I2C input threshold operation
 #pragma config SPI2PIN = PPS    //SPI2 Pin Select bit->SPI2 uses I/O remap (PPS) pins
 
 // FALTREG

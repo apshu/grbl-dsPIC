@@ -27,6 +27,19 @@ Grbl includes full acceleration management with look ahead. That means the contr
 
 ***
 
+## Update Summary for v2.0a
+- **IMPORTANT:** This update is for dsPIC dual core devices. No ATtiny or Mega compatibility
+
+- New commads M500* and M501* to store and restore configuration on request. The automatic parameter storage is disabled to minimize NVM storage wear. If you change configuration please don't forget to save with M500. At first firmware flashing, the configuration is not automatically saved!
+
+- New command M119* to query GPIO state.
+
+- New commands M90* and M91* for ATX power supplies. This command turns on/off an ATX power supply. Compile-time config setting allows PGOOD signal monitoring.
+
+- New command M280* for RC servo control. P selects servo channel, S values between 0 and 200 sets angle, bigger numbers set high pulse width. Negative numbers turns the servo off. If T parameter present, specifies the servo type.
+
+- New command M116* for PWM control. Parameter P selects the channel. (default 0)Optional 'R' parameter sets PWM frequency. If a channel is disabled, 'R' parameter is mandatory to enable the channel. Parameter S selects duty cycle. S param is mandatory for all commands, except indibit PWM. S0.0...1.0 set duty cycle 0%...100%. Negative 'S' values sets high pulse length in uSec. If parameter 'I' is defined, the PWM channel is unconditionnaly turned off.
+
 ## Update Summary for v1.1
 - **IMPORTANT:** Your EEPROM will be wiped and restored with new settings. This is due to the addition of two new spindle speed '$' settings.
 
@@ -59,7 +72,6 @@ Grbl includes full acceleration management with look ahead. That means the contr
 
 - **NOTE:** Arduino Mega2560 support has been moved to an active, official Grbl-Mega [project](http://www.github.com/gnea/grbl-Mega/). All new developments here and there will be synced when it makes sense to.
 
-
 ```
 List of Supported G-Codes in Grbl v1.1:
   - Non-Modal Commands: G4, G10L2, G10L20, G28, G30, G28.1, G30.1, G53, G92, G92.1
@@ -76,6 +88,10 @@ List of Supported G-Codes in Grbl v1.1:
   - Program Flow: M0, M1, M2, M30*
   - Coolant Control: M7*, M8, M9
   - Spindle Control: M3, M4, M5
+  - PWM/servo output: 
+  - ATX power supply control: M80*, M81*
+  - Pins status: M119*
+  -Configuration storage: M500*, M501*
   - Valid Non-Command Words: F, I, J, K, L, N, P, R, S, T, X, Y, Z
 ```
 

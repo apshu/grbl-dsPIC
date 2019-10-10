@@ -665,4 +665,8 @@
 // serial and bluetooth are shared.
 #define BLUETOOTH_SERIAL_SHARE_TX       // Comment if baudrates are different. 
 
+//PWM related configuration
+#define NUM_SERVO_CHANNELS (8)          //Number of servo-only channels. These channels are the lowest channel numbers
+#define NUM_PWM_CHANNELS (15)           //Total number of PWM channels. # of universal PWM = NUM_PWM_CHANNELS - NUM_SERVO_CHANNELS
+
 #endif

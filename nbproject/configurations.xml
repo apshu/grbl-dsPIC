@@ -28,6 +28,7 @@
         <itemPath>grbl/system.h</itemPath>
         <itemPath>grbl/atx.h</itemPath>
         <itemPath>grbl/btserial.h</itemPath>
+        <itemPath>grbl/pwm_servo.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -52,6 +53,12 @@
         <itemPath>mcc_generated_files/sccp3_compare.h</itemPath>
         <itemPath>mcc_generated_files/tmr1.h</itemPath>
         <itemPath>mcc_generated_files/uart2.h</itemPath>
+        <itemPath>mcc_generated_files/pwm.h</itemPath>
+        <itemPath>mcc_generated_files/sccp4_compare.h</itemPath>
+        <itemPath>mcc_generated_files/sccp8_compare.h</itemPath>
+        <itemPath>mcc_generated_files/sccp5_compare.h</itemPath>
+        <itemPath>mcc_generated_files/sccp7_compare.h</itemPath>
+        <itemPath>mcc_generated_files/sccp6_compare.h</itemPath>
       </logicalFolder>
       <itemPath>grbl/dspic_specific.h</itemPath>
       <itemPath>grbl/core_specific.h</itemPath>
@@ -85,6 +92,7 @@
         <itemPath>grbl/coolant_control.c</itemPath>
         <itemPath>grbl/atx.c</itemPath>
         <itemPath>grbl/btserial.c</itemPath>
+        <itemPath>grbl/pwm_servo.c</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -106,9 +114,16 @@
         <itemPath>mcc_generated_files/sccp3_compare.c</itemPath>
         <itemPath>mcc_generated_files/tmr1.c</itemPath>
         <itemPath>mcc_generated_files/uart2.c</itemPath>
+        <itemPath>mcc_generated_files/pwm.c</itemPath>
+        <itemPath>mcc_generated_files/sccp4_compare.c</itemPath>
+        <itemPath>mcc_generated_files/sccp7_compare.c</itemPath>
+        <itemPath>mcc_generated_files/sccp5_compare.c</itemPath>
+        <itemPath>mcc_generated_files/sccp8_compare.c</itemPath>
+        <itemPath>mcc_generated_files/sccp6_compare.c</itemPath>
       </logicalFolder>
       <itemPath>grbl/dspic_specific.c</itemPath>
       <itemPath>main.c</itemPath>
+      <itemPath>grbl/dspic_specific_pwm.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -127,9 +142,9 @@
         <targetDevice>dsPIC33CH128MP508</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>ICD4Tool</platformTool>
+        <platformTool>PKOBSKDEPlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.40</languageToolchainVersion>
+        <languageToolchainVersion>1.41</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
@@ -343,6 +358,8 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-7eff"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/projects/grbl-dsPIC/debug/default/default_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.ledbrightness" value="5"/>
@@ -369,6 +386,7 @@
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="memories.configurationmemory" value="true"/>
         <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="true"/>

@@ -76,8 +76,8 @@ void PIN_MANAGER_Initialize (void)
      * Setting the GPIO Direction SFR(s)
      ***************************************************************************/
     TRISA = 0x001F;
-    TRISB = 0xBFFD;
-    TRISC = 0xF7FF;
+    TRISB = 0x03FD;
+    TRISC = 0x97FF;
     TRISD = 0xFFFD;
     TRISE = 0xFFFF;
 
@@ -120,14 +120,15 @@ void PIN_MANAGER_Initialize (void)
 
     RPOR13bits.RP59R = 0x0001;    //RC11->UART1:U1TX
     RPINR18bits.U1RXR = 0x003A;    //RC10->UART1:U1RX
-    RPOR7bits.RP46R = 0x000F;    //RB14->SCCP1:OCM1
 #ifdef BLUETOOTH_SERIAL_SHARE_TX
     RPOR16bits.RP65R = 0x0001;    //RD1->UART1:U1TX
 #else
     RPOR16bits.RP65R = 0x0003;    //RD1->UART2:U2TX
 #endif
     RPINR19bits.U2RXR = 0x0040;    //RD0->UART2:U2RX
-
+    RPOR15bits.RP62R = 0x0012;    //RC14->SCCP4:OCM4
+    RPOR14bits.RP61R = 0x000F;    //RC13->SCCP1:OCM1
+    
     __builtin_write_RPCON(0x0800); // lock PPS
 
 }

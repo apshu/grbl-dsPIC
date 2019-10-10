@@ -60,9 +60,15 @@
 #include "sccp1_compare.h"
 #include "sccp2_tmr.h"
 #include "sccp3_compare.h"
+#include "sccp4_compare.h"
+#include "sccp5_compare.h"
+#include "sccp6_compare.h"
+#include "sccp7_compare.h"
+#include "sccp8_compare.h"
 #include "memory/flash.h"
 #include "tmr1.h"
 #include "uart2.h"
+#include "pwm.h"
 
 #ifndef _XTAL_FREQ
 #define _XTAL_FREQ  180000000UL

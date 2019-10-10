@@ -22,7 +22,7 @@
 #define grbl_h
 
 // Grbl versioning system
-#define GRBL_VERSION "1.1g"
+#define GRBL_VERSION "2.0a"
 #define GRBL_VERSION_BUILD "20190730"
 
 // Define standard libraries used by Grbl.
@@ -58,6 +58,7 @@
 #include "jog.h"
 #include "atx.h"
 #include "btserial.h"
+#include "pwm_servo.h"
 
 // ---------------------------------------------------------------------------------------
 // COMPILE-TIME ERROR CHECKING OF DEFINE VALUES:
