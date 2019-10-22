@@ -30,6 +30,8 @@ Grbl includes full acceleration management with look ahead. That means the contr
 ## Update Summary for v2.0a
 - **IMPORTANT:** This update is for dsPIC dual core devices. No ATtiny or Mega compatibility
 
+- New compile-time feture to operate with Bluetooth serial converters. Now the commands may come from the bluetooth (Of wifi) module, and all responses are mirrrored to the main port and the secondary(BT) port. If the BT and main serial port baudrates are the same, you can enable the `BLUETOOTH_SERIAL_SHARE_TX` compile-time option, to use _PPS_ for mirroring UART TX. This frees up CPU resources by utilizing HW to UART TX mirroring.
+
 - New commads `M500`* and `M501`* to store and restore configuration on request. The automatic parameter storage is disabled to minimize NVM storage wear. If you change configuration please don't forget to save with `M500`. At first firmware flashing, the configuration is not automatically saved!
 
 - New command `M119`* to query GPIO state.
