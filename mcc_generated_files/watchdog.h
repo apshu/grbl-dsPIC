@@ -14,7 +14,7 @@
     This header file provides implementations for driver APIs for WATCHDOG.
     Generation Information :
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.125
-        Device            :  dsPIC33CH128MP508
+        Device            :  dsPIC33CH512MP508
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.36B
         MPLAB             :  MPLAB X v5.20

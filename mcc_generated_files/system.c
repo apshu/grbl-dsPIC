@@ -14,7 +14,7 @@
     This header file provides implementations for driver APIs for all modules selected in the GUI.
     Generation Information :
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.125
-        Device            :  dsPIC33CH128MP508
+        Device            :  dsPIC33CH512MP508
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.36B
         MPLAB             :  MPLAB X v5.20
@@ -61,6 +61,7 @@
 #include "tmr1.h"
 #include "uart2.h"
 #include "pwm.h"
+#include "i2c1.h"
 
 void SYSTEM_Initialize(void)
 {
@@ -78,6 +79,7 @@ void SYSTEM_Initialize(void)
     UART1_Initialize();
     PWM_Initialize();
     UART2_Initialize();
+    I2C1_Initialize();
     TMR1_Initialize();
     INTERRUPT_GlobalEnable();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);

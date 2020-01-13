@@ -15,7 +15,7 @@
     This source file provides APIs for driver for TMR1. 
     Generation Information : 
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.125
-        Device            :  dsPIC33CH128MP508
+        Device            :  dsPIC33CH512MP508
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.36B
         MPLAB             :  MPLAB X v5.20
@@ -115,9 +115,6 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _T1Interrupt (  )
     /* Check if the Timer Interrupt/Status is set */
 
     //***User Area Begin
-    tmr1_obj.count++;
-    tmr1_obj.timerElapsed = true;
-    IFS0bits.T1IF = false;
 
     // ticker function call;
     // ticker is 1 -> Callback function gets called everytime this ISR executes
@@ -128,6 +125,9 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _T1Interrupt (  )
 
     //***User Area End
 
+    tmr1_obj.count++;
+    tmr1_obj.timerElapsed = true;
+    IFS0bits.T1IF = false;
 }
 
 void TMR1_Period16BitSet( uint16_t value )

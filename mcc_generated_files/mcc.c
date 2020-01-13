@@ -14,7 +14,7 @@
     This header file provides implementations for driver APIs for all modules selected in the GUI.
     Generation Information :
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.125
-        Device            :  dsPIC33CH128MP508
+        Device            :  dsPIC33CH512MP508
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.36B
         MPLAB             :  MPLAB X v5.20
@@ -65,7 +65,7 @@
 #pragma config POSCMD = EC    //Primary Oscillator Mode Select bits->EC (External Clock) Mode
 #pragma config OSCIOFNC = ON    //OSC2 Pin Function bit->OSC2 is general purpose digital I/O pin
 #pragma config FCKSM = CSECMD    //Clock Switching Mode bits->Clock switching is enabled,Fail-safe Clock Monitor is disabled
-#pragma config PLLKEN = PLLKEN_ON    //PLLKEN->reserved as PLLKEN_ON
+#pragma config PLLKEN = PLLKEN_ON    //PLL Lock Status Control->PLL lock signal will be used to disable PLL clock output if lock is lost
 #pragma config XTCFG = G1    //XT Config->8-16 MHz crystals
 #pragma config XTBST = ENABLE    //XT Boost->Boost the kick-start
 
@@ -77,9 +77,13 @@
 #pragma config SWDTPS = PS1048576    //Sleep Mode Watchdog Timer Post Scaler select bits->1:1048576
 #pragma config FWDTEN = ON_SW    //Watchdog Timer Enable bit->WDT controlled via SW, use WDTCON.ON bit
 
+// FPOR
+#pragma config BISTDIS = DISABLED    //Memory BIST Feature Disable->mBIST on reset feature disabled
+
 // FICD
 #pragma config ICS = PGD2    //ICD Communication Channel Select bits->Communicate on PGC2 and PGD2
 #pragma config JTAGEN = OFF    //JTAG Enable bit->JTAG is disabled
+#pragma config NOBTSWP = OFF    //BOOTSWP instruction disable bit->BOOTSWP instruction is disabled
 
 // FDMTIVTL
 #pragma config DMTIVTL = 0    //Dead Man Timer Interval low word->0
@@ -186,6 +190,13 @@
 #pragma config CPRE13 = MSTR    //Pin RE13 Ownership Bits->Master core owns pin.
 #pragma config CPRE14 = MSTR    //Pin RE14 Ownership Bits->Master core owns pin.
 #pragma config CPRE15 = MSTR    //Pin RE15 Ownership Bits->Master core owns pin.
+
+// FBTSEQ
+#pragma config BSEQ = 4095    //Relative value defining which partition will be active after devie Reset; the partition containing a lower boot number will be active.->4095
+#pragma config IBSEQ = 4095    //The one's complement of BSEQ; must be calculated by the user and written during device programming.->4095
+
+// FBOOT
+#pragma config BTMODE = SINGLE    //Device Boot Mode Configuration->Device is in Single Boot (legacy) mode
 
 #include "mcc.h"
 #include "reset.h"
