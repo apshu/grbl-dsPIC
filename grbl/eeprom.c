@@ -21,8 +21,8 @@
  *                         $Revision: 1.6 $
  *                         $Date: Friday, February 11, 2005 07:16:44 UTC $
  ****************************************************************************/
+#include <xc.h>
 #include <stdint.h>
-#include <p33CH128MP508.h>
 
 #include "grbl.h"
 
