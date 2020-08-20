@@ -29,6 +29,7 @@
         <itemPath>grbl/atx.h</itemPath>
         <itemPath>grbl/btserial.h</itemPath>
         <itemPath>grbl/pwm_servo.h</itemPath>
+        <itemPath>grbl/xgpio.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -94,6 +95,7 @@
         <itemPath>grbl/atx.c</itemPath>
         <itemPath>grbl/btserial.c</itemPath>
         <itemPath>grbl/pwm_servo.c</itemPath>
+        <itemPath>grbl/mcp23017.c</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"

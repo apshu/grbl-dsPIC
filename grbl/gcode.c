@@ -290,6 +290,11 @@ uint8_t gc_execute_line(char *line) {
                                 break;
                         }
                         break;
+#ifdef ENABLE_M6
+                    case 6:
+                        //Tool change command
+                        break;
+#endif
 #ifdef ENABLE_M7
                     case 7: case 8: case 9:
 #else
