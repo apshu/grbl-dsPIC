@@ -463,6 +463,9 @@ void report_build_info(char *line)
   #ifndef FORCE_BUFFER_SYNC_DURING_WCO_CHANGE // NOTE: Shown when disabled.
     serial_write('W');
   #endif
+  #ifdef ENABLE_DUAL_AXIS
+    serial_write('2');
+  #endif
   #ifdef ENABLE_M500_M501
     serial_write('F');
   #endif 
@@ -649,6 +652,38 @@ void report_realtime_status()
   #endif
 
   #ifdef REPORT_FIELD_PIN_STATE
+    uint8_t lim_pin_state = limits_get_state();
+    uint8_t ctrl_pin_state = system_control_get_state();
+    uint8_t prb_pin_state = probe_get_state();
+    if (lim_pin_state | ctrl_pin_state | prb_pin_state) {
+      printPgmString(PSTR("|Pn:"));
+      if (prb_pin_state) { serial_write('P'); }
+      if (lim_pin_state) {
+        #ifdef ENABLE_DUAL_AXIS
+          #if (DUAL_AXIS_SELECT == X_AXIS)
+            if (bit_istrue(lim_pin_state,(bit(X_AXIS)|bit(N_AXIS)))) { serial_write('X'); }
+            if (bit_istrue(lim_pin_state,bit(Y_AXIS))) { serial_write('Y'); }
+          #endif
+          #if (DUAL_AXIS_SELECT == Y_AXIS)
+            if (bit_istrue(lim_pin_state,bit(X_AXIS))) { serial_write('X'); }
+            if (bit_istrue(lim_pin_state,(bit(Y_AXIS)|bit(N_AXIS)))) { serial_write('Y'); }
+          #endif
+          if (bit_istrue(lim_pin_state,bit(Z_AXIS))) { serial_write('Z'); }
+        #else
+          if (bit_istrue(lim_pin_state,bit(X_AXIS))) { serial_write('X'); }
+          if (bit_istrue(lim_pin_state,bit(Y_AXIS))) { serial_write('Y'); }
+          if (bit_istrue(lim_pin_state,bit(Z_AXIS))) { serial_write('Z'); }
+        #endif
+      }
+      if (ctrl_pin_state) {
+        #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
+          if (bit_istrue(ctrl_pin_state,CONTROL_PIN_INDEX_SAFETY_DOOR)) { serial_write('D'); }
+        #endif
+        if (bit_istrue(ctrl_pin_state,CONTROL_PIN_INDEX_RESET)) { serial_write('R'); }
+        if (bit_istrue(ctrl_pin_state,CONTROL_PIN_INDEX_FEED_HOLD)) { serial_write('H'); }
+        if (bit_istrue(ctrl_pin_state,CONTROL_PIN_INDEX_CYCLE_START)) { serial_write('S'); }
+      }
+    }
     report_field_pin_state();
   #endif
 

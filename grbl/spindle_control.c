@@ -28,65 +28,60 @@ static float pwm_gradient; // Precalulated value to speed up rpm to PWM conversi
 
 void spindle_init() {
 #ifdef VARIABLE_SPINDLE
-
     // Configure variable spindle PWM and enable pin, if requried. On the Uno, PWM and enable are
     // combined unless configured otherwise.
     PWM_SPINDLE_init();
 #ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
     GPIO_confOutput(SPINDLE_ENABLE_PORT, 1U << SPINDLE_ENABLE_BIT); // Configure as output pin.
 #else
-    GPIO_confOutput(SPINDLE_DIRECTION_PORT, 1U << SPINDLE_DIRECTION_BIT); // Configure as output pin.
-#endif
-
+      #ifndef ENABLE_DUAL_AXIS
+      GPIO_confOutput(SPINDLE_DIRECTION_PORT, 1U << SPINDLE_DIRECTION_BIT); // Configure as output pin.
+      #endif
+    #endif
     pwm_gradient = SPINDLE_PWM_RANGE / (settings.rpm_max - settings.rpm_min);
-
 #else
-
-    // Configure no variable spindle and only enable pin.
-    GPIO_confOutput(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT); // Configure as output pin.
-    GPIO_confOutput(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT); // Configure as output pin.
-
-#endif
+    SPINDLE_ENABLE_DDR |= (1<<SPINDLE_ENABLE_BIT); // Configure as output pin.
+    #ifndef ENABLE_DUAL_AXIS
+          GPIO_confOutput(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT); // Configure as output pin.
+    #endif
+  #endif
 
     spindle_stop();
 }
 
 uint8_t spindle_get_state() {
-#ifdef VARIABLE_SPINDLE
-#ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
-    // No spindle direction output pin. 
-#ifdef INVERT_SPINDLE_ENABLE_PIN
-    if (bit_isfalse(GPIO_readStored(SPINDLE_ENABLE_PORT), (1 << SPINDLE_ENABLE_BIT))) {
-        return (SPINDLE_STATE_CW);
-    }
-#else
-    if (bit_istrue(GPIO_readStored(SPINDLE_ENABLE_PORT), (1 << SPINDLE_ENABLE_BIT))) {
-        return (SPINDLE_STATE_CW);
-    }
-#endif
-#else
+  #ifdef VARIABLE_SPINDLE
+    #ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
+      // No spindle direction output pin. 
+      #ifdef INVERT_SPINDLE_ENABLE_PIN
+    if (bit_isfalse(GPIO_readStored(SPINDLE_ENABLE_PORT), (1 << SPINDLE_ENABLE_BIT))) { return (SPINDLE_STATE_CW); }
+      #else
+        if (bit_istrue(GPIO_readStored(SPINDLE_ENABLE_PORT), (1 << SPINDLE_ENABLE_BIT))) { return (SPINDLE_STATE_CW); }
+      #endif
+    #else
     if (PWM_SPINDLE_isEnabled()) { // Check if PWM is enabled.
-        if (GPIO_readStored(SPINDLE_DIRECTION_PORT) & (1 << SPINDLE_DIRECTION_BIT)) {
-            return (SPINDLE_STATE_CCW);
-        } else {
-            return (SPINDLE_STATE_CW);
-        }
+      #ifdef ENABLE_DUAL_AXIS
+        return(SPINDLE_STATE_CW);
+      #else
+        if (GPIO_readStored(SPINDLE_DIRECTION_PORT) & (1 << SPINDLE_DIRECTION_BIT)) { return (SPINDLE_STATE_CCW); }
+        else { return (SPINDLE_STATE_CW); }
+      #endif
     }
-#endif
-#else
-#ifdef INVERT_SPINDLE_ENABLE_PIN
+    #endif
+  #else
+    #ifdef INVERT_SPINDLE_ENABLE_PIN
     if (bit_isfalse(GPIO_readStored(SPINDLE_ENABLE_PORT), (1 << SPINDLE_ENABLE_BIT))) {
-#else
+    #else
     if (bit_istrue(GPIO_readStored(SPINDLE_ENABLE_PORT), (1 << SPINDLE_ENABLE_BIT))) {
-#endif
-        if (GPIO_readStored(SPINDLE_DIRECTION_PORT) & (1 << SPINDLE_DIRECTION_BIT)) {
-            return (SPINDLE_STATE_CCW);
-        } else {
-            return (SPINDLE_STATE_CW);
-        }
-    }
-#endif
-    return (SPINDLE_STATE_DISABLE);
+    #endif
+      #ifdef ENABLE_DUAL_AXIS    
+        return(SPINDLE_STATE_CW);
+      #else
+        if (GPIO_readStored(SPINDLE_DIRECTION_PORT) & (1 << SPINDLE_DIRECTION_BIT)) { return (SPINDLE_STATE_CCW); }
+        else { return (SPINDLE_STATE_CW); }
+      #endif    }
+  #endif
+  return(SPINDLE_STATE_DISABLE);
 }
 
 
@@ -232,6 +227,7 @@ void _spindle_set_state(uint8_t state)
     if (sys.abort) {
         return;
     } // Block during abort.
+
     if (state == SPINDLE_DISABLE) { // Halt or set spindle direction and rpm.
 
 #ifdef VARIABLE_SPINDLE
@@ -240,8 +236,8 @@ void _spindle_set_state(uint8_t state)
         spindle_stop();
 
     } else {
-
-#ifndef USE_SPINDLE_DIR_AS_ENABLE_PIN
+    
+    #if !defined(USE_SPINDLE_DIR_AS_ENABLE_PIN) && !defined(ENABLE_DUAL_AXIS)
         if (state == SPINDLE_ENABLE_CW) {
             GPIO_setLow(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT);
         } else {
