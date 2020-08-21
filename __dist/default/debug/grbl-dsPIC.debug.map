@@ -13,7 +13,7 @@ Command:
   -TC:\\Users\\m91541\\AppData\\Local\\Temp\\tmp00002b10.06 \
   -p33CH128MP508 \
   -o \
-  dist/default/debug/grbl-dsPIC.debug.elf \
+  dist/default/debug/grbl-DualCore.debug.elf \
   -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/.. \
   -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib \
   -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/PIC24E/gld \
@@ -67,7 +67,7 @@ Command:
   --stackguard=16 \
   --no-force-link \
   --smart-io \
-  -Map=dist/default/debug/grbl-dsPIC.debug.map \
+  -Map=dist/default/debug/grbl-DualCore.debug.map \
   --report-mem \
   --memorysummary \
   dist/default/debug/memoryfile.xml \
@@ -4545,7 +4545,7 @@ LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30
 LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
-OUTPUT(dist/default/debug/grbl-dsPIC.debug.elf elf32-pic30)
+OUTPUT(dist/default/debug/grbl-DualCore.debug.elf elf32-pic30)
 LOAD /CW/_FSEC
 LOAD jump_table
 LOAD default_isr

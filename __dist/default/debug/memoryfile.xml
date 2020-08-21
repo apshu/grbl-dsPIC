@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/default/debug/grbl-dsPIC.debug.elf">
+  <executable name="dist/default/debug/grbl-DualCore.debug.elf">
     <memory name="data">
       <units>bytes</units>
       <length>16384</length>

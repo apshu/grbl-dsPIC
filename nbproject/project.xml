@@ -3,7 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>grbl-dsPIC</name>
+            <name>grbl-DualCore</name>
             <creation-uuid>50228433-cb52-46fe-93aa-a1025104b43e</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
