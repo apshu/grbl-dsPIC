@@ -16,7 +16,7 @@
     This source file provides implementations for PIN MANAGER.
     Generation Information :
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.125
-        Device            :  dsPIC33CH128MP508
+        Device            :  dsPIC33CH512MP506
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.36B
         MPLAB 	          :  MPLAB X v5.20
@@ -70,16 +70,14 @@ void PIN_MANAGER_Initialize (void)
     LATB = 0x0000;
     LATC = 0x0800;
     LATD = 0x0002;
-    LATE = 0x0000;
 
     /****************************************************************************
      * Setting the GPIO Direction SFR(s)
      ***************************************************************************/
     TRISA = 0x001F;
-    TRISB = 0x03FD;
-    TRISC = 0x97FF;
-    TRISD = 0xFFFD;
-    TRISE = 0xFFFF;
+    TRISB = 0xFFFD;
+    TRISC = 0xFFF7;
+    TRISD = 0xFFE7;
 
     /****************************************************************************
      * Setting the Weak Pull Up and Weak Pull Down SFR(s)
@@ -88,12 +86,10 @@ void PIN_MANAGER_Initialize (void)
     CNPDB = 0x0000;
     CNPDC = 0x0000;
     CNPDD = 0x0000;
-    CNPDE = 0x0000;
     CNPUA = 0x0000;
-    CNPUB = 0x0000;
+    CNPUB = 0x4000;
     CNPUC = 0x0400;
-    CNPUD = 0x0000;
-    CNPUE = 0x0000;
+    CNPUD = 0x0004;
 
     /****************************************************************************
      * Setting the Open Drain SFR(s)
@@ -102,13 +98,12 @@ void PIN_MANAGER_Initialize (void)
     ODCB = 0x0000;
     ODCC = 0x0000;
     ODCD = 0x0000;
-    ODCE = 0x0000;
 
     /****************************************************************************
      * Setting the Analog/Digital Configuration SFR(s)
      ***************************************************************************/
     ANSELA = 0x001F;
-    ANSELB = 0x0084;
+    ANSELB = 0x039D;
     ANSELC = 0x00CF;
     ANSELD = 0x7C00;
 
@@ -118,17 +113,16 @@ void PIN_MANAGER_Initialize (void)
      ***************************************************************************/
     __builtin_write_RPCON(0x0000); // unlock PPS
 
-    RPOR13bits.RP59R = 0x0001;    //RC11->UART1:U1TX
-    RPINR18bits.U1RXR = 0x003A;    //RC10->UART1:U1RX
-#ifdef BLUETOOTH_SERIAL_SHARE_TX
-    RPOR16bits.RP65R = 0x0001;    //RD1->UART1:U1TX
-#else
-    RPOR16bits.RP65R = 0x0003;    //RD1->UART2:U2TX
-#endif
-    RPINR19bits.U2RXR = 0x0040;    //RD0->UART2:U2RX
-    RPOR15bits.RP62R = 0x0012;    //RC14->SCCP4:OCM4
-    RPOR14bits.RP61R = 0x000F;    //RC13->SCCP1:OCM1
+    RPINR19bits.U2RXR = 0x0042;    //RD2->UART2:U2RX
+    RPOR18bits.RP68R = 0x0012;    //RD4->SCCP4:OCM4
+    RPINR18bits.U1RXR = 0x002E;    //RB14->UART1:U1RX
+    RPOR17bits.RP67R = 0x0001;    //RD3->UART1:U1TX
+    RPOR9bits.RP51R = 0x000F;    //RC3->SCCP1:OCM1
     
+#ifndef BLUETOOTH_SERIAL_SHARE_TX
+#error "This PCB is designed for shared UART TX"
+#endif
+
     __builtin_write_RPCON(0x0800); // lock PPS
 
 }

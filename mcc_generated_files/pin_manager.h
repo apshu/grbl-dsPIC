@@ -16,7 +16,7 @@
     This source file provides implementations for PIN MANAGER.
     Generation Information :
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.125
-        Device            :  dsPIC33CH512MP508
+        Device            :  dsPIC33CH512MP506
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.36B
         MPLAB 	          :  MPLAB X v5.20
@@ -60,7 +60,7 @@
 */
 /**
   @Summary
-    Configures the pin settings of the dsPIC33CH512MP508
+    Configures the pin settings of the dsPIC33CH512MP506
     The peripheral pin select, PPS, configuration is also handled by this manager.
 
   @Description

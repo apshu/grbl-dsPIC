@@ -14,7 +14,7 @@
     This header file provides implementations for driver APIs for all modules selected in the GUI.
     Generation Information :
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.125
-        Device            :  dsPIC33CH512MP508
+        Device            :  dsPIC33CH512MP506
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.36B
         MPLAB             :  MPLAB X v5.20
@@ -60,7 +60,6 @@
 #include "memory/flash.h"
 #include "tmr1.h"
 #include "uart2.h"
-#include "pwm.h"
 #include "i2c1.h"
 
 void SYSTEM_Initialize(void)
@@ -77,7 +76,6 @@ void SYSTEM_Initialize(void)
     SCCP7_COMPARE_Initialize();
     SCCP8_COMPARE_Initialize();
     UART1_Initialize();
-    PWM_Initialize();
     UART2_Initialize();
     I2C1_Initialize();
     TMR1_Initialize();

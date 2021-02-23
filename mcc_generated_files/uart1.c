@@ -14,7 +14,7 @@
     This source file provides APIs for driver for UART1. 
     Generation Information : 
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.125
-        Device            :  dsPIC33CH128MP508
+        Device            :  dsPIC33CH512MP506
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.36B
         MPLAB             :  MPLAB X v5.20
@@ -147,7 +147,6 @@ void UART1_Initialize(void)
     U1MODEbits.UARTEN = 1;   // enabling UART ON bit
     U1MODEbits.UTXEN = 1;
     U1MODEbits.URXEN = 1;
-    IEC3bits.U1EIE = 1;   //Enable overrun error handling
 }
 
 /**

@@ -14,7 +14,7 @@
     This source file provides APIs for driver for UART2. 
     Generation Information : 
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.125
-        Device            :  dsPIC33CH512MP508
+        Device            :  dsPIC33CH512MP506
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.36B
         MPLAB             :  MPLAB X v5.20
@@ -147,7 +147,6 @@ void UART2_Initialize(void)
     U2MODEbits.UARTEN = 1;   // enabling UART ON bit
     U2MODEbits.UTXEN = 1;
     U2MODEbits.URXEN = 1;
-    IEC3bits.U2EIE = 1;   //Enable overrun error handling
 }
 
 /**

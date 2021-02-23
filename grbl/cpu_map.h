@@ -116,7 +116,7 @@
 
   // Define user-control controls (cycle start, reset, feed hold) input pins.
   // NOTE: All CONTROLs pins must be on the same port
-  #define CONTROL_PORT              E
+  #define CONTROL_PORT              D
   #define CONTROL_RESET_BIT         7  // Uno Analog Pin 0
   #define CONTROL_FEED_HOLD_BIT     8  // Uno Analog Pin 1
   #define CONTROL_CYCLE_START_BIT   9  // Uno Analog Pin 2
@@ -151,7 +151,7 @@
 #define ATX_POWER_ON_PORT C
 #define ATX_POWER_ON_BIT  6
 #define ATX_POWER_ON_MASK  (1<<ATX_POWER_ON_BIT)
-#define ATX_POWER_PGOOD_PORT E
+#define ATX_POWER_PGOOD_PORT D
 #define ATX_POWER_PGOOD_BIT  2
 #define ATX_POWER_PGOOD_MASK  (1<<ATX_POWER_PGOOD_BIT)
 
