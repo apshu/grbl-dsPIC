@@ -3,7 +3,10 @@
 *.elf
 *.DS_Store
 *.d
+*.pdf
+*.bak
 
 README.md
 /datasheet
 /nbproject/private
+.generated_files
