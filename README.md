@@ -1,4 +1,5 @@
-![GitHub Logo](https://github.com/gnea/gnea-Media/blob/master/Grbl%20Logo/Grbl%20Logo%20250px.png?raw=true)
+![GRBL Logo](https://github.com/gnea/gnea-Media/blob/master/Grbl%20Logo/Grbl%20Logo%20250px.png?raw=true)
+![PCB photo](doc/grbl35_v1_small.png?raw=true)
 
 ***
 _Click the `Release` tab to download pre-compiled `.hex` files or just [click here](https://github.com/apshu/grbl-DualCore/releases)_
