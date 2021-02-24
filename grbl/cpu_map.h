@@ -72,8 +72,12 @@
   #define STEP_Y_PIN                   12    //Physical MCU port/pin
   #define STEP_Z_PORT                  A     //Physical MCU port/pin
   #define STEP_Z_PIN                   1     //Physical MCU port/pin
+#ifdef ENABLE_DUAL_AXIS
+  #define STEP_DUAL_PORT               D     //Physical MCU port/pin
+  #define STEP_DUAL_PIN                13    //Physical MCU port/pin
+#endif
 
-  // Define step direction output pins. NOTE: All direction pins must be on the same port.
+    // Define step direction output pins. NOTE: All direction pins must be on the same port.
   #define DIRECTION_PORT               VIRTUAL
   #define X_DIRECTION_BIT              X_AXIS  
   #define Y_DIRECTION_BIT              Y_AXIS  
@@ -86,6 +90,10 @@
   #define DIRECTION_Y_PIN              15  //Physical MCU port/pin    
   #define DIRECTION_Z_PORT             A   //Physical MCU port/pin    
   #define DIRECTION_Z_PIN              0   //Physical MCU port/pin    
+#ifdef ENABLE_DUAL_AXIS
+  #define DIRECTION_DUAL_PORT          D   //Physical MCU port/pin    
+  #define DIRECTION_DUAL_PIN           14  //Physical MCU port/pin    
+#endif
 
   // Define stepper driver enable/disable output pin.
   #define STEPPERS_DISABLE_PORT        C   //Physical MCU port/pin
@@ -100,7 +108,12 @@
   #define X_LIMIT_BIT                  X_AXIS
   #define Y_LIMIT_BIT                  Y_AXIS
   #define Z_LIMIT_BIT	               Z_AXIS
+#ifdef ENABLE_DUAL_AXIS
+  #define DUAL_LIMIT_BIT               DUAL_AXIS
+  #define LIMIT_MASK                   ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT)|(1<<DUAL_LIMIT_BIT)) // All limit bits
+#else
   #define LIMIT_MASK                   ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT)) // All limit bits
+#endif
   
   #define LIMIT_X_PORT                 C   //Physical MCU port/pin
   #define LIMIT_X_PIN                  13  //Physical MCU port/pin
@@ -108,6 +121,10 @@
   #define LIMIT_Y_PIN                  15  //Physical MCU port/pin
   #define LIMIT_Z_PORT                 A   //Physical MCU port/pin
   #define LIMIT_Z_PIN                  2   //Physical MCU port/pin
+#ifdef ENABLE_DUAL_AXIS
+  #define LIMIT_DUAL_PORT              C   //Physical MCU port/pin
+  #define LIMIT_DUAL_PIN               0   //Physical MCU port/pin
+#endif
 
   #define TIMER_10ms_TIMER TMR1
 
