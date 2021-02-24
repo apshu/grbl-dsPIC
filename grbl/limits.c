@@ -40,18 +40,121 @@
 
 void limits_init()
 {
-  GPIO_confInput(LIMIT_PORT, LIMIT_MASK); // Set as input pins
+#if N_AXIS > 6
+#error "Add input settings for higher number of axis"
+#endif
 
-  #ifdef DISABLE_LIMIT_PIN_PULL_UP
-    GPIO_pullupDisable(LIMIT_PORT, LIMIT_MASK);  // Normal low operation. Requires external pull-down.
-  #else
-    GPIO_pullupEnable(LIMIT_PORT, LIMIT_MASK);  // Enable internal pull-up resistors. Normal high operation.
-  #endif
+    //Configure Limit pins to digital input
+#define AXIS_COMMANDS(axis_name) GPIO_confInputPin(_prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN));  // Set as input pins
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+#ifdef LIMIT_DUAL_PORT
+    AXIS_COMMANDS(DUAL)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
+    
+    //Configure Limit pins pull-up or pull-down operation
+#ifdef DISABLE_LIMIT_PIN_PULL_UP
+#define AXIS_COMMANDS(axis_name) GPIO_pulldownEnablePin(_prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN));  // Enable internal pull-down resistors. Normal low operation.
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+#ifdef LIMIT_DUAL_PORT
+    AXIS_COMMANDS(DUAL)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
+#else
+#define AXIS_COMMANDS(axis_name) GPIO_pullupEnablePin(_prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN));  // Enable internal pull-up resistors. Normal high operation.
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+#ifdef LIMIT_DUAL_PORT
+    AXIS_COMMANDS(DUAL)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
+#endif
 
+  //Enable/disable pin change notification for the Limit pins
   if (bit_istrue(settings.flags,BITFLAG_HARD_LIMIT_ENABLE)) {
-      GPIO_pinchgNotifyEnable(LIMIT_PORT, LIMIT_MASK);
+#define AXIS_COMMANDS(axis_name) GPIO_pinchgNotifyEnable(_prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN));  // Enable pin change notification for the pin
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+#ifdef LIMIT_DUAL_PORT
+    AXIS_COMMANDS(DUAL)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
   } else {
-    limits_disable();
+      limits_disable();
   }
 
   #ifdef ENABLE_SOFTWARE_DEBOUNCE
@@ -63,7 +166,31 @@ void limits_init()
 // Disables hard limits.
 void limits_disable()
 {
-    GPIO_pinchgNotifyDisable(LIMIT_PORT, LIMIT_MASK);  // Disable Pin Change Interrupt
+#define AXIS_COMMANDS(axis_name) GPIO_pinchgNotifyDisable(_prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN));  // Disable pin change notification for the pin
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+#ifdef LIMIT_DUAL_PORT
+    AXIS_COMMANDS(DUAL)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
 }
 
 
@@ -72,21 +199,37 @@ void limits_disable()
 // number in bit position, i.e. Z_AXIS is (1<<2) or bit 2, and Y_AXIS is (1<<1) or bit 1.
 gpioport_t limits_get_state()
 {
-  gpioport_t limit_state = 0;
-  gpioport_t pin = GPIO_readLive(LIMIT_PORT) & LIMIT_MASK;
+  gpioport_t limit_state = 0 
+#define AXIS_COMMANDS(axis_name) | (GPIO_readLivePin(_prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN)) ? (1 << _pre(axis_name,_AXIS)) : 0) //Include pin state
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+#ifdef LIMIT_DUAL_PORT
+    AXIS_COMMANDS(DUAL)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
+          ;
   #ifdef INVERT_LIMIT_PIN_MASK
-    pin ^= INVERT_LIMIT_PIN_MASK;
+    limit_state ^= INVERT_LIMIT_PIN_MASK;
   #endif
-  if (bit_isfalse(settings.flags,BITFLAG_INVERT_LIMIT_PINS)) { pin ^= LIMIT_MASK; }
-  if (pin) {
-    uint8_t idx;
-    for (idx=0; idx<N_AXIS; idx++) {
-      if (pin & get_limit_pin_mask(idx)) { limit_state |= (1 << idx); }
-    }
-    #ifdef ENABLE_DUAL_AXIS
-      if (pin & (1<<DUAL_LIMIT_BIT)) { limit_state |= (1 << N_AXIS); }
-    #endif
-  }
+  if (bit_isfalse(settings.flags,BITFLAG_INVERT_LIMIT_PINS)) { limit_state ^= LIMIT_MASK; }
   return(limit_state);
 }
 
