@@ -700,6 +700,12 @@
 /* The M119 command displays GPIO status. Accepts no parameters. */
 #define ENABLE_M119                   // Default disabled. Uncomment to enable
 
+/* Manual spindle speed control
+ * If enabled a defined Analog input is used to override Spindle speed.
+ * Only PWM is overridden, spindle enable and direction are not overridden.
+ */
+#define ENABLE_SPINDLE_MANUAL_OVERRIDE
+
 /* ATX power supply control. 
  * M80 command turns on the ATX power supply
  * and M81 command turns off the ATX power supply
