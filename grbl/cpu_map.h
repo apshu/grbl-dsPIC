@@ -64,7 +64,12 @@
   #define X_STEP_BIT                   X_AXIS
   #define Y_STEP_BIT                   Y_AXIS
   #define Z_STEP_BIT                   Z_AXIS
+#ifdef ENABLE_DUAL_AXIS
+  #define DUAL_STEP_BIT                DUAL_AXIS
+  #define STEP_MASK                    ((1<<X_STEP_BIT)|(1<<Y_STEP_BIT)|(1<<Z_STEP_BIT)|(1<<DUAL_STEP_BIT)) // All step bits
+#else
   #define STEP_MASK                    ((1<<X_STEP_BIT)|(1<<Y_STEP_BIT)|(1<<Z_STEP_BIT)) // All step bits
+#endif
 
   #define STEP_X_PORT                  B     //Physical MCU port/pin
   #define STEP_X_PIN                   13    //Physical MCU port/pin
@@ -82,7 +87,12 @@
   #define X_DIRECTION_BIT              X_AXIS  
   #define Y_DIRECTION_BIT              Y_AXIS  
   #define Z_DIRECTION_BIT              Z_AXIS  
+#ifdef ENABLE_DUAL_AXIS
+  #define DUAL_DIRECTION_BIT           DUAL_AXIS
+  #define DIRECTION_MASK               ((1<<X_DIRECTION_BIT)|(1<<Y_DIRECTION_BIT)|(1<<Z_DIRECTION_BIT)|(1<<DUAL_DIRECTION_BIT)) // All direction bits
+#else
   #define DIRECTION_MASK               ((1<<X_DIRECTION_BIT)|(1<<Y_DIRECTION_BIT)|(1<<Z_DIRECTION_BIT)) // All direction bits
+#endif
 
   #define DIRECTION_X_PORT             B   //Physical MCU port/pin    
   #define DIRECTION_X_PIN              12  //Physical MCU port/pin    
@@ -157,8 +167,13 @@
   #define CONTROL_RESET_BIT            0
   #define CONTROL_FEED_HOLD_BIT        1
   #define CONTROL_CYCLE_START_BIT      2
+#ifdef ENABLE_SPINDLE_MANUAL_OVERRIDE
+  #define CONTROL_MANUAL_PWM_BIT       3   
+  #define CONTROL_MASK                 ((1<<CONTROL_RESET_BIT)|(1<<CONTROL_FEED_HOLD_BIT)|(1<<CONTROL_CYCLE_START_BIT)|(1<<CONTROL_MANUAL_PWM_BIT))
+#else
   #define CONTROL_MASK                 ((1<<CONTROL_RESET_BIT)|(1<<CONTROL_FEED_HOLD_BIT)|(1<<CONTROL_CYCLE_START_BIT))
-  #define CONTROL_INVERT_MASK          CONTROL_MASK // May be re-defined to only invert certain control pins.
+#endif
+  #define INVERT_CONTROL_PIN_MASK      CONTROL_MASK // May be re-defined to only invert certain control pins.
 
   #define CONTROL_RESET_PORT           B   //Physical MCU port/pin
   #define CONTROL_RESET_PIN            6   //Physical MCU port/pin
@@ -166,6 +181,17 @@
   #define CONTROL_FEED_HOLD_PIN        5   //Physical MCU port/pin
   #define CONTROL_CYCLE_START_PORT     D   //Physical MCU port/pin
   #define CONTROL_CYCLE_START_PIN      12  //Physical MCU port/pin
+
+#ifdef ENABLE_SPINDLE_MANUAL_OVERRIDE
+  #define SPINDLE_MANUAL_PWM_RATIO     (0.5) // 1.0 = PWM duty cycle = 100%, 0.5 = PWM duty cycle = 50%, 0.0 = PWM duty cycle = 0% 
+  #define CONTROL_MANUAL_PWM_PORT      C   //Physical MCU port/pin
+  #define CONTROL_MANUAL_PWM_PIN       6   //Physical MCU port/pin
+  #define LED_MANUAL_PWM_PORT          C   //Physical MCU port/pin
+  #define LED_MANUAL_PWM_PIN           1   //Physical MCU port/pin
+  #define LED_MANUAL_PWM_ON()          do { } while(0)
+  #define LED_MANUAL_PWM_BLINK()       do { } while(0)
+  #define LED_MANUAL_PWM_OFF()         do { } while(0)
+#endif
 
   // Define probe switch input pin.
   #define PROBE_PORT                   B   //Physical MCU port/pin
@@ -203,16 +229,6 @@
   //#define ATX_IS_ON()                  (bit_istrue(GPIO_readLive(ATX_POWER_PGOOD_PORT), ATX_POWER_PGOOD_MASK))    
 #endif
     
-#ifdef ENABLE_SPINDLE_MANUAL_OVERRIDE
-  #define SPINDLE_MANUAL_PWM_RATIO     (0.5) // 1.0 = PWM duty cycle = 100%, 0.5 = PWM duty cycle = 50%, 0.0 = PWM duty cycle = 0% 
-  #define CONTROL_MANUAL_PWM_PORT      C   //Physical MCU port/pin
-  #define CONTROL_MANUAL_PWM_PIN       6   //Physical MCU port/pin
-  #define LED_MANUAL_PWM_PORT          C   //Physical MCU port/pin
-  #define LED_MANUAL_PWM_PIN           1   //Physical MCU port/pin
-  #define LED_MANUAL_PWM_ON()
-  #define LED_MANUAL_PWM_OFF()
-#endif
-
   #define LASER_ENABLE_PORT            D   //Physical MCU port/pin
   #define LASER_ENABLE_PIN             10  //Physical MCU port/pin
 
