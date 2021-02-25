@@ -156,10 +156,10 @@
   #endif
 
   // Define flood and mist coolant enable output pins.
-  #define COOLANT_FLOOD_PORT           C   //Physical MCU port/pin
-  #define COOLANT_FLOOD_BIT            7   //Physical MCU port/pin
-  #define COOLANT_MIST_PORT            D   //Physical MCU port/pin
-  #define COOLANT_MIST_BIT             11  //Physical MCU port/pin
+  #define COOLANT_FLOOD_PORT           D   //Physical MCU port/pin
+  #define COOLANT_FLOOD_BIT            11  //Physical MCU port/pin
+  #define COOLANT_MIST_PORT            C   //Physical MCU port/pin
+  #define COOLANT_MIST_BIT             7   //Physical MCU port/pin
 
   // Define user-control controls (cycle start, reset, feed hold) input pins.
   // NOTE: All CONTROLs pins must be on the same port
@@ -220,6 +220,10 @@
   #define ATX_POWER_ON_PORT            D   //Physical MCU port/pin
   #define ATX_POWER_ON_BIT             15  //Physical MCU port/pin
   #define ATX_POWER_ON_MASK            (1<<ATX_POWER_ON_BIT)
+  #define ATX_POWER_BTN_PORT           A   //Physical MCU port/pin
+  #define ATX_POWER_BTN_PIN            3   //Physical MCU port/pin
+  #define ATX_LED_PORT                 A   //Physical MCU port/pin
+  #define ATX_LED_PIN                  4   //Physical MCU port/pin
   //#define ATX_POWER_PGOOD_PORT         D   //Physical MCU port/pin
   //#define ATX_POWER_PGOOD_BIT          2   //Physical MCU port/pin
   //#define ATX_POWER_PGOOD_MASK         (1<<ATX_POWER_PGOOD_BIT)
