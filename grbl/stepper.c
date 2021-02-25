@@ -320,9 +320,30 @@ ISR(TIMER1_COMPA_vect)
   if (busy) { return; } // The busy-flag is used to avoid reentering this interrupt
 
   // Set the direction pins a couple of nanoseconds before we step the steppers
-  GPIO_setTo(DIRECTION_PORT, (GPIO_readStored( DIRECTION_PORT) & ~DIRECTION_MASK) | (st.dir_outbits & DIRECTION_MASK));
+#define AXIS_COMMANDS(axis_name) GPIO_setPinTo(_prepost(DIRECTION_,axis_name,_PORT), _prepost(DIRECTION_,axis_name,_PIN), st.dir_outbits & (1 << _post(axis_name,_DIRECTION_BIT)));
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
   #ifdef ENABLE_DUAL_AXIS
-    DIRECTION_PORT_DUAL = (DIRECTION_PORT_DUAL & ~DIRECTION_MASK_DUAL) | (st.dir_outbits_dual & DIRECTION_MASK_DUAL);
+    GPIO_setPinTo(DIRECTION_DUAL_PORT, DIRECTION_DUAL_PIN, st.dir_outbits_dual & (1 << DUAL_DIRECTION_BIT));
   #endif
 
   // Then pulse the stepping pins
@@ -332,9 +353,30 @@ ISR(TIMER1_COMPA_vect)
       st.step_bits_dual = (STEP_PORT_DUAL & ~STEP_MASK_DUAL) | st.step_outbits_dual;
     #endif
   #else  // Normal operation
-    GPIO_setTo(STEP_PORT,  (GPIO_readStored(STEP_PORT) & ~STEP_MASK) | st.step_outbits);
-    #ifdef ENABLE_DUAL_AXIS
-      STEP_PORT_DUAL = (STEP_PORT_DUAL & ~STEP_MASK_DUAL) | st.step_outbits_dual;
+#define AXIS_COMMANDS(axis_name) GPIO_setPinTo(_prepost(STEP_,axis_name,_PORT), _prepost(STEP_,axis_name,_PIN), st.step_outbits & (1 << _post(axis_name,_STEP_BIT)));
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
+  #ifdef ENABLE_DUAL_AXIS
+    GPIO_setPinTo(STEP_DUAL_PORT, STEP_DUAL_PIN, st.step_outbits_dual & (1 << DUAL_STEP_BIT));
   #endif
   #endif
 
@@ -491,9 +533,30 @@ ISR(TIMER1_COMPA_vect)
 ISR(TIMER0_OVF_vect)
 {
   // Reset stepping pins (leave the direction pins)
-  GPIO_setTo(STEP_PORT, (GPIO_readStored(STEP_PORT) & ~STEP_MASK) | (step_port_invert_mask & STEP_MASK));
+#define AXIS_COMMANDS(axis_name) GPIO_setPinTo(_prepost(STEP_,axis_name,_PORT), _prepost(STEP_,axis_name,_PIN), step_port_invert_mask & (1 << _post(axis_name,_STEP_BIT)));
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
   #ifdef ENABLE_DUAL_AXIS
-      GPIO_setTo(STEP_PORT_DUAL, (GPIO_readStored(STEP_PORT_DUAL) & ~STEP_MASK_DUAL) | (step_port_invert_mask_dual & STEP_MASK_DUAL)); //STEP_PORT_DUAL = (STEP_PORT_DUAL & ~STEP_MASK_DUAL) | (step_port_invert_mask_dual & STEP_MASK_DUAL);
+    GPIO_setPinTo(STEP_DUAL_PORT, STEP_DUAL_PIN, step_port_invert_mask_dual & (1 << DUAL_STEP_BIT));
   #endif
   TIMER0_stopCounting(); // Disable Timer0 to prevent re-entering this interrupt when it's not needed.
 }
@@ -553,13 +616,34 @@ void st_reset()
   st.dir_outbits = dir_port_invert_mask; // Initialize direction bits to default.
 
   // Initialize step and direction port pins.
-  GPIO_setTo(STEP_PORT, (GPIO_readStored(STEP_PORT) & ~STEP_MASK) | step_port_invert_mask);
-  GPIO_setTo(DIRECTION_PORT, (GPIO_readStored(DIRECTION_PORT) & ~DIRECTION_MASK) | dir_port_invert_mask);
-  
+#define AXIS_COMMANDS(axis_name) GPIO_setPinTo(_prepost(STEP_,axis_name,_PORT), _prepost(STEP_,axis_name,_PIN), step_port_invert_mask & (1 << _post(axis_name,_STEP_BIT))); \
+                                 GPIO_setPinTo(_prepost(DIRECTION_,axis_name,_PORT), _prepost(DIRECTION_,axis_name,_PIN), dir_port_invert_mask & (1 << _post(axis_name,_DIRECTION_BIT)));
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
+
   #ifdef ENABLE_DUAL_AXIS
     st.dir_outbits_dual = dir_port_invert_mask_dual;
-    STEP_PORT_DUAL = (STEP_PORT_DUAL & ~STEP_MASK_DUAL) | step_port_invert_mask_dual;
-    DIRECTION_PORT_DUAL = (DIRECTION_PORT_DUAL & ~DIRECTION_MASK_DUAL) | dir_port_invert_mask_dual;
+    GPIO_setPinTo(STEP_DUAL_PORT, STEP_DUAL_PIN, step_port_invert_mask_dual & (1 << DUAL_STEP_BIT));
+    GPIO_setPinTo(DIRECTION_DUAL_PORT, DIRECTION_DUAL_PIN, dir_port_invert_mask_dual & (1 << DUAL_DIRECTION_BIT));
   #endif
 }
 
@@ -568,14 +652,34 @@ void st_reset()
 void stepper_init()
 {
   // Configure step and direction interface pins
-  GPIO_confOutput(STEP_PORT, STEP_MASK); //Set as output
   GPIO_confOutput(STEPPERS_DISABLE_PORT, 1<<STEPPERS_DISABLE_BIT);
-  GPIO_confOutput(DIRECTION_PORT, DIRECTION_MASK);
+  
+#define AXIS_COMMANDS(axis_name) GPIO_confOutput(_prepost(STEP_,axis_name,_PORT), _prepost(STEP_,axis_name,_PIN)); GPIO_confOutput(_prepost(DIRECTION_,axis_name,_PORT), _prepost(DIRECTION_,axis_name,_PIN));  
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
+#endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+#if defined( LIMIT_DUAL_PORT ) && defined( ENABLE_DUAL_AXIS )
+    AXIS_COMMANDS(DUAL)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
 
-  #ifdef ENABLE_DUAL_AXIS
-    GPIO_confOutput(STEP_PORT_DUAL, STEP_MASK_DUAL); //STEP_DDR_DUAL |= STEP_MASK_DUAL;
-    GPIO_confOutput(DIRECTION_DUAL_PORT, DIRECTION_MASK_DUAL); //DIRECTION_DDR_DUAL |= DIRECTION_MASK_DUAL;
-  #endif
     TIMER1_initClearTimerOnCompare();
 
     TIMER0_initNormalCountingAndOverflowInterrupt();
