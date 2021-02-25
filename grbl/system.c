@@ -150,12 +150,12 @@ ISR(CONTROL_INT_vect)
       bit_true(sys_rt_exec_state, EXEC_CYCLE_START);
     }
     #ifndef ENABLE_SAFETY_DOOR_INPUT_PIN
-      if (bit_istrue(pin,CONTROL_PIN_INDEX_FEED_HOLD)) {
-        bit_true(sys_rt_exec_state, EXEC_FEED_HOLD);
-    #else
-      if (bit_istrue(pin,CONTROL_PIN_INDEX_SAFETY_DOOR)) {
+    if (bit_istrue(pin,CONTROL_PIN_INDEX_SAFETY_DOOR)) {
         bit_true(sys_rt_exec_state, EXEC_SAFETY_DOOR);
+    }
     #endif
+    if (bit_istrue(pin,CONTROL_PIN_INDEX_FEED_HOLD)) {
+        bit_true(sys_rt_exec_state, EXEC_FEED_HOLD);
     }
   }
 }

@@ -104,16 +104,22 @@
 
 // Define control pin index for Grbl internal use. Pin maps may change, but these values don't.
 #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
-  #define N_CONTROL_PIN 4
+  #define N_CONTROL_PIN 5
   #define CONTROL_PIN_INDEX_SAFETY_DOOR   bit(0)
   #define CONTROL_PIN_INDEX_RESET         bit(1)
   #define CONTROL_PIN_INDEX_FEED_HOLD     bit(2)
   #define CONTROL_PIN_INDEX_CYCLE_START   bit(3)
+#ifdef ENABLE_SPINDLE_MANUAL_OVERRIDE
+  #define CONTROL_PIN_INDEX_MANUAL_PWM    bit(4)
+#endif
 #else
-  #define N_CONTROL_PIN 3
+  #define N_CONTROL_PIN 4
   #define CONTROL_PIN_INDEX_RESET         bit(0)
   #define CONTROL_PIN_INDEX_FEED_HOLD     bit(1)
   #define CONTROL_PIN_INDEX_CYCLE_START   bit(2)
+#ifdef ENABLE_SPINDLE_MANUAL_OVERRIDE
+  #define CONTROL_PIN_INDEX_MANUAL_PWM    bit(4)
+#endif
 #endif
 
 // Define spindle stop override control states.
