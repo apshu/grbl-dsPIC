@@ -149,7 +149,7 @@ ISR(CONTROL_INT_vect)
     if (bit_istrue(pin,CONTROL_PIN_INDEX_CYCLE_START)) {
       bit_true(sys_rt_exec_state, EXEC_CYCLE_START);
     }
-    #ifndef ENABLE_SAFETY_DOOR_INPUT_PIN
+    #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
     if (bit_istrue(pin,CONTROL_PIN_INDEX_SAFETY_DOOR)) {
         bit_true(sys_rt_exec_state, EXEC_SAFETY_DOOR);
     }
