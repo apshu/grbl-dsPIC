@@ -65,7 +65,7 @@ void limits_init()
 #ifdef LIMIT_C_PORT
     AXIS_COMMANDS(C)
 #endif
-#ifdef LIMIT_DUAL_PORT
+#if defined( LIMIT_DUAL_PORT ) && defined( ENABLE_DUAL_AXIS )
     AXIS_COMMANDS(DUAL)
 #endif
   //</editor-fold>
@@ -93,7 +93,7 @@ void limits_init()
 #ifdef LIMIT_C_PORT
     AXIS_COMMANDS(C)
 #endif
-#ifdef LIMIT_DUAL_PORT
+#if defined( LIMIT_DUAL_PORT ) && defined( ENABLE_DUAL_AXIS )
     AXIS_COMMANDS(DUAL)
 #endif
   //</editor-fold>
@@ -119,7 +119,7 @@ void limits_init()
 #ifdef LIMIT_C_PORT
     AXIS_COMMANDS(C)
 #endif
-#ifdef LIMIT_DUAL_PORT
+#if defined( LIMIT_DUAL_PORT ) && defined( ENABLE_DUAL_AXIS )
     AXIS_COMMANDS(DUAL)
 #endif
   //</editor-fold>
@@ -148,7 +148,7 @@ void limits_init()
 #ifdef LIMIT_C_PORT
     AXIS_COMMANDS(C)
 #endif
-#ifdef LIMIT_DUAL_PORT
+#if defined( LIMIT_DUAL_PORT ) && defined( ENABLE_DUAL_AXIS )
     AXIS_COMMANDS(DUAL)
 #endif
   //</editor-fold>
@@ -186,7 +186,7 @@ void limits_disable()
 #ifdef LIMIT_C_PORT
     AXIS_COMMANDS(C)
 #endif
-#ifdef LIMIT_DUAL_PORT
+#if defined( LIMIT_DUAL_PORT ) && defined( ENABLE_DUAL_AXIS )
     AXIS_COMMANDS(DUAL)
 #endif
   //</editor-fold>
@@ -220,7 +220,7 @@ gpioport_t limits_get_state()
 #ifdef LIMIT_C_PORT
     AXIS_COMMANDS(C)
 #endif
-#ifdef LIMIT_DUAL_PORT
+#if defined( LIMIT_DUAL_PORT ) && defined( ENABLE_DUAL_AXIS )
     AXIS_COMMANDS(DUAL)
 #endif
   //</editor-fold>
