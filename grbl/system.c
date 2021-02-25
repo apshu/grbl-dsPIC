@@ -23,13 +23,86 @@
 
 void system_init()
 {
-  GPIO_confInput(CONTROL_PORT, CONTROL_MASK); // Configure as input pins
+#define CONTROL_PIN_COMMANDS(axis_name) GPIO_confInput(_prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN));
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+#if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
+    CONTROL_PIN_COMMANDS(SAFETY_DOOR)
+#endif
+#ifdef CONTROL_RESET_BIT
+    CONTROL_PIN_COMMANDS(RESET)
+#endif
+#ifdef CONTROL_FEED_HOLD_BIT
+    CONTROL_PIN_COMMANDS(FEED_HOLD)
+#endif
+#ifdef CONTROL_CYCLE_START_BIT
+    CONTROL_PIN_COMMANDS(CYCLE_START)
+#endif
+#if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
+    CONTROL_PIN_COMMANDS(MANUAL_PWM)
+#endif
+  //</editor-fold>
+#undef CONTROL_PIN_COMMANDS
+            
   #ifdef DISABLE_CONTROL_PIN_PULL_UP
-    GPIO_pullupDisable(CONTROL_PORT, CONTROL_MASK);   // Normal low operation. Requires external pull-down.
+#define CONTROL_PIN_COMMANDS(axis_name) GPIO_pulldownEnable(_prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN));  // Enable internal pull-down resistors. Normal low operation.
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+#if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
+    CONTROL_PIN_COMMANDS(SAFETY_DOOR)
+#endif
+#ifdef CONTROL_RESET_BIT
+    CONTROL_PIN_COMMANDS(RESET)
+#endif
+#ifdef CONTROL_FEED_HOLD_BIT
+    CONTROL_PIN_COMMANDS(FEED_HOLD)
+#endif
+#ifdef CONTROL_CYCLE_START_BIT
+    CONTROL_PIN_COMMANDS(CYCLE_START)
+#endif
+#if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
+    CONTROL_PIN_COMMANDS(MANUAL_PWM)
+#endif
+  //</editor-fold>
+#undef CONTROL_PIN_COMMANDS
   #else
-    GPIO_pullupEnable(CONTROL_PORT, CONTROL_MASK);   // Enable internal pull-up resistors. Normal high operation.
+#define CONTROL_PIN_COMMANDS(axis_name) GPIO_pullupEnable(_prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN));  // Enable internal pull-up resistors. Normal high operation.
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+#if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
+    CONTROL_PIN_COMMANDS(SAFETY_DOOR)
+#endif
+#ifdef CONTROL_RESET_BIT
+    CONTROL_PIN_COMMANDS(RESET)
+#endif
+#ifdef CONTROL_FEED_HOLD_BIT
+    CONTROL_PIN_COMMANDS(FEED_HOLD)
+#endif
+#ifdef CONTROL_CYCLE_START_BIT
+    CONTROL_PIN_COMMANDS(CYCLE_START)
+#endif
+#if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
+    CONTROL_PIN_COMMANDS(MANUAL_PWM)
+#endif
+  //</editor-fold>
+#undef CONTROL_PIN_COMMANDS
   #endif
-    GPIO_pinchgNotifyEnable(CONTROL_PORT, CONTROL_MASK);
+#define CONTROL_PIN_COMMANDS(axis_name) GPIO_pinchgNotifyEnable(_prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN));
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+#if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
+    CONTROL_PIN_COMMANDS(SAFETY_DOOR)
+#endif
+#ifdef CONTROL_RESET_BIT
+    CONTROL_PIN_COMMANDS(RESET)
+#endif
+#ifdef CONTROL_FEED_HOLD_BIT
+    CONTROL_PIN_COMMANDS(FEED_HOLD)
+#endif
+#ifdef CONTROL_CYCLE_START_BIT
+    CONTROL_PIN_COMMANDS(CYCLE_START)
+#endif
+#if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
+    CONTROL_PIN_COMMANDS(MANUAL_PWM)
+#endif
+  //</editor-fold>
+#undef CONTROL_PIN_COMMANDS
 }
 
 
@@ -39,19 +112,25 @@ void system_init()
 gpioport_t system_control_get_state()
 {
   gpioport_t control_state = 0;
-  gpioport_t pin = (GPIO_readLive(CONTROL_PORT) & CONTROL_MASK) ^ CONTROL_MASK;
-  #ifdef INVERT_CONTROL_PIN_MASK
-    pin ^= INVERT_CONTROL_PIN_MASK;
-  #endif
-  if (pin) {
-    #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
-      if (bit_istrue(pin,(1<<CONTROL_SAFETY_DOOR_BIT))) { control_state |= CONTROL_PIN_INDEX_SAFETY_DOOR; }
-    #else
-      if (bit_istrue(pin,(1<<CONTROL_FEED_HOLD_BIT))) { control_state |= CONTROL_PIN_INDEX_FEED_HOLD; }
-    #endif
-    if (bit_istrue(pin,(1<<CONTROL_RESET_BIT))) { control_state |= CONTROL_PIN_INDEX_RESET; }
-    if (bit_istrue(pin,(1<<CONTROL_CYCLE_START_BIT))) { control_state |= CONTROL_PIN_INDEX_CYCLE_START; }
-  }
+    #define CONTROL_PIN_COMMANDS(control_name) if ( GPIO_readLivePin(_prepost(CONTROL_,control_name,_PORT), _prepost(CONTROL_,control_name,_PIN)) == ((INVERT_CONTROL_PIN_MASK >> _prepost(CONTROL_,control_name,_BIT)) & 1) ) { control_state |= _post(CONTROL_PIN_INDEX_, control_name); }
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+#if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
+    CONTROL_PIN_COMMANDS(SAFETY_DOOR)
+#endif
+#ifdef CONTROL_RESET_BIT
+    CONTROL_PIN_COMMANDS(RESET)
+#endif
+#ifdef CONTROL_FEED_HOLD_BIT
+    CONTROL_PIN_COMMANDS(FEED_HOLD)
+#endif
+#ifdef CONTROL_CYCLE_START_BIT
+    CONTROL_PIN_COMMANDS(CYCLE_START)
+#endif
+#if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
+    CONTROL_PIN_COMMANDS(MANUAL_PWM)
+#endif
+  //</editor-fold>
+    #undef CONTROL_PIN_COMMANDS
   return(control_state);
 }
 
