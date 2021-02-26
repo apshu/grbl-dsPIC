@@ -87,8 +87,8 @@ void PIN_MANAGER_Initialize (void)
     CNPDC = 0x0000;
     CNPDD = 0x0000;
     CNPUA = 0x0000;
-    CNPUB = 0x4000;
-    CNPUC = 0x0400;
+    CNPUB = 0x0000;
+    CNPUC = 0x0700;
     CNPUD = 0x0004;
 
     /****************************************************************************
@@ -104,7 +104,7 @@ void PIN_MANAGER_Initialize (void)
      ***************************************************************************/
     ANSELA = 0x001F;
     ANSELB = 0x039D;
-    ANSELC = 0x00CF;
+    ANSELC = 0x00C7;
     ANSELD = 0x7C00;
 
 
