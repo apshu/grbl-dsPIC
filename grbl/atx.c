@@ -9,6 +9,9 @@ bool atx_is_powered_on = false;
 #endif
 
 bool atx_power_init() {
+
+    _prepost(ODC, ATX_POWER_ON_PORT, bits)._prepost(ODC, ATX_POWER_ON_PORT, ATX_POWER_ON_BIT) = 1; //Enable open-drain pin or the power port
+
 #ifdef ATX_POWER_DEFAULT_ON
     return atx_power_on();
 #else
