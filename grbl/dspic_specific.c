@@ -62,35 +62,89 @@ ISR(LIMIT_INT_vect);
 ISR(CONTROL_INT_vect);
 
 static void ISR_handle_pinChange(void) {
-    if (_pre(CNF, LIMIT_PORT) & LIMIT_MASK) {
-        _pre(CNF, LIMIT_PORT) &= ~(LIMIT_MASK);
-        LIMIT_INT_vect();
-    }
-    if (_pre(CNF, CONTROL_PORT) & CONTROL_MASK) {
-        _pre(CNF, CONTROL_PORT) &= ~(CONTROL_MASK);
-        CONTROL_INT_vect();
-    }
-}
-
-__attribute__((interrupt, auto_psv)) void _prepost(_CN, LIMIT_PORT, Interrupt)(void) {
-    if (_prepost(_CN, LIMIT_PORT, IF) == 1) {
-        // Clear the flag
-        _prepost(_CN, LIMIT_PORT, IF) = 0;
-        ISR_handle_pinChange();
-    }
-}
-
-#if _pre(THE_PORT_, LIMIT_PORT) != _pre(THE_PORT_, CONTROL_PORT)
-
-__attribute__((interrupt, auto_psv)) void _prepost(_CN, CONTROL_PORT, Interrupt)(void) {
-    if (_prepost(_CN, CONTROL_PORT, IF) == 1) {
-        // Clear the flag
-        _prepost(_CN, CONTROL_PORT, IF) = 0;
-        ISR_handle_pinChange();
-    }
-}
+#define AXIS_COMMANDS(axis_name) if (_prepost(CNF, _prepost(LIMIT_,axis_name,_PORT) ,bits)._prepost(CNF, _prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN))) { _prepost(CNF, _prepost(LIMIT_,axis_name,_PORT) ,bits)._prepost(CNF, _prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN)) = 0; LIMIT_INT_vect(); }
+//<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
+#ifdef LIMIT_X_PORT
+    AXIS_COMMANDS(X)
 #endif
+#ifdef LIMIT_Y_PORT
+    AXIS_COMMANDS(Y)
+#endif
+#ifdef LIMIT_Z_PORT
+    AXIS_COMMANDS(Z)
+#endif
+#ifdef LIMIT_A_PORT
+    AXIS_COMMANDS(A)
+#endif
+#ifdef LIMIT_B_PORT
+    AXIS_COMMANDS(B)
+#endif
+#ifdef LIMIT_C_PORT
+    AXIS_COMMANDS(C)
+#endif
+#if defined( LIMIT_DUAL_PORT ) && defined( ENABLE_DUAL_AXIS )
+    AXIS_COMMANDS(DUAL)
+#endif
+  //</editor-fold>
+#undef AXIS_COMMANDS
+#define CONTROL_PIN_COMMANDS(axis_name) if (_prepost(CNF, _prepost(CONTROL_,axis_name,_PORT) ,bits)._prepost(CNF, _prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN))) { _prepost(CNF, _prepost(CONTROL_,axis_name,_PORT) ,bits)._prepost(CNF, _prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN)) = 0; CONTROL_INT_vect(); }
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+#if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
+    CONTROL_PIN_COMMANDS(SAFETY_DOOR)
+#endif
+#ifdef CONTROL_RESET_BIT
+    CONTROL_PIN_COMMANDS(RESET)
+#endif
+#ifdef CONTROL_FEED_HOLD_BIT
+    CONTROL_PIN_COMMANDS(FEED_HOLD)
+#endif
+#ifdef CONTROL_CYCLE_START_BIT
+    CONTROL_PIN_COMMANDS(CYCLE_START)
+#endif
+#if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
+    CONTROL_PIN_COMMANDS(MANUAL_PWM)
+#endif
+  //</editor-fold>
+#undef CONTROL_PIN_COMMANDS
+}
 
+#define GPIO_MAKE_ISR(gpio_port) __attribute__((interrupt, auto_psv)) void _prepost(_CN, gpio_port, Interrupt)(void) { _prepost(_CN, gpio_port, IF) = 0; ISR_handle_pinChange(); }
+//<editor-fold defaultstate="collapsed" desc="   GPIO_MAKE_ISR(<A-K>)">
+#ifdef CNCONA
+  GPIO_MAKE_ISR(A)
+#endif
+#ifdef CNCONB
+  GPIO_MAKE_ISR(B)
+#endif
+#ifdef CNCONC
+  GPIO_MAKE_ISR(C)
+#endif
+#ifdef CNCOND
+  GPIO_MAKE_ISR(D)
+#endif
+#ifdef CNCONE
+  GPIO_MAKE_ISR(E)
+#endif
+#ifdef CNCONF
+  GPIO_MAKE_ISR(F)
+#endif
+#ifdef CNCONG
+  GPIO_MAKE_ISR(G)
+#endif
+#ifdef CNCONH
+  GPIO_MAKE_ISR(H)
+#endif
+#ifdef CNCONI
+  GPIO_MAKE_ISR(I)
+#endif
+#ifdef CNCONJ
+  GPIO_MAKE_ISR(J)
+#endif
+#ifdef CNCONK
+  GPIO_MAKE_ISR(K)
+#endif
+//</editor-fold>
+          
 ISR(TIMER1_COMPA_vect);
 
 void _prepost(S, STEPPERS_STEP_TIMER, _TMR_Timer32CallBack)(void) {
