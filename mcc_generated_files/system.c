@@ -61,6 +61,7 @@
 #include "tmr1.h"
 #include "uart2.h"
 #include "i2c1.h"
+#include "adc1.h"
 
 void SYSTEM_Initialize(void)
 {
@@ -78,6 +79,7 @@ void SYSTEM_Initialize(void)
     UART1_Initialize();
     UART2_Initialize();
     I2C1_Initialize();
+    ADC1_Initialize();
     TMR1_Initialize();
     INTERRUPT_GlobalEnable();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);
