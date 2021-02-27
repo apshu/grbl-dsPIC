@@ -654,7 +654,7 @@ void stepper_init()
   // Configure step and direction interface pins
   GPIO_confOutput(STEPPERS_DISABLE_PORT, 1<<STEPPERS_DISABLE_BIT);
   
-#define AXIS_COMMANDS(axis_name) GPIO_confOutput(_prepost(STEP_,axis_name,_PORT), _prepost(STEP_,axis_name,_PIN)); GPIO_confOutput(_prepost(DIRECTION_,axis_name,_PORT), _prepost(DIRECTION_,axis_name,_PIN));  
+#define AXIS_COMMANDS(axis_name) GPIO_confOutputPin(_prepost(STEP_,axis_name,_PORT), _prepost(STEP_,axis_name,_PIN)); GPIO_confOutputPin(_prepost(DIRECTION_,axis_name,_PORT), _prepost(DIRECTION_,axis_name,_PIN));  
 //<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
 #ifdef LIMIT_X_PORT
     AXIS_COMMANDS(X)
