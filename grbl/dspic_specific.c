@@ -211,7 +211,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('A');
     serial_write('=');
-    report_gpio_to_string(TRISA, PORTA, LATA);
+    report_gpio_to_string(TRISA, PORTA, LATA, ANSELA);
 #endif
 #ifdef PORTB
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -221,7 +221,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('B');
     serial_write('=');
-    report_gpio_to_string(TRISB, PORTB, LATB);
+    report_gpio_to_string(TRISB, PORTB, LATB, ANSELB);
 #endif
 #ifdef PORTC
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -231,7 +231,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('C');
     serial_write('=');
-    report_gpio_to_string(TRISC, PORTC, LATC);
+    report_gpio_to_string(TRISC, PORTC, LATC, ANSELC);
 #endif
 #ifdef PORTD
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -241,7 +241,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('D');
     serial_write('=');
-    report_gpio_to_string(TRISD, PORTD, LATD);
+    report_gpio_to_string(TRISD, PORTD, LATD, ANSELD);
 #endif
 #ifdef PORTE
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -251,7 +251,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('E');
     serial_write('=');
-    report_gpio_to_string(TRISE, PORTE, LATE);
+    report_gpio_to_string(TRISE, PORTE, LATE, ANSELE);
 #endif
 #ifdef PORTF
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -261,7 +261,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('F');
     serial_write('=');
-    report_gpio_to_string(TRISF, PORTF, LATF);
+    report_gpio_to_string(TRISF, PORTF, LATF, ANSELF);
 #endif
 #ifdef PORTG
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -271,7 +271,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('G');
     serial_write('=');
-    report_gpio_to_string(TRISG, PORTG, LATG);
+    report_gpio_to_string(TRISG, PORTG, LATG, ANSELG);
 #endif
 #ifdef PORTH
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -281,7 +281,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('H');
     serial_write('=');
-    report_gpio_to_string(TRISH, PORTH, LATH);
+    report_gpio_to_string(TRISH, PORTH, LATH, ANSELH);
 #endif
 #ifdef PORTI
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -291,7 +291,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('I');
     serial_write('=');
-    report_gpio_to_string(TRISI, PORTI, LATI);
+    report_gpio_to_string(TRISI, PORTI, LATI, ANSELI);
 #endif
 #ifdef PORTJ
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -301,7 +301,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('J');
     serial_write('=');
-    report_gpio_to_string(TRISJ, PORTJ, LATJ);
+    report_gpio_to_string(TRISJ, PORTJ, LATJ, ANSELJ);
 #endif
 #ifdef PORTK
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -311,7 +311,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('K');
     serial_write('=');
-    report_gpio_to_string(TRISK, PORTK, LATK);
+    report_gpio_to_string(TRISK, PORTK, LATK, ANSELK);
 #endif
 #ifdef PORTL
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -321,7 +321,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('L');
     serial_write('=');
-    report_gpio_to_string(TRISL, PORTL, LATL);
+    report_gpio_to_string(TRISL, PORTL, LATL, ANSELL);
 #endif
 #ifdef PORTM
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -331,7 +331,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('M');
     serial_write('=');
-    report_gpio_to_string(TRISM, PORTM, LATM);
+    report_gpio_to_string(TRISM, PORTM, LATM, ANSELM);
 #endif
 #ifdef PORTN
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -341,7 +341,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('N');
     serial_write('=');
-    report_gpio_to_string(TRISN, PORTN, LATN);
+    report_gpio_to_string(TRISN, PORTN, LATN, ANSELN);
 #endif
 #ifdef PORTO
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -351,7 +351,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('O');
     serial_write('=');
-    report_gpio_to_string(TRISO, PORTO, LATO);
+    report_gpio_to_string(TRISO, PORTO, LATO, ANSELO);
 #endif
 #ifdef PORTP
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -361,7 +361,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('P');
     serial_write('=');
-    report_gpio_to_string(TRISP, PORTP, LATP);
+    report_gpio_to_string(TRISP, PORTP, LATP, ANSELP);
 #endif
 #ifdef PORTQ
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -371,7 +371,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('Q');
     serial_write('=');
-    report_gpio_to_string(TRISQ, PORTQ, LATQ);
+    report_gpio_to_string(TRISQ, PORTQ, LATQ, ANSELQ);
 #endif
 #ifdef PORTR
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -381,7 +381,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('R');
     serial_write('=');
-    report_gpio_to_string(TRISR, PORTR, LATR);
+    report_gpio_to_string(TRISR, PORTR, LATR, ANSELR);
 #endif
 #ifdef PORTS
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -391,7 +391,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('S');
     serial_write('=');
-    report_gpio_to_string(TRISS, PORTS, LATS);
+    report_gpio_to_string(TRISS, PORTS, LATS, ANSELS);
 #endif
 #ifdef PORTT
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -401,7 +401,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('T');
     serial_write('=');
-    report_gpio_to_string(TRIST, PORTT, LATT);
+    report_gpio_to_string(TRIST, PORTT, LATT, ANSELT);
 #endif
 #ifdef PORTU
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -411,7 +411,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('U');
     serial_write('=');
-    report_gpio_to_string(TRISU, PORTU, LATU);
+    report_gpio_to_string(TRISU, PORTU, LATU, ANSELU);
 #endif
 #ifdef PORTV
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -421,7 +421,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('V');
     serial_write('=');
-    report_gpio_to_string(TRISV, PORTV, LATV);
+    report_gpio_to_string(TRISV, PORTV, LATV, ANSELV);
 #endif
 #ifdef PORTW
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -431,7 +431,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('W');
     serial_write('=');
-    report_gpio_to_string(TRISW, PORTW, LATW);
+    report_gpio_to_string(TRISW, PORTW, LATW, ANSELW);
 #endif
 #ifdef PORTX
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -441,7 +441,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('X');
     serial_write('=');
-    report_gpio_to_string(TRISX, PORTX, LATX);
+    report_gpio_to_string(TRISX, PORTX, LATX, ANSELX);
 #endif
 #ifdef PORTY
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -451,7 +451,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('Y');
     serial_write('=');
-    report_gpio_to_string(TRISY, PORTY, LATY);
+    report_gpio_to_string(TRISY, PORTY, LATY, ANSELY);
 #endif
 #ifdef PORTZ
 #ifndef _I_AM_FIRST_PORTDEF_
@@ -461,7 +461,7 @@ void report_gpio_status(void) {
 #endif
     serial_write('Z');
     serial_write('=');
-    report_gpio_to_string(TRISZ, PORTZ, LATZ);
+    report_gpio_to_string(TRISZ, PORTZ, LATZ, ANSELZ);
 #endif
 #undef _I_AM_FIRST_PORTDEF_
     // </editor-fold>

@@ -69,6 +69,7 @@ extern "C" {
 #define GPIO_confOutput(port, bitmask)            do { _pre(GPIO_confDigital, port)(bitmask); _pre(TRIS, port) &= ~(bitmask); } while (0)
 #define GPIO_confOutputPin(port, pin)             GPIO_confOutput(port, 1<<pin)
 #define GPIO_isInput(IODIR_bit_val)               (IODIR_bit_val)
+#define GPIO_isAnalog(ANSEL_bit_val)              (ANSEL_bit_val)
 #define GPIO_pullupEnable(port, bitmask)          do { GPIO_pulldownDisable(port, bitmask); _pre(CNPU, port) |=  (bitmask); } while (0)
 #define GPIO_pullupEnablePin(port, pin)           GPIO_pullupEnable(port, 1<<pin)
 #define GPIO_pullupDisable(port, bitmask)         do { _pre(CNPU, port) &= ~(bitmask); } while (0)

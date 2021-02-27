@@ -139,7 +139,7 @@ void report_build_info(char *line);
 void report_gpio_status(void);
 
 //Prints GPIO state based on direction reg and  live and stored values
-void report_gpio_to_string(gpioport_t portDirection, gpioport_t livePort, gpioport_t storedPort);
+void report_gpio_to_string(gpioport_t portDirection, gpioport_t livePort, gpioport_t storedPort, gpioport_t analogSelect);
 #endif
 
 //Prints the pin state field 'Pn'

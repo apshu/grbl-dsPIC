@@ -530,16 +530,20 @@ void report_field_pin_state(void) {
 }
 
 #ifdef ENABLE_M119
-void report_gpio_to_string(gpioport_t portDirection, gpioport_t livePort, gpioport_t storedPort) {
+void report_gpio_to_string(gpioport_t portDirection, gpioport_t livePort, gpioport_t storedPort, gpioport_t analogSelect) {
     uint_fast8_t bitnum;
     for(bitnum=GPIOPORT_NUMBITS;bitnum;) {
         --bitnum;
-        if (GPIO_isInput((portDirection >> bitnum) & 1)) {
-            //Input pin
-            serial_write( bit_istrue(livePort, 1<<bitnum) ? 'H' : 'L' );
+        if (GPIO_isAnalog((analogSelect >> bitnum) & 1)) {
+            serial_write('a');
         } else {
-            //Output pin
-            serial_write( bit_istrue(storedPort, 1<<bitnum) ? '1' : '0' );
+            if (GPIO_isInput((portDirection >> bitnum) & 1)) {
+                //Input pin
+                serial_write(bit_istrue(livePort, 1 << bitnum) ? 'H' : 'L');
+            } else {
+                //Output pin
+                serial_write(bit_istrue(storedPort, 1 << bitnum) ? '1' : '0');
+            }
         }
     }
 }
