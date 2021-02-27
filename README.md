@@ -37,7 +37,7 @@ Grbl includes full acceleration management with look ahead. That means the contr
 
 - New command `M119`* to query GPIO state.
 
-- New commands `M90`* and `M91`* for ATX power supplies. `M90` turns on and `M91` turns off an ATX power supply. Compile-time config setting allows PGOOD signal monitoring.
+- New commands `M80`* and `M81`* for ATX power supplies. `M80` turns on and `M91` turns off an ATX power supply. Compile-time config setting allows PGOOD signal monitoring.
 
 - New command `M280`* for RC servo control. `P` selects servo channel, `S` values between 0 and 200 sets angle, bigger numbers set high pulse width. Negative numbers turns the servo off. 
    * `T1` specifies analog servo type. (Futaba 50Hz)
