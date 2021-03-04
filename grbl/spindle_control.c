@@ -31,43 +31,36 @@ void spindle_init() {
     // Configure variable spindle PWM and enable pin, if requried. On the Uno, PWM and enable are
     // combined unless configured otherwise.
     PWM_SPINDLE_init();
-#ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
-    GPIO_confOutput(SPINDLE_ENABLE_PORT, 1U << SPINDLE_ENABLE_BIT); // Configure as output pin.
-#else
-      #ifndef ENABLE_DUAL_AXIS
-      GPIO_confOutput(SPINDLE_DIRECTION_PORT, 1U << SPINDLE_DIRECTION_BIT); // Configure as output pin.
-      #endif
-    #endif
-    pwm_gradient = SPINDLE_PWM_RANGE / (settings.rpm_max - settings.rpm_min);
-#else
-    SPINDLE_ENABLE_DDR |= (1<<SPINDLE_ENABLE_BIT); // Configure as output pin.
-    #ifndef ENABLE_DUAL_AXIS
-          GPIO_confOutput(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT); // Configure as output pin.
-    #endif
-  #endif
-
+#endif
     spindle_stop();
+    GPIO_setPinLow(SPINDLE_DIRECTION_PORT, SPINDLE_DIRECTION_BIT);
+    GPIO_confOutputPin(SPINDLE_ENABLE_PORT, SPINDLE_ENABLE_BIT); // Configure as output pin.
+    GPIO_confOutputPin(LASER_ENABLE_PORT, LASER_ENABLE_PIN); // Configure as output pin.
+    GPIO_confOutputPin(SPINDLE_DIRECTION_PORT, SPINDLE_DIRECTION_BIT); // Configure as output pin.
+    pwm_gradient = SPINDLE_PWM_RANGE / (settings.rpm_max - settings.rpm_min);
 }
 
 uint8_t spindle_get_state() {
   #ifdef VARIABLE_SPINDLE
-    #ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
-      // No spindle direction output pin. 
-      #ifdef INVERT_SPINDLE_ENABLE_PIN
-    if (bit_isfalse(GPIO_readStored(SPINDLE_ENABLE_PORT), (1 << SPINDLE_ENABLE_BIT))) { return (SPINDLE_STATE_CW); }
-      #else
-        if (bit_istrue(GPIO_readStored(SPINDLE_ENABLE_PORT), (1 << SPINDLE_ENABLE_BIT))) { return (SPINDLE_STATE_CW); }
-      #endif
+    if (
+    #ifdef INVERT_SPINDLE_ENABLE_PIN
+      (!GPIO_readStoredPin(SPINDLE_ENABLE_PORT, SPINDLE_ENABLE_BIT)) ||
     #else
-    if (PWM_SPINDLE_isEnabled()) { // Check if PWM is enabled.
-      #ifdef ENABLE_DUAL_AXIS
-        return(SPINDLE_STATE_CW);
-      #else
-        if (GPIO_readStored(SPINDLE_DIRECTION_PORT) & (1 << SPINDLE_DIRECTION_BIT)) { return (SPINDLE_STATE_CCW); }
-        else { return (SPINDLE_STATE_CW); }
-      #endif
-    }
+      (GPIO_readStoredPin(SPINDLE_ENABLE_PORT, SPINDLE_ENABLE_BIT)) ||
     #endif
+    #ifdef INVERT_LASER_ENABLE_PIN
+      (!GPIO_readStoredPin(LASER_ENABLE_PORT, LASER_ENABLE_PIN)) 
+    #else
+      (GPIO_readStoredPin(LASER_ENABLE_PORT, LASER_ENABLE_PIN)) 
+    #endif
+        ) {
+        //Laser or spindle enabled
+        if (GPIO_readStoredPin(SPINDLE_DIRECTION_PORT, SPINDLE_DIRECTION_BIT)) {
+           return (SPINDLE_STATE_CCW); 
+        } else {
+           return (SPINDLE_STATE_CW); 
+        }
+      }
   #else
     #ifdef INVERT_SPINDLE_ENABLE_PIN
     if (bit_isfalse(GPIO_readStored(SPINDLE_ENABLE_PORT), (1 << SPINDLE_ENABLE_BIT))) {
@@ -92,18 +85,17 @@ uint8_t spindle_get_state() {
 void spindle_stop() {
 #ifdef VARIABLE_SPINDLE
     PWM_SPINDLE_halt(); // Disable PWM. Output voltage is zero.
-#ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
+#ifdef SPINDLE_ENABLE_BIT
 #ifdef INVERT_SPINDLE_ENABLE_PIN
-    GPIO_setHigh(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT); // Set pin to high
+    GPIO_setPinHigh(SPINDLE_ENABLE_PORT, SPINDLE_ENABLE_BIT);  //Disable spindle
 #else
-    GPIO_setLow(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT); // Set pin to low
+    GPIO_setPinLow(SPINDLE_ENABLE_PORT, SPINDLE_ENABLE_BIT); //Disable spindle
 #endif
 #endif
+#ifdef INVERT_LASER_ENABLE_PIN
+    GPIO_setPinHigh(LASER_ENABLE_PORT, LASER_ENABLE_PIN);  //Disable laser
 #else
-#ifdef INVERT_SPINDLE_ENABLE_PIN
-    GPIO_setHigh(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT); // Set pin to high
-#else
-    GPIO_setLow(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT); // Set pin to low
+    GPIO_setPinLow(LASER_ENABLE_PORT, LASER_ENABLE_PIN);  //Disable laser
 #endif
 #endif
 }
@@ -236,34 +228,29 @@ void _spindle_set_state(uint8_t state)
         spindle_stop();
 
     } else {
-    
-    #if !defined(USE_SPINDLE_DIR_AS_ENABLE_PIN) && !defined(ENABLE_DUAL_AXIS)
-        if (state == SPINDLE_ENABLE_CW) {
-            GPIO_setLow(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT);
-        } else {
-            GPIO_setHigh(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT);
-        }
-#endif
-
-#ifdef VARIABLE_SPINDLE
-        // NOTE: Assumes all calls to this function is when Grbl is not moving or must remain off.
         if (settings.flags & BITFLAG_LASER_MODE) {
+            //Laser mode
             if (state == SPINDLE_ENABLE_CCW) {
                 rpm = 0.0;
             } // TODO: May need to be rpm_min*(100/MAX_SPINDLE_SPEED_OVERRIDE);
+#ifdef INVERT_LASER_ENABLE_PIN
+            GPIO_setPinLow(LASER_ENABLE_PORT, LASER_ENABLE_PIN);  //Enable laser
+#else
+            GPIO_setPinHigh(LASER_ENABLE_PORT, LASER_ENABLE_PIN);  //Enable laser
+#endif
+        } else {
+            if (state == SPINDLE_ENABLE_CW) {
+                GPIO_setLow(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT);
+            } else {
+                GPIO_setHigh(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT);
+            }
+#ifdef INVERT_SPINDLE_ENABLE_PIN
+            GPIO_setLow(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT);
+#else
+            GPIO_setHigh(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT);
+#endif    
         }
         spindle_set_speed(spindle_compute_pwm_value(rpm));
-#endif
-#if (defined(USE_SPINDLE_DIR_AS_ENABLE_PIN) && \
-        !defined(SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED)) || !defined(VARIABLE_SPINDLE)
-        // NOTE: Without variable spindle, the enable bit should just turn on or off, regardless
-        // if the spindle speed value is zero, as its ignored anyhow.
-#ifdef INVERT_SPINDLE_ENABLE_PIN
-        GPIO_setLow(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT);
-#else
-        GPIO_setHigh(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT);
-#endif    
-#endif
 
     }
 

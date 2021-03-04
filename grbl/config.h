@@ -207,8 +207,10 @@
 // for some pre-built electronic boards.
 // NOTE: If VARIABLE_SPINDLE is enabled(default), this option has no effect as the PWM output and
 // spindle enable are combined to one pin. If you need both this option and spindle speed PWM,
-// uncomment the config option USE_SPINDLE_DIR_AS_ENABLE_PIN below.
-// #define INVERT_SPINDLE_ENABLE_PIN // Default disabled. Uncomment to enable.
+#define INVERT_SPINDLE_ENABLE_PIN // Default disabled. Uncomment to enable.
+
+// Inverts Laser enable pin
+#define INVERT_LASER_ENABLE_PIN // Default disabled. Uncomment to enable.
 
 // Inverts the selected coolant pin from low-disabled/high-enabled to low-enabled/high-disabled. Useful
 // for some pre-built electronic boards.
@@ -349,22 +351,11 @@
 // NOTE: Compute duty cycle at the minimum PWM by this equation: (% duty cycle)=(SPINDLE_PWM_MIN_VALUE/255)*100
 // #define SPINDLE_PWM_MIN_VALUE 5 // Default disabled. Uncomment to enable. Must be greater than zero. Integer (1-255).
 
-// By default on a 328p(Uno), Grbl combines the variable spindle PWM and the enable into one pin to help
-// preserve I/O pins. For certain setups, these may need to be separate pins. This configure option uses
-// the spindle direction pin(D13) as a separate spindle enable pin along with spindle speed PWM on pin D11.
-// NOTE: This configure option only works with VARIABLE_SPINDLE enabled and a 328p processor (Uno).
-// NOTE: Without a direction pin, M4 will not have a pin output to indicate a difference with M3. 
-// NOTE: BEWARE! The Arduino bootloader toggles the D13 pin when it powers up. If you flash Grbl with
-// a programmer (you can use a spare Arduino as "Arduino as ISP". Search the web on how to wire this.),
-// this D13 LED toggling should go away. We haven't tested this though. Please report how it goes!
-// #define USE_SPINDLE_DIR_AS_ENABLE_PIN // Default disabled. Uncomment to enable.
-
-// Alters the behavior of the spindle enable pin with the USE_SPINDLE_DIR_AS_ENABLE_PIN option . By default,
+// Alters the behavior of the spindle enable pin with the SPINDLE_ENABLE_PIN option . By default,
 // Grbl will not disable the enable pin if spindle speed is zero and M3/4 is active, but still sets the PWM 
 // output to zero. This allows the users to know if the spindle is active and use it as an additional control
 // input. However, in some use cases, user may want the enable pin to disable with a zero spindle speed and 
 // re-enable when spindle speed is greater than zero. This option does that.
-// NOTE: Requires USE_SPINDLE_DIR_AS_ENABLE_PIN to be enabled.
 // #define SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED // Default disabled. Uncomment to enable.
 
 // With this enabled, Grbl sends back an echo of the line it has received, which has been pre-parsed (spaces
@@ -736,7 +727,7 @@
 #define BLUETOOTH_SERIAL_SHARE_TX       // Comment if baudrates are different. 
 
 //PWM related configuration
-#define NUM_SERVO_CHANNELS (8)          //Number of servo-only channels. These channels are the lowest channel numbers
-#define NUM_PWM_CHANNELS (15)           //Total number of PWM channels. # of universal PWM = NUM_PWM_CHANNELS - NUM_SERVO_CHANNELS
+#define NUM_SERVO_CHANNELS (0)          //Number of analog servo-only channels. These channels are the lowest channel numbers
+#define NUM_PWM_CHANNELS (1)            //Total number of PWM channels. # of universal PWM = NUM_PWM_CHANNELS - NUM_SERVO_CHANNELS
 
 #endif

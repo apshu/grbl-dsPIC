@@ -140,20 +140,9 @@
 
   // Define spindle enable and spindle direction output pins.
   #define SPINDLE_ENABLE_PORT          B   //Physical MCU port/pin
-  // Z Limit pin and spindle PWM/enable pin swapped to access hardware PWM on Pin 11.
-  #ifdef VARIABLE_SPINDLE
-    #ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
-      #error "This PCB is designed with dedicated spindle control pins"
-    #else
-      #define SPINDLE_ENABLE_BIT       1   //Physical MCU port/pin
-    #endif
-  #else
-    #error "This PCB is designed with PWM spindle control pin"
-  #endif
-  #ifndef USE_SPINDLE_DIR_AS_ENABLE_PIN
-    #define SPINDLE_DIRECTION_PORT     B   //Physical MCU port/pin
-    #define SPINDLE_DIRECTION_BIT      0   //Physical MCU port/pin
-  #endif
+  #define SPINDLE_ENABLE_BIT           1   //Physical MCU port/pin
+  #define SPINDLE_DIRECTION_PORT       B   //Physical MCU port/pin
+  #define SPINDLE_DIRECTION_BIT        0   //Physical MCU port/pin
 
   // Define flood and mist coolant enable output pins.
   #define COOLANT_FLOOD_PORT           D   //Physical MCU port/pin

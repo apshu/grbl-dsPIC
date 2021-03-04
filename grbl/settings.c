@@ -288,11 +288,20 @@ uint8_t settings_store_global_setting(uint8_t parameter, float value) {
       case 31: settings.rpm_min = value; spindle_init(); break; // Re-initialize spindle rpm calibration
       case 32:
         #ifdef VARIABLE_SPINDLE
-          if (int_value) { settings.flags |= BITFLAG_LASER_MODE; }
-          else { settings.flags &= ~BITFLAG_LASER_MODE; }
+      {
+          if ((settings.flags & BITFLAG_LASER_MODE) != (int_value ? BITFLAG_LASER_MODE : 0)) {
+            //Laser mode setting has changed  
+            if (int_value) { settings.flags |= BITFLAG_LASER_MODE; }
+            else { settings.flags &= ~BITFLAG_LASER_MODE; }
+            gc_state.modal.spindle = SPINDLE_DISABLE;//Stop the spindle if mode changed
+            spindle_set_state(SPINDLE_DISABLE, 0.0); 
+            spindle_stop(); //Make sure to stop spindle even in Abort state!
+            report_gcode_modes(); //Report GC: and make GUI show the stopped state
+          }
         #else
           return(STATUS_SETTING_DISABLED_LASER);
         #endif
+      }
         break;
       default:
         return(STATUS_INVALID_STATEMENT);

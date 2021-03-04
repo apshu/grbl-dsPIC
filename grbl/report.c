@@ -427,7 +427,7 @@ void report_build_info(char *line)
   #ifdef ALLOW_FEED_OVERRIDE_DURING_PROBE_CYCLES
     serial_write('A');
   #endif
-  #ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
+  #ifdef SPINDLE_ENABLE_BIT
     serial_write('D');
   #endif
   #ifdef SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED
@@ -722,12 +722,8 @@ void report_realtime_status()
         printPgmString(PSTR("|A:"));
         if (sp_state) { // != SPINDLE_STATE_DISABLE
           #ifdef VARIABLE_SPINDLE 
-            #ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
-              serial_write('S'); // CW
-            #else
-              if (sp_state == SPINDLE_STATE_CW) { serial_write('S'); } // CW
-              else { serial_write('C'); } // CCW
-            #endif
+            if (sp_state == SPINDLE_STATE_CW) { serial_write('S'); } // CW
+            else { serial_write('C'); } // CCW
           #else
             if (sp_state & SPINDLE_STATE_CW) { serial_write('S'); } // CW
             else { serial_write('C'); } // CCW
