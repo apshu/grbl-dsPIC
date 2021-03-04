@@ -49,6 +49,7 @@
 #include <stdint.h>
 #include "xc.h"
 #include "uart1.h"
+#include "../grbl/grbl.h"
 
 /**
   Section: Data Type Definitions
@@ -140,8 +141,10 @@ void UART1_Initialize(void)
     UART1_SetTxInterruptHandler(UART1_Transmit_ISR);
 
     UART1_SetRxInterruptHandler(UART1_Receive_ISR);
-
+    
+    IFS3bits.U1EIF = 0;
     IEC0bits.U1RXIE = 1;
+    IEC3bits.U1EIE = 1; //Enable error interrupts
     
     //Make sure to set LAT bit corresponding to TxPin as high before UART initialization
     U1MODEbits.UARTEN = 1;   // enabling UART ON bit
@@ -237,6 +240,7 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _U1EInterrupt( void )
 //        U1STAbits.OERR = 0;  
         U1MODEbits.UARTEN = 0; //OERR errata workaround
         U1MODEbits.UARTEN = 1; //OERR errata workaround
+        mc_reset(); //Reset if comm failure. Can be omitted if COMM checksums are used...
     }
     
     IFS3bits.U1EIF = 0;

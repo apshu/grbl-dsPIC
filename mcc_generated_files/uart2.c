@@ -49,6 +49,7 @@
 #include <stdint.h>
 #include "xc.h"
 #include "uart2.h"
+#include "../grbl/grbl.h"
 
 /**
   Section: Data Type Definitions
@@ -141,7 +142,9 @@ void UART2_Initialize(void)
 
     UART2_SetRxInterruptHandler(UART2_Receive_ISR);
 
+    IFS3bits.U2EIF = 0;
     IEC1bits.U2RXIE = 1;
+    IEC3bits.U2EIE = 1;
     
     //Make sure to set LAT bit corresponding to TxPin as high before UART initialization
     U2MODEbits.UARTEN = 1;   // enabling UART ON bit
@@ -237,6 +240,7 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _U2EInterrupt( void )
 //        U2STAbits.OERR = 0;
         U2MODEbits.UARTEN = 0; //OERR errata workaround
         U2MODEbits.UARTEN = 1; //OERR errata workaround
+        mc_reset(); //Reset if comm failure. Can be omitted if COMM checksums are used...
     }
     
     IFS3bits.U2EIF = 0;
