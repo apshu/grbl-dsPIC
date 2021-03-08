@@ -835,7 +835,7 @@ uint8_t gc_execute_line(char *line) {
                                     FAIL(STATUS_GCODE_INVALID_TARGET);
                                 }
                             } else {
-                                if (angle < 200.0) {
+                                if (angle <= 200.0) {
                                     if (!servo_setAngle(gc_block.values.p, angle)) {
                                         FAIL(STATUS_GCODE_INVALID_TARGET);
                                     }
@@ -848,6 +848,7 @@ uint8_t gc_execute_line(char *line) {
                         } else {
                             FAIL(STATUS_GCODE_INVALID_TARGET);
                         }
+                        pwm_applyChannel(gc_block.values.p);
                     } else {
                         FAIL(STATUS_GCODE_VALUE_WORD_MISSING);
                     }

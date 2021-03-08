@@ -39,13 +39,13 @@ Grbl includes full acceleration management with look ahead. That means the contr
 
 - New commands `M90`* and `M91`* for ATX power supplies. `M90` turns on and `M91` turns off an ATX power supply. Compile-time config setting allows PGOOD signal monitoring.
 
-- New command `M280`* for RC servo control. `P` selects servo channel, `S` values between 0 and 200 sets angle, bigger numbers set high pulse width. Negative numbers turns the servo off. 
-   * `T1` specifies analog servo type. (Futaba 50Hz)
-   * `T2` means digital RC servo. (600Hz Futaba)
+- New command `M280`* for RC servo control. `P` selects servo channel, `S` values between 0 and 200 sets angle, bigger numbers set high pulse width in uSec. Negative numbers turns the servo off. 
+   * `T1` specifies analog servo type. (Futaba 50Hz, 1.5ms center position)
+   * `T2` means fast RC servo. (300Hz Futaba, 1.5ms center position)
    * `T3` creates PWM for 4-20mA analog servos, 0-100% = 0-200deg PWM at 1kHz.
    * `T4` enables PWM at 10kHz for 0-10V servos 0-100% = 0-200deg
 
-- New command `M116`* for PWM control. Parameter `P` selects the channel. (default 0)Optional `R` parameter sets PWM frequency. If a channel is disabled, `R` parameter is mandatory to enable the channel. Parameter `S` selects duty cycle. `S` param is mandatory for all commands, except indibit PWM. S0.0...1.0 set duty cycle 0%...100%. Negative `S` values sets high pulse length in uSec. If parameter `I` is defined, the PWM channel is unconditionnaly turned off.
+- New command `M116`* for PWM control. Parameter `P` selects the channel. (default 0)Optional `R` parameter sets PWM frequency. If a channel is disabled, `R` parameter is mandatory to enable the channel. Parameter `S` selects duty cycle. `S` param is mandatory for all commands, except inhibit PWM. S0.0...1.0 set duty cycle 0%...100%. Negative `S` values sets high pulse length in uSec. If parameter `I` is defined, the PWM channel is unconditionnaly turned off.
 
 ```
 List of Supported G-Codes in Grbl v2.0:

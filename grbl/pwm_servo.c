@@ -10,18 +10,6 @@ typedef struct {
 
 pwmSetting_t pwmSettings[NUM_PWM_CHANNELS] = {
     {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
-    {.mode = PWM_OFF,},
 };
 
 bool pwm_isChannelEnabled(uint_fast8_t channel) {
@@ -35,11 +23,11 @@ void pwm_applyChannel(uint_fast8_t channel) {
     pwmSetting_t *curCh;
     uint_fast8_t lastChannel = channel;
     if (lastChannel >= NUM_PWM_CHANNELS) {
-        lastChannel = NUM_PWM_CHANNELS;
+        lastChannel = NUM_PWM_CHANNELS - 1;
         channel = 0;
     }
     pwmhw_startPWMupdates();
-    for (curCh = pwmSettings + channel; channel < lastChannel; ++channel, ++curCh) {
+    for (curCh = pwmSettings + channel; channel <= lastChannel; ++channel, ++curCh) {
         if (curCh->mode == PWM_OFF) {
             pwmhw_disableChannel(channel);
             pwmhw_setHighPulseLength(channel, 0);
@@ -79,7 +67,7 @@ bool pwm_setDutyCycle(uint_fast8_t channel, float dutyCycle) {
                 if (dutyCycle >= 100.0) {
                     pwmSettings[channel].highPulseNanosec = -1UL;
                 } else {
-                    pwmSettings[channel].highPulseNanosec = (1e9 * dutyCycle) / pwmSettings[channel].frequencyHz;
+                    pwmSettings[channel].highPulseNanosec = (1e7 * dutyCycle) / pwmSettings[channel].frequencyHz; //Duty cycle in %
                 }
             }
             return true;
@@ -141,20 +129,20 @@ bool servo_enable(uint_fast8_t channel, pwmMode_t servo_type) {
 
 bool servo_setAngle(uint_fast8_t channel, float angle) {
     if (channel < NUM_PWM_CHANNELS) {
-        uint32_t pulseLenNanosec = 0;
+        uint32_t pulseLenMicrosec = 0;
         switch (pwmSettings[channel].mode) {
             case PWM_SERVO_TYPE_ANALOG:
             case PWM_SERVO_TYPE_DIGITAL:
                 if (angle < 360.0) {
-                    pulseLenNanosec = 500000.0 + ((angle * 2000000.0) / 200.0);
+                    pulseLenMicrosec = 500.0 + ((angle * 2000.0) / 200.0);
                 } else {
                     return false;
                 }
-                return pwm_setPulseLength(channel, pulseLenNanosec);
+                return pwm_setPulseLength(channel, pulseLenMicrosec);
                 break;
             case PWM_SERVO_TYPE_420mA:
             case PWM_SERVO_TYPE_010V:
-                return pwm_setDutyCycle(channel, angle / 200.0);
+                return pwm_setDutyCycle(channel, angle / 2.0); //Duty Cycle in %
                 break;
             default:
                 break;
