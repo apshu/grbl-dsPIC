@@ -827,14 +827,15 @@ uint8_t gc_execute_line(char *line) {
                     report_feedback_message(MESSAGE_ATX_POWER_OFF);
                     break;
                 case NON_MODAL_SERVO_POSITION:
-                    if (bit_istrue(value_words, bit(WORD_P)) && bit_istrue(value_words, bit(WORD_S))) {
-                        if (servo_enable(gc_block.values.p, bit_istrue(value_words, bit(WORD_T)) ? gc_block.values.t : PWM_SERVO_TYPE_ANALOG)) {
-                            float angle = gc_block.values.s;
-                            if (angle < 0.0) {
-                                if (!servo_disable(gc_block.values.p)) {
-                                    FAIL(STATUS_GCODE_INVALID_TARGET);
-                                }
-                            } else {
+                    if (bit_istrue(value_words, bit(WORD_I))) {
+                        if (!servo_disable(gc_block.values.p)) {
+                            FAIL(STATUS_GCODE_INVALID_TARGET);
+                        }
+                        bit_false(value_words, bit(WORD_I));
+                    } else {
+                        if (bit_istrue(value_words, bit(WORD_S))) {
+                            if (servo_enable(gc_block.values.p, bit_istrue(value_words, bit(WORD_T)) ? gc_block.values.t : PWM_SERVO_TYPE_ANALOG)) {
+                                float angle = gc_block.values.s;
                                 if (angle <= 200.0) {
                                     if (!servo_setAngle(gc_block.values.p, angle)) {
                                         FAIL(STATUS_GCODE_INVALID_TARGET);
@@ -844,14 +845,14 @@ uint8_t gc_execute_line(char *line) {
                                         FAIL(STATUS_GCODE_INVALID_TARGET);
                                     }
                                 }
+                            } else {
+                                FAIL(STATUS_GCODE_INVALID_TARGET);
                             }
                         } else {
-                            FAIL(STATUS_GCODE_INVALID_TARGET);
+                            FAIL(STATUS_GCODE_VALUE_WORD_MISSING);
                         }
-                        pwm_applyChannel(gc_block.values.p);
-                    } else {
-                        FAIL(STATUS_GCODE_VALUE_WORD_MISSING);
                     }
+                    pwm_applyChannel(gc_block.values.p);
                     break;
                 case NON_MODAL_PWMDC:
                     if (bit_istrue(value_words, bit(WORD_I))) { // If I(nhibit) parameter present, PWM channel will be shut down
