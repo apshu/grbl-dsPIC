@@ -312,6 +312,11 @@ uint8_t gc_execute_line(char *line) {
                                 break; // M9 disables both M7 and M8.
                         }
                         break;
+#if (NUM_SERVO_CHANNELS + NUM_PWM_CHANNELS) > 0
+                    case 68:
+                        gc_block.non_modal_command = NON_MODAL_PWMDC;
+                        break;
+#endif
 #ifdef ENABLE_ATX_POWER
                     case 80:
                         gc_block.non_modal_command = NON_MODAL_ATX_ON;
@@ -326,10 +331,6 @@ uint8_t gc_execute_line(char *line) {
                         break;
 #endif
 #if (NUM_SERVO_CHANNELS + NUM_PWM_CHANNELS) > 0
-                    case 116:
-                        gc_block.non_modal_command = NON_MODAL_PWMDC;
-                        break;
-
                     case 280:
                         gc_block.non_modal_command = NON_MODAL_SERVO_POSITION;
                         break;
@@ -856,36 +857,38 @@ uint8_t gc_execute_line(char *line) {
                     break;
                 case NON_MODAL_PWMDC:
                     if (bit_istrue(value_words, bit(WORD_I))) { // If I(nhibit) parameter present, PWM channel will be shut down
-                        pwm_disable(gc_block.values.p);
+                        if (!pwm_disable(gc_block.values.p)) {
+                            FAIL(STATUS_GCODE_INVALID_TARGET);
+                        }
                     } else {
-                        if (bit_isfalse(value_words, bit(WORD_S))) { // Duty cycle parameter has to be defined when this command is called
+                        if (bit_isfalse(value_words, bit(WORD_J))) { // Duty cycle parameter has to be defined when this command is called
                             FAIL(STATUS_GCODE_VALUE_WORD_MISSING);
                         }
                         if (pwm_isChannelEnabled(gc_block.values.p)) {
-                            if (bit_isfalse(value_words, bit(WORD_R))) { // Request to change the PWM frequency
+                            if (bit_istrue(value_words, bit(WORD_R))) { // Request to change the PWM frequency
                                 if (!pwm_enable(gc_block.values.p, gc_block.values.r)) { //Invalid frequency reports error, does not affect the running PWM
                                     FAIL(STATUS_BAD_NUMBER_FORMAT); //Command does not make sense
                                 }
                             }
-                            if (gc_block.values.s < 0.0) { // Negative S values represent pulse length in microSeconds
-                                if (!pwm_setPulseLength(gc_block.values.p, -gc_block.values.s)) {
+                            if (gc_block.values.ijk[1] < 0.0) { // Negative S values represent pulse length in microSeconds
+                                if (!pwm_setPulseLength(gc_block.values.p, -gc_block.values.ijk[1])) {
                                     FAIL(STATUS_BAD_NUMBER_FORMAT); //Invalid parameter leaves the PWM channel intact, when PWM is running
                                 }
                             } else {
-                                if (!pwm_setDutyCycle(gc_block.values.p, gc_block.values.s)) {
+                                if (!pwm_setDutyCycle(gc_block.values.p, gc_block.values.ijk[1])) {
                                     FAIL(STATUS_BAD_NUMBER_FORMAT); //Invalid parameter leaves the PWM channel intact, when PWM is running
                                 }
                             }
                         } else {
                             if (pwm_enable(gc_block.values.p, gc_block.values.r)) {
-                                if (gc_block.values.s < 0.0) { // Negative S values represent pulse length in microSeconds
-                                    if (!pwm_setPulseLength(gc_block.values.p, -gc_block.values.s)) { //Invalid parameter disables the PWM channel intact, when PWM is not running
+                                if (gc_block.values.ijk[1] < 0.0) { // Negative S values represent pulse length in microSeconds
+                                    if (!pwm_setPulseLength(gc_block.values.p, -gc_block.values.ijk[1])) { //Invalid parameter disables the PWM channel intact, when PWM is not running
                                         pwm_disable(gc_block.values.p);
                                         pwm_applyChannel(gc_block.values.p);
                                         FAIL(STATUS_BAD_NUMBER_FORMAT);
                                     }
                                 } else {
-                                    if (!pwm_setDutyCycle(gc_block.values.p, gc_block.values.s)) { //Invalid parameter disables the PWM channel intact, when PWM is not running
+                                    if (!pwm_setDutyCycle(gc_block.values.p, gc_block.values.ijk[1])) { //Invalid parameter disables the PWM channel intact, when PWM is not running
                                         pwm_disable(gc_block.values.p);
                                         pwm_applyChannel(gc_block.values.p);
                                         FAIL(STATUS_BAD_NUMBER_FORMAT);
@@ -896,6 +899,9 @@ uint8_t gc_execute_line(char *line) {
                             }
                         }
                     }
+                    bit_false(value_words, bit(WORD_I));
+                    bit_false(value_words, bit(WORD_J));
+                    bit_false(value_words, bit(WORD_R));
                     pwm_applyChannel(gc_block.values.p);
                     break;
             }
