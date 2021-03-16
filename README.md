@@ -63,7 +63,7 @@ List of Supported G-Codes in Grbl v2.0:
   - Program Flow: M0, M1, M2, M30*
   - Coolant Control: M7*, M8, M9
   - Spindle Control: M3, M4, M5
-  - PWM/servo output: M116*, M280*
+  - PWM/servo output: M68*, M280*
   - ATX power supply control: M80*, M81*
   - Pins status: M119*
   - Configuration storage: M500*, M501*
