@@ -109,17 +109,13 @@
   #define CONTROL_PIN_INDEX_RESET         bit(1)
   #define CONTROL_PIN_INDEX_FEED_HOLD     bit(2)
   #define CONTROL_PIN_INDEX_CYCLE_START   bit(3)
-#ifdef ENABLE_SPINDLE_MANUAL_OVERRIDE
   #define CONTROL_PIN_INDEX_MANUAL_PWM    bit(4)
-#endif
 #else
   #define N_CONTROL_PIN 4
   #define CONTROL_PIN_INDEX_RESET         bit(0)
   #define CONTROL_PIN_INDEX_FEED_HOLD     bit(1)
   #define CONTROL_PIN_INDEX_CYCLE_START   bit(2)
-#ifdef ENABLE_SPINDLE_MANUAL_OVERRIDE
   #define CONTROL_PIN_INDEX_MANUAL_PWM    bit(4)
-#endif
 #endif
 
 // Define spindle stop override control states.
