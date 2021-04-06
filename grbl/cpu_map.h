@@ -177,9 +177,9 @@
   #define CONTROL_MANUAL_PWM_PIN       6   //Physical MCU port/pin
   #define LED_MANUAL_PWM_PORT          C   //Physical MCU port/pin
   #define LED_MANUAL_PWM_PIN           1   //Physical MCU port/pin
-  #define LED_MANUAL_PWM_ON()          do { } while(0)
+  #define LED_MANUAL_PWM_ON()          do { GPIO_setPinLow(LED_MANUAL_PWM_PORT, LED_MANUAL_PWM_PIN); } while(0)
   #define LED_MANUAL_PWM_BLINK()       do { } while(0)
-  #define LED_MANUAL_PWM_OFF()         do { } while(0)
+  #define LED_MANUAL_PWM_OFF()         do { GPIO_setPinHigh(LED_MANUAL_PWM_PORT, LED_MANUAL_PWM_PIN); } while(0)
 #endif
 
   // Define probe switch input pin.
