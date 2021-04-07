@@ -75,7 +75,7 @@ void PIN_MANAGER_Initialize (void)
      * Setting the GPIO Direction SFR(s)
      ***************************************************************************/
     TRISA = 0x001F;
-    TRISB = 0xFFFD;
+    TRISB = 0xFBFD;
     TRISC = 0xFFF7;
     TRISD = 0xFFE7;
 
@@ -102,10 +102,10 @@ void PIN_MANAGER_Initialize (void)
     /****************************************************************************
      * Setting the Analog/Digital Configuration SFR(s)
      ***************************************************************************/
-    ANSELA = 0x001F;
-    ANSELB = 0x039D;
-    ANSELC = 0x00C7;
-    ANSELD = 0x7C00;
+    ANSELA = 0x0000;
+    ANSELB = 0x0000;
+    ANSELC = 0x0004;
+    ANSELD = 0x0000;
 
 
     /****************************************************************************
@@ -117,8 +117,8 @@ void PIN_MANAGER_Initialize (void)
     RPOR18bits.RP68R = 0x0012;    //RD4->SCCP4:OCM4
     RPINR18bits.U1RXR = 0x002E;    //RB14->UART1:U1RX
     RPOR17bits.RP67R = 0x0001;    //RD3->UART1:U1TX
-    RPOR9bits.RP51R = 0x000F;    //RC3->SCCP1:OCM1
-    
+    RPOR9bits.RP51R = 0x000F;    //RC3->SCCP1:OCM1    
+
 #ifndef BLUETOOTH_SERIAL_SHARE_TX
 #error "This PCB is designed for shared UART TX"
 #endif

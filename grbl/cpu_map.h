@@ -156,11 +156,12 @@
   #define CONTROL_RESET_BIT            0
   #define CONTROL_FEED_HOLD_BIT        1
   #define CONTROL_CYCLE_START_BIT      2
+  #define CONTROL_ATX_POWER_BIT        3
 #ifdef ENABLE_SPINDLE_MANUAL_OVERRIDE
-  #define CONTROL_MANUAL_PWM_BIT       3   
-  #define CONTROL_MASK                 ((1<<CONTROL_RESET_BIT)|(1<<CONTROL_FEED_HOLD_BIT)|(1<<CONTROL_CYCLE_START_BIT)|(1<<CONTROL_MANUAL_PWM_BIT))
+  #define CONTROL_MANUAL_PWM_BIT       4   
+  #define CONTROL_MASK                 ((1<<CONTROL_RESET_BIT)|(1<<CONTROL_FEED_HOLD_BIT)|(1<<CONTROL_CYCLE_START_BIT)|(1<<CONTROL_ATX_POWER_BIT)|(1<<CONTROL_MANUAL_PWM_BIT))
 #else
-  #define CONTROL_MASK                 ((1<<CONTROL_RESET_BIT)|(1<<CONTROL_FEED_HOLD_BIT)|(1<<CONTROL_CYCLE_START_BIT))
+  #define CONTROL_MASK                 ((1<<CONTROL_RESET_BIT)|(1<<CONTROL_FEED_HOLD_BIT)|(1<<CONTROL_CYCLE_START_BIT)|(1<<CONTROL_ATX_POWER_BIT))
 #endif
   #define INVERT_CONTROL_PIN_MASK      CONTROL_MASK // May be re-defined to only invert certain control pins.
 
@@ -209,10 +210,13 @@
   #define ATX_POWER_ON_PORT            D   //Physical MCU port/pin
   #define ATX_POWER_ON_BIT             15  //Physical MCU port/pin
   #define ATX_POWER_ON_MASK            (1<<ATX_POWER_ON_BIT)
-  #define ATX_POWER_BTN_PORT           A   //Physical MCU port/pin
-  #define ATX_POWER_BTN_PIN            3   //Physical MCU port/pin
-  #define ATX_LED_PORT                 A   //Physical MCU port/pin
-  #define ATX_LED_PIN                  4   //Physical MCU port/pin
+  #define CONTROL_ATX_POWER_PORT       A   //Physical MCU port/pin
+  #define CONTROL_ATX_POWER_PIN        3   //Physical MCU port/pin
+  #define LED_ATX_POWER_PORT           A   //Physical MCU port/pin
+  #define LED_ATX_POWER_PIN            4   //Physical MCU port/pin
+  #define LED_ATX_POWER_ON()           do { GPIO_setPinLow(LED_ATX_POWER_PORT, LED_ATX_POWER_PIN); } while(0)
+  #define LED_ATX_POWER_BLINK()        do { } while(0)
+  #define LED_ATX_POWER_OFF()          do { GPIO_setPinHigh(LED_ATX_POWER_PORT, LED_ATX_POWER_PIN); } while(0)
   //#define ATX_POWER_PGOOD_PORT         D   //Physical MCU port/pin
   //#define ATX_POWER_PGOOD_BIT          2   //Physical MCU port/pin
   //#define ATX_POWER_PGOOD_MASK         (1<<ATX_POWER_PGOOD_BIT)

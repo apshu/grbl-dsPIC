@@ -24,7 +24,7 @@
 void system_init()
 {
 #define CONTROL_PIN_COMMANDS(axis_name) GPIO_confInputPin(_prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN));
-//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM,ATX_POWER>)">
 #if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
     CONTROL_PIN_COMMANDS(SAFETY_DOOR)
 #endif
@@ -39,6 +39,17 @@ void system_init()
 #endif
 #if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
     CONTROL_PIN_COMMANDS(MANUAL_PWM)
+#if defined( LED_MANUAL_PWM_PORT ) && defined ( LED_MANUAL_PWM_PIN )
+    GPIO_confOutputPin(LED_MANUAL_PWM_PORT, LED_MANUAL_PWM_PIN);
+    LED_MANUAL_PWM_OFF();
+#endif    
+#endif
+#ifdef CONTROL_ATX_POWER_BIT
+    CONTROL_PIN_COMMANDS(ATX_POWER)
+#if defined( LED_ATX_POWER_PORT ) && defined ( LED_ATX_POWER_PIN )
+    GPIO_confOutputPin(LED_ATX_POWER_PORT, LED_ATX_POWER_PIN);
+    LED_ATX_POWER_OFF();
+#endif    
 #endif
   //</editor-fold>
 #undef CONTROL_PIN_COMMANDS
@@ -61,6 +72,9 @@ void system_init()
 #if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
     CONTROL_PIN_COMMANDS(MANUAL_PWM)
 #endif
+#ifdef CONTROL_ATX_POWER_BIT
+    CONTROL_PIN_COMMANDS(ATX_POWER)
+#endif
   //</editor-fold>
 #undef CONTROL_PIN_COMMANDS
   #else
@@ -80,6 +94,9 @@ void system_init()
 #endif
 #if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
     CONTROL_PIN_COMMANDS(MANUAL_PWM)
+#endif
+#ifdef CONTROL_ATX_POWER_BIT
+    CONTROL_PIN_COMMANDS(ATX_POWER)
 #endif
   //</editor-fold>
 #undef CONTROL_PIN_COMMANDS
@@ -101,6 +118,9 @@ void system_init()
 #if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
     CONTROL_PIN_COMMANDS(MANUAL_PWM)
 #endif
+#ifdef CONTROL_ATX_POWER_BIT
+    CONTROL_PIN_COMMANDS(ATX_POWER)
+#endif
   //</editor-fold>
 #undef CONTROL_PIN_COMMANDS
 }
@@ -113,7 +133,7 @@ gpioport_t system_control_get_state()
 {
   gpioport_t control_state = 0;
     #define CONTROL_PIN_COMMANDS(control_name) if ( GPIO_readLivePin(_prepost(CONTROL_,control_name,_PORT), _prepost(CONTROL_,control_name,_PIN)) == ((INVERT_CONTROL_PIN_MASK >> _prepost(CONTROL_,control_name,_BIT)) & 1) ) { control_state |= _post(CONTROL_PIN_INDEX_, control_name); }
-//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM,ATX_POWER>)">
 #if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
     CONTROL_PIN_COMMANDS(SAFETY_DOOR)
 #endif
@@ -129,7 +149,10 @@ gpioport_t system_control_get_state()
 #if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
     CONTROL_PIN_COMMANDS(MANUAL_PWM)
 #endif
-  //</editor-fold>
+#ifdef CONTROL_ATX_POWER_BIT
+    CONTROL_PIN_COMMANDS(ATX_POWER)
+#endif  
+//</editor-fold>
     #undef CONTROL_PIN_COMMANDS
   return(control_state);
 }
