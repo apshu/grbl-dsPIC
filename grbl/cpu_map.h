@@ -138,6 +138,9 @@
 
   #define TIMER_10ms_TIMER TMR1
 
+  #define TIMER_UI_TIMER                CCP8
+  #define TIMER_UI_TIMER_TICK_MS        (10) //TIMER_UI_TIMER calls every TIMER_UI_TIMER_TICK_MS[msec]]
+
   // Define spindle enable and spindle direction output pins.
   #define SPINDLE_ENABLE_PORT          B   //Physical MCU port/pin
   #define SPINDLE_ENABLE_BIT           1   //Physical MCU port/pin
@@ -178,9 +181,9 @@
   #define CONTROL_MANUAL_PWM_PIN       6   //Physical MCU port/pin
   #define LED_MANUAL_PWM_PORT          C   //Physical MCU port/pin
   #define LED_MANUAL_PWM_PIN           1   //Physical MCU port/pin
-  #define LED_MANUAL_PWM_ON()          do { GPIO_setPinLow(LED_MANUAL_PWM_PORT, LED_MANUAL_PWM_PIN); } while(0)
-  #define LED_MANUAL_PWM_BLINK()       do { } while(0)
-  #define LED_MANUAL_PWM_OFF()         do { GPIO_setPinHigh(LED_MANUAL_PWM_PORT, LED_MANUAL_PWM_PIN); } while(0)
+  #define LED_MANUAL_PWM_ON()          do { user_interface.LED_manual_pwm.blink_off_time = 0; user_interface.LED_manual_pwm.blink_period = 200; user_interface.LED_manual_pwm.blink_counter = 0; } while(0)
+  #define LED_MANUAL_PWM_BLINK()       do { user_interface.LED_manual_pwm.blink_off_time = 100; user_interface.LED_manual_pwm.blink_period = 200; user_interface.LED_manual_pwm.blink_counter = 0; } while(0)
+  #define LED_MANUAL_PWM_OFF()         do { GPIO_setPinHigh(LED_MANUAL_PWM_PORT, LED_MANUAL_PWM_PIN); user_interface.LED_manual_pwm.blink_off_time = UINT16_MAX; user_interface.LED_manual_pwm.blink_period = 200; user_interface.LED_manual_pwm.blink_counter = 0; } while(0)
 #endif
 
   // Define probe switch input pin.
@@ -214,9 +217,9 @@
   #define CONTROL_ATX_POWER_PIN        3   //Physical MCU port/pin
   #define LED_ATX_POWER_PORT           A   //Physical MCU port/pin
   #define LED_ATX_POWER_PIN            4   //Physical MCU port/pin
-  #define LED_ATX_POWER_ON()           do { GPIO_setPinLow(LED_ATX_POWER_PORT, LED_ATX_POWER_PIN); } while(0)
-  #define LED_ATX_POWER_BLINK()        do { } while(0)
-  #define LED_ATX_POWER_OFF()          do { GPIO_setPinHigh(LED_ATX_POWER_PORT, LED_ATX_POWER_PIN); } while(0)
+  #define LED_ATX_POWER_ON()           do { user_interface.LED_ATX.blink_off_time = 0; user_interface.LED_ATX.blink_period = 200; user_interface.LED_ATX.blink_counter = 0; } while(0)
+  #define LED_ATX_POWER_BLINK()        do { user_interface.LED_ATX.blink_off_time = 100; user_interface.LED_ATX.blink_period = 200; user_interface.LED_ATX.blink_counter = 0; } while(0)
+  #define LED_ATX_POWER_OFF()          do { GPIO_setPinHigh(LED_ATX_POWER_PORT, LED_ATX_POWER_PIN); user_interface.LED_ATX.blink_off_time = UINT16_MAX; user_interface.LED_ATX.blink_period = 200; user_interface.LED_ATX.blink_counter = 0; } while(0)
   //#define ATX_POWER_PGOOD_PORT         D   //Physical MCU port/pin
   //#define ATX_POWER_PGOOD_BIT          2   //Physical MCU port/pin
   //#define ATX_POWER_PGOOD_MASK         (1<<ATX_POWER_PGOOD_BIT)

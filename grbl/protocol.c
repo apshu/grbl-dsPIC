@@ -402,6 +402,13 @@ void protocol_exec_rt_system()
     }
   }
 
+  // User interface commands
+  rt_exec = sys_rt_exec_user_interface; // Copy volatile sys_rt_exec_user_interface
+  if (rt_exec) {
+    system_clear_exec_user_interface(); // Clear all user interface request flags.
+  }
+  ui_task();
+  
   // Execute overrides.
   rt_exec = sys_rt_exec_motion_override; // Copy volatile sys_rt_exec_motion_override
   if (rt_exec) {

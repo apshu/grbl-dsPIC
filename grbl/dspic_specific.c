@@ -151,6 +151,10 @@ void _prepost(S, STEPPERS_STEP_TIMER, _TMR_Timer32CallBack)(void) {
     TIMER1_COMPA_vect();
 }
 
+void _prepost(S, TIMER_UI_TIMER, _TMR_Timer32CallBack)(void) {
+    ui_tick(TIMER_UI_TIMER_TICK_MS);
+}
+
 ISR(TIMER0_OVF_vect);
 
 void _prepost(S, STEPPERS_STEP_RESET_TIMER, _COMPARE_TimerCallBack)(void) {

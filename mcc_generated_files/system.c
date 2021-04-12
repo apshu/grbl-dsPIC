@@ -56,7 +56,7 @@
 #include "sccp5_compare.h"
 #include "sccp6_compare.h"
 #include "sccp7_compare.h"
-#include "sccp8_compare.h"
+#include "sccp8_tmr.h"
 #include "memory/flash.h"
 #include "tmr1.h"
 #include "uart2.h"
@@ -75,7 +75,7 @@ void SYSTEM_Initialize(void)
     SCCP5_COMPARE_Initialize();
     SCCP6_COMPARE_Initialize();
     SCCP7_COMPARE_Initialize();
-    SCCP8_COMPARE_Initialize();
+    SCCP8_TMR_Initialize();
     UART1_Initialize();
     UART2_Initialize();
     I2C1_Initialize();

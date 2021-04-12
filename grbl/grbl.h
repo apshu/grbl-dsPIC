@@ -59,6 +59,7 @@
 #include "atx.h"
 #include "btserial.h"
 #include "pwm_servo.h"
+#include "user_interface.h"
 
 // ---------------------------------------------------------------------------------------
 // COMPILE-TIME ERROR CHECKING OF DEFINE VALUES:

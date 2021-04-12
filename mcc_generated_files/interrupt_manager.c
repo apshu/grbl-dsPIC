@@ -76,6 +76,12 @@ void INTERRUPT_Initialize (void)
     //    URXI: UART2 RX
     //    Priority: 2
         IPC6bits.U2RXIP = 2;
+    //    CCPI: CCP8 Capture/Compare Event
+    //    Priority: 1
+        IPC38bits.CCP8IP = 1;
+    //    CCTI: CCP8 Timer Event
+    //    Priority: 1
+        IPC38bits.CCT8IP = 1;
     //    UEVTI: UART1 Event
     //    Priority: 1
         IPC47bits.U1EVTIP = 1;

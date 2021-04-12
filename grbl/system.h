@@ -164,6 +164,7 @@ extern volatile uint8_t sys_rt_exec_state;   // Global realtime executor bitflag
 extern volatile uint8_t sys_rt_exec_alarm;   // Global realtime executor bitflag variable for setting various alarms.
 extern volatile uint8_t sys_rt_exec_motion_override; // Global realtime executor bitflag variable for motion-based overrides.
 extern volatile uint8_t sys_rt_exec_accessory_override; // Global realtime executor bitflag variable for spindle/coolant overrides.
+extern volatile uint16_t sys_rt_exec_user_interface; // Global realtime executor bitflag variable for user interface.
 
 #ifdef DEBUG
   #define EXEC_DEBUG_REPORT  bit(0)
@@ -209,8 +210,10 @@ void system_clear_exec_state_flag(uint8_t mask);
 void system_set_exec_alarm(uint8_t code);
 void system_clear_exec_alarm();
 void system_set_exec_motion_override_flag(uint8_t mask);
+void system_set_exec_user_interface_falg(uint16_t mask);
 void system_set_exec_accessory_override_flag(uint8_t mask);
 void system_clear_exec_motion_overrides();
+void system_clear_exec_user_interface();
 void system_clear_exec_accessory_overrides();
 
 

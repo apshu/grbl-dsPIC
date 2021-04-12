@@ -484,6 +484,12 @@ void system_set_exec_motion_override_flag(uint8_t mask) {
   sei();
 }
 
+void system_set_exec_user_interface_flag(uint16_t mask) {
+  cli();
+  sys_rt_exec_user_interface |= (mask);
+  sei();
+}
+
 void system_set_exec_accessory_override_flag(uint8_t mask) {
   cli();
   sys_rt_exec_accessory_override |= (mask);
@@ -491,6 +497,12 @@ void system_set_exec_accessory_override_flag(uint8_t mask) {
 }
 
 void system_clear_exec_motion_overrides() {
+  cli();
+  sys_rt_exec_motion_override = 0;
+  sei();
+}
+
+void system_clear_exec_user_interface() {
   cli();
   sys_rt_exec_motion_override = 0;
   sei();

@@ -30,6 +30,7 @@
         <itemPath>grbl/btserial.h</itemPath>
         <itemPath>grbl/pwm_servo.h</itemPath>
         <itemPath>grbl/xgpio.h</itemPath>
+        <itemPath>grbl/user_interface.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -55,12 +56,12 @@
         <itemPath>mcc_generated_files/tmr1.h</itemPath>
         <itemPath>mcc_generated_files/uart2.h</itemPath>
         <itemPath>mcc_generated_files/sccp4_compare.h</itemPath>
-        <itemPath>mcc_generated_files/sccp8_compare.h</itemPath>
         <itemPath>mcc_generated_files/sccp5_compare.h</itemPath>
         <itemPath>mcc_generated_files/sccp7_compare.h</itemPath>
         <itemPath>mcc_generated_files/sccp6_compare.h</itemPath>
         <itemPath>mcc_generated_files/i2c1.h</itemPath>
         <itemPath>mcc_generated_files/adc1.h</itemPath>
+        <itemPath>mcc_generated_files/sccp8_tmr.h</itemPath>
       </logicalFolder>
       <itemPath>grbl/dspic_specific.h</itemPath>
       <itemPath>grbl/core_specific.h</itemPath>
@@ -96,6 +97,7 @@
         <itemPath>grbl/btserial.c</itemPath>
         <itemPath>grbl/pwm_servo.c</itemPath>
         <itemPath>grbl/mcp23017.c</itemPath>
+        <itemPath>grbl/user_interface.c</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -120,10 +122,10 @@
         <itemPath>mcc_generated_files/sccp4_compare.c</itemPath>
         <itemPath>mcc_generated_files/sccp7_compare.c</itemPath>
         <itemPath>mcc_generated_files/sccp5_compare.c</itemPath>
-        <itemPath>mcc_generated_files/sccp8_compare.c</itemPath>
         <itemPath>mcc_generated_files/sccp6_compare.c</itemPath>
         <itemPath>mcc_generated_files/i2c1.c</itemPath>
         <itemPath>mcc_generated_files/adc1.c</itemPath>
+        <itemPath>mcc_generated_files/sccp8_tmr.c</itemPath>
       </logicalFolder>
       <itemPath>grbl/dspic_specific.c</itemPath>
       <itemPath>main.c</itemPath>
@@ -146,7 +148,7 @@
         <targetDevice>dsPIC33CH512MP506</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>RealICEPlatformTool</platformTool>
+        <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
         <languageToolchainVersion>1.61</languageToolchainVersion>
         <platform>3</platform>
@@ -402,7 +404,7 @@
         <property key="Freeze All Other Peripherals" value="true"/>
         <property key="I2C 1" value="true"/>
         <property key="I2C 2" value="true"/>
-        <property key="MCCP/SCCP 1" value="true"/>
+        <property key="MCCP/SCCP 1" value="false"/>
         <property key="MCCP/SCCP 2" value="true"/>
         <property key="MCCP/SCCP 3" value="true"/>
         <property key="MCCP/SCCP 4" value="true"/>
@@ -427,6 +429,7 @@
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
@@ -489,10 +492,10 @@
       <RealICEPlatformTool>
         <property key="ADC" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
-        <property key="CLC 1" value="true"/>
-        <property key="CLC 2" value="true"/>
-        <property key="CLC 3" value="true"/>
-        <property key="CLC 4" value="true"/>
+        <property key="CLC 1" value="false"/>
+        <property key="CLC 2" value="false"/>
+        <property key="CLC 3" value="false"/>
+        <property key="CLC 4" value="false"/>
         <property key="CRC" value="true"/>
         <property key="DACFRZ" value="true"/>
         <property key="DMA" value="true"/>
@@ -503,7 +506,7 @@
         <property key="MCCP/SCCP 1" value="true"/>
         <property key="MCCP/SCCP 2" value="true"/>
         <property key="MCCP/SCCP 3" value="true"/>
-        <property key="MCCP/SCCP 4" value="true"/>
+        <property key="MCCP/SCCP 4" value="false"/>
         <property key="MCCP/SCCP 5" value="true"/>
         <property key="MCCP/SCCP 6" value="true"/>
         <property key="MCCP/SCCP 7" value="true"/>
@@ -513,7 +516,7 @@
         <property key="PG3" value="true"/>
         <property key="PG4" value="true"/>
         <property key="PTGFRZ" value="true"/>
-        <property key="QEI1" value="true"/>
+        <property key="QEI1" value="false"/>
         <property key="REFO" value="true"/>
         <property key="RIExTrigs.Five" value="OFF"/>
         <property key="RIExTrigs.Four" value="OFF"/>
@@ -523,8 +526,8 @@
         <property key="RIExTrigs.Three" value="OFF"/>
         <property key="RIExTrigs.Two" value="OFF"/>
         <property key="RIExTrigs.Zero" value="OFF"/>
-        <property key="SENT1" value="true"/>
-        <property key="SENT2" value="true"/>
+        <property key="SENT1" value="false"/>
+        <property key="SENT2" value="false"/>
         <property key="SPI 1" value="true"/>
         <property key="SPI 2" value="true"/>
         <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>

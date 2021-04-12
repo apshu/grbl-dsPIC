@@ -64,7 +64,7 @@
 #include "sccp5_compare.h"
 #include "sccp6_compare.h"
 #include "sccp7_compare.h"
-#include "sccp8_compare.h"
+#include "sccp8_tmr.h"
 #include "memory/flash.h"
 #include "tmr1.h"
 #include "uart2.h"
