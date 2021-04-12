@@ -56,7 +56,7 @@ void system_init()
             
   #ifdef DISABLE_CONTROL_PIN_PULL_UP
 #define CONTROL_PIN_COMMANDS(axis_name) GPIO_pulldownEnablePin(_prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN));  // Enable internal pull-down resistors. Normal low operation.
-//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM,ATX_POWER>)">
 #if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
     CONTROL_PIN_COMMANDS(SAFETY_DOOR)
 #endif
@@ -79,7 +79,7 @@ void system_init()
 #undef CONTROL_PIN_COMMANDS
   #else
 #define CONTROL_PIN_COMMANDS(axis_name) GPIO_pullupEnablePin(_prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN));  // Enable internal pull-up resistors. Normal high operation.
-//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM,ATX_POWER>)">
 #if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
     CONTROL_PIN_COMMANDS(SAFETY_DOOR)
 #endif
@@ -102,7 +102,7 @@ void system_init()
 #undef CONTROL_PIN_COMMANDS
   #endif
 #define CONTROL_PIN_COMMANDS(axis_name) GPIO_pinchgNotifyEnablePin(_prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN));
-//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM,ATX_POWER>)">
 #if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
     CONTROL_PIN_COMMANDS(SAFETY_DOOR)
 #endif

@@ -128,7 +128,7 @@ void limits_init()
 
   //Enable/disable pin change notification for the Limit pins
   if (bit_istrue(settings.flags,BITFLAG_HARD_LIMIT_ENABLE)) {
-#define AXIS_COMMANDS(axis_name) GPIO_pinchgNotifyEnable(_prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN));  // Enable pin change notification for the pin
+#define AXIS_COMMANDS(axis_name) GPIO_pinchgNotifyEnablePin(_prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN));  // Enable pin change notification for the pin
 //<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
 #ifdef LIMIT_X_PORT
     AXIS_COMMANDS(X)
@@ -166,7 +166,7 @@ void limits_init()
 // Disables hard limits.
 void limits_disable()
 {
-#define AXIS_COMMANDS(axis_name) GPIO_pinchgNotifyDisable(_prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN));  // Disable pin change notification for the pin
+#define AXIS_COMMANDS(axis_name) GPIO_pinchgNotifyDisablePin(_prepost(LIMIT_,axis_name,_PORT), _prepost(LIMIT_,axis_name,_PIN));  // Disable pin change notification for the pin
 //<editor-fold defaultstate="collapsed" desc="    AXIS_COMMANDS(<X,Y,Z,A,B,C,DUAL>)">
 #ifdef LIMIT_X_PORT
     AXIS_COMMANDS(X)
