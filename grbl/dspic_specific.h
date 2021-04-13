@@ -74,7 +74,7 @@ extern "C" {
 #define GPIO_pulldownEnablePin(port, pin)         GPIO_pulldownEnable(port, 1<<pin)
 #define GPIO_pulldownDisable(port, bitmask)       do { _pre(CNPD, port) &= ~(bitmask); } while (0)
 #define GPIO_pulldownDisablePin(port, pin)        GPIO_pulldownDisable(port, 1<<pin)
-#define GPIO_pinchgNotifyEnable(port, bitmask)    do { _pre(CNCON, port) |= _prepost(_CNCON, port, _ON_MASK) | _prepost(_CNCON, port, _CNSTYLE_MASK); _pre(CNEN0, port) |= (bitmask); _pre(CNEN1, port) = _pre(CNEN0, port); } while (0)  //Enable edge change detect
+#define GPIO_pinchgNotifyEnable(port, bitmask)    do { _pre(CNCON, port) |= _prepost(_CNCON, port, _ON_MASK) | _prepost(_CNCON, port, _CNSTYLE_MASK); _pre(CNEN0, port) |= (bitmask); _pre(CNEN1, port) = _pre(CNEN0, port); _prepost(_CN, port,IE) = 1; } while (0)  //Enable edge change detect
 #define GPIO_pinchgNotifyEnablePin(port, pin)     GPIO_pinchgNotifyEnable(port, 1<<pin)
 #define GPIO_pinchgNotifyDisable(port, bitmask)   do { _pre(CNEN0, port) &= ~(bitmask); _pre(CNEN1, port) = _pre(CNEN0, port); } while (0)
 #define GPIO_pinchgNotifyDisablePin(port, pin)    GPIO_pinchgNotifyDisable(port, 1<<pin)
