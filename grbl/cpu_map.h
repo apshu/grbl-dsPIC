@@ -218,7 +218,7 @@
   #define LED_ATX_POWER_PORT           A   //Physical MCU port/pin
   #define LED_ATX_POWER_PIN            4   //Physical MCU port/pin
   #define LED_ATX_POWER_ON()           do { user_interface.LED_ATX.blink_off_time = 0; user_interface.LED_ATX.blink_period = 200; user_interface.LED_ATX.blink_counter = 0; } while(0)
-  #define LED_ATX_POWER_BLINK()        do { user_interface.LED_ATX.blink_off_time = 100; user_interface.LED_ATX.blink_period = 200; user_interface.LED_ATX.blink_counter = 0; } while(0)
+  #define LED_ATX_POWER_BLINK()        do { user_interface.LED_ATX.blink_off_time = 100; user_interface.LED_ATX.blink_period = 200; } while(0)
   #define LED_ATX_POWER_OFF()          do { GPIO_setPinHigh(LED_ATX_POWER_PORT, LED_ATX_POWER_PIN); user_interface.LED_ATX.blink_off_time = UINT16_MAX; user_interface.LED_ATX.blink_period = 200; user_interface.LED_ATX.blink_counter = 0; } while(0)
   //#define ATX_POWER_PGOOD_PORT         D   //Physical MCU port/pin
   //#define ATX_POWER_PGOOD_BIT          2   //Physical MCU port/pin

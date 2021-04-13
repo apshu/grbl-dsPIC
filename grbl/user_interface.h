@@ -24,6 +24,7 @@ extern "C" {
         uint16_t manual_pwm_override_value; // PWM value that should be used for PWM
         blinky_t LED_manual_pwm; // Setting and state for the manual PWM LED
         uint16_t ATX_btn_down_msec; // ATX power button is engaged for this many msec
+        bool is_ATX_btn_intent_off; // True if user wants to turn ATX off
         blinky_t LED_ATX; // Setting and state for the ATX LED
     } user_interface_t;
     extern user_interface_t user_interface;

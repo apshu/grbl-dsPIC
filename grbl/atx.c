@@ -43,6 +43,7 @@ bool atx_power_on() {
             msdebounce = 0;
         }
         if (msdebounce > ATX_POWER_PGOOD_DEBOUNCE) {
+            LED_ATX_POWER_ON();
             return true;
         }
         if (--msecctr) {
@@ -93,6 +94,7 @@ bool atx_power_off() {
             ++msdebounce;
         }
         if (msdebounce > ATX_POWER_PGOOD_DEBOUNCE) {
+            LED_ATX_POWER_OFF();
             return true;
         }
         if (--msecctr) {
