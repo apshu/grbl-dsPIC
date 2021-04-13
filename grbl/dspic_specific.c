@@ -88,7 +88,7 @@ static void ISR_handle_pinChange(void) {
   //</editor-fold>
 #undef AXIS_COMMANDS
 #define CONTROL_PIN_COMMANDS(axis_name) if (_prepost(CNF, _prepost(CONTROL_,axis_name,_PORT) ,bits)._prepost(CNF, _prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN))) { _prepost(CNF, _prepost(CONTROL_,axis_name,_PORT) ,bits)._prepost(CNF, _prepost(CONTROL_,axis_name,_PORT), _prepost(CONTROL_,axis_name,_PIN)) = 0; CONTROL_INT_vect(); }
-//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM>)">
+//<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM,ATX_POWER>)">
 #if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
     CONTROL_PIN_COMMANDS(SAFETY_DOOR)
 #endif
@@ -103,6 +103,9 @@ static void ISR_handle_pinChange(void) {
 #endif
 #if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
     CONTROL_PIN_COMMANDS(MANUAL_PWM)
+#endif
+#ifdef CONTROL_ATX_POWER_BIT
+    CONTROL_PIN_COMMANDS(ATX_POWER)
 #endif
   //</editor-fold>
 #undef CONTROL_PIN_COMMANDS
@@ -206,7 +209,7 @@ void _prepost(S, STEPPERS_STEP_RESET_TIMER, _COMPARE_CallBack)(void) {
 
 void report_gpio_status(void) {
     printPgmString(PSTR("<GPIO:"));
-    // <editor-fold defaultstate="collapsed" desc="Outputting '10HL' status to each available port Out:1 or 0 In:H or L">
+    // <editor-fold defaultstate="collapsed" desc="Outputting '10HLa' status to each available port Out:1 or 0 In:H or L Analog:a">
 #ifdef PORTA
 #ifndef _I_AM_FIRST_PORTDEF_
 #define _I_AM_FIRST_PORTDEF_
