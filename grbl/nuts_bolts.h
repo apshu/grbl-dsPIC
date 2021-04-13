@@ -65,8 +65,8 @@
 #define bit(n) (1 << n)
 #define bit_true(x,mask) (x) |= (mask)
 #define bit_false(x,mask) (x) &= ~(mask)
-#define bit_istrue(x,mask) ((x & mask) != 0)
-#define bit_isfalse(x,mask) ((x & mask) == 0)
+#define bit_istrue(x,mask) (((x) & (mask)) != 0)
+#define bit_isfalse(x,mask) (((x) & (mask)) == 0)
 
  void strrev(char* s);
  int itoa(int num, char* str, int len, int num_base);
