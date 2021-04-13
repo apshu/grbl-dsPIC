@@ -11,7 +11,7 @@ inline void ui_led_timer(blinky_t *led, uint16_t msec_ellapsed) {
 }
 
 inline bool ui_is_led_on(blinky_t *led) {
-    return led->blink_counter >= led->blink_off_time;
+    return led->blink_counter < led->blink_off_time;
 }
 
 void ui_task(void) {
