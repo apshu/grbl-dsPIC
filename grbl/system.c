@@ -132,7 +132,7 @@ void system_init()
 gpioport_t system_control_get_state()
 {
   gpioport_t control_state = 0;
-    #define CONTROL_PIN_COMMANDS(control_name) if ( GPIO_readLivePin(_prepost(CONTROL_,control_name,_PORT), _prepost(CONTROL_,control_name,_PIN)) == ((INVERT_CONTROL_PIN_MASK >> _prepost(CONTROL_,control_name,_BIT)) & 1) ) { control_state |= _post(CONTROL_PIN_INDEX_, control_name); }
+    #define CONTROL_PIN_COMMANDS(control_name) if ( GPIO_readLivePin(_prepost(CONTROL_,control_name,_PORT), _prepost(CONTROL_,control_name,_PIN)) != ((INVERT_CONTROL_PIN_MASK >> _prepost(CONTROL_,control_name,_BIT)) & 1) ) { control_state |= _post(CONTROL_PIN_INDEX_, control_name); }
 //<editor-fold defaultstate="collapsed" desc="    CONTROL_PIN_COMMANDS(<SAFETY_DOOR,RESET,FEED_HOLD,CYCLE_START,MANUAL_PWM,ATX_POWER>)">
 #if defined( ENABLE_SAFETY_DOOR_INPUT_PIN ) && defined( CONTROL_SAFETY_DOOR_BIT )
     CONTROL_PIN_COMMANDS(SAFETY_DOOR)
