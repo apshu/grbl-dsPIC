@@ -808,7 +808,9 @@ uint8_t gc_execute_line(char *line) {
                     }
                     break;
                 case NON_MODAL_ATX_ON:
-                    if (bit_istrue(value_words, bit(WORD_S))) {
+                    if (bit_istrue(value_words, bit(WORD_S))  // if S specified
+                            || ((system_control_get_state() & CONTROL_PIN_INDEX_ATX_POWER) && user_interface.is_ATX_btn_intent_off)) { // or user wants to turn off
+                        //Report current status
                         report_feedback_message(atx_power_isOn() ? MESSAGE_ATX_POWER_ON : MESSAGE_ATX_POWER_OFF);
                     } else {
                         if (!atx_power_on()) {
@@ -825,6 +827,8 @@ uint8_t gc_execute_line(char *line) {
                         report_feedback_message(MESSAGE_ATX_POWER_ON);
                         FAIL(STATUS_ATX_POWER_FAIL);
                     }
+                    //ATX is successfully off
+                    user_interface.is_ATX_btn_intent_off = true; //Make sure button does not try to override shutdown command
                     report_feedback_message(MESSAGE_ATX_POWER_OFF);
                     break;
                 case NON_MODAL_SERVO_POSITION:
