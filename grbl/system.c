@@ -138,10 +138,16 @@ gpioport_t system_control_get_state()
     CONTROL_PIN_COMMANDS(SAFETY_DOOR)
 #endif
 #ifdef CONTROL_RESET_BIT
+// RESET pin shared with debugger, disable during debugging
+#ifndef __DEBUG
     CONTROL_PIN_COMMANDS(RESET)
 #endif
+#endif
 #ifdef CONTROL_FEED_HOLD_BIT
+// RESET pin shared with debugger, disable during debugging
+#ifndef __DEBUG
     CONTROL_PIN_COMMANDS(FEED_HOLD)
+#endif
 #endif
 #ifdef CONTROL_CYCLE_START_BIT
     CONTROL_PIN_COMMANDS(CYCLE_START)
