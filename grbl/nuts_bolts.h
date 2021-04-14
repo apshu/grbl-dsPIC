@@ -78,6 +78,9 @@ uint8_t read_float(char *line, uint8_t *char_counter, float *float_ptr);
 // Non-blocking delay function used for general operation and suspend features.
 void delay_sec(float seconds, uint8_t mode);
 
+// Tick routine for delay_sec . Called at regular intervals to advance delay_sec time.
+void delay_tick(uint16_t ms);
+
 // Delays variable-defined milliseconds. Compiler compatibility fix for _delay_ms().
 void delay_ms(uint16_t ms);
 

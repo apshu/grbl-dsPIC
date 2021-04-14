@@ -140,6 +140,9 @@
 
   #define TIMER_UI_TIMER                CCP8
   #define TIMER_UI_TIMER_TICK_MS        (10) //TIMER_UI_TIMER calls every TIMER_UI_TIMER_TICK_MS[msec]]
+#if DWELL_TIME_STEP < TIMER_UI_TIMER_TICK_MS
+#warning "Dwell timer resolution is higher than the dwell timer ticks"
+#endif
 
   // Define spindle enable and spindle direction output pins.
   #define SPINDLE_ENABLE_PORT          B   //Physical MCU port/pin

@@ -146,22 +146,36 @@ uint8_t read_float(char *line, uint8_t *char_counter, float *float_ptr)
 
 
 // Non-blocking delay function used for general operation and suspend features.
+volatile uint16_t dwell_timer;
 void delay_sec(float seconds, uint8_t mode)
 {
- 	uint16_t i = ceil(1000/DWELL_TIME_STEP*seconds);
-	while (i-- > 0) {
-		if (sys.abort) { return; }
+    dwell_timer = 0; //Restart dwell timer
+ 	uint32_t msec = (uint32_t)(1000.0*seconds);
+	while (msec) {
+		if (sys.abort) { break; }
 		if (mode == DELAY_MODE_DWELL) {
 			protocol_execute_realtime();
 		} else { // DELAY_MODE_SYS_SUSPEND
 		  // Execute rt_system() only to avoid nesting suspend loops.
 		  protocol_exec_rt_system();
-		  if (sys.suspend & SUSPEND_RESTART_RETRACT) { return; } // Bail, if safety door reopens.
+		  if (sys.suspend & SUSPEND_RESTART_RETRACT) { break; } // Bail, if safety door reopens.
 		}
-		_delay_ms(DWELL_TIME_STEP); // Delay DWELL_TIME_STEP increment
+        uint16_t dwell_now = dwell_timer;
+        if (dwell_now) {
+            dwell_timer -= dwell_now;
+            if (msec <= dwell_now) {
+                // Timing ended
+                break;
+            }
+            msec -= dwell_now;
+        }
 	}
 }
 
+// Tick routine for delay_sec . Called at regular intervals to advance delay_sec time.
+void delay_tick(uint16_t ms) {
+    dwell_timer += ms;
+}
 
 // Delays variable defined milliseconds. Compiler compatibility fix for _delay_ms(),
 // which only accepts constants in future compiler releases.
