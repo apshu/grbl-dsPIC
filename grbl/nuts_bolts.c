@@ -177,11 +177,10 @@ void delay_tick(uint16_t ms) {
     dwell_timer += ms;
 }
 
-// Delays variable defined milliseconds. Compiler compatibility fix for _delay_ms(),
-// which only accepts constants in future compiler releases.
+// Delays variable defined milliseconds. 
 void delay_ms(uint16_t ms)
 {
-  while ( ms-- ) { _delay_ms(1); }
+  _delay_ms(ms);
 }
 
 
