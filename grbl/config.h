@@ -715,6 +715,8 @@
 //#define ATX_POWER_DEFAULT_ON          // Default disabled. Uncomment to enable
 #define ATX_POWER_PGOOD_TIMEOUT   300   //[msec] PGOOD setting time before reporting an ERROR
 #define ATX_POWER_PGOOD_DEBOUNCE  50    //[msec] PGOOD Accepted after this long setady state
+#define ATX_BTN_FORCE_POWERDOWN   3000  //[msec] This long button press forces ATX powerdown when ATX is on
+#define ATX_BTN_FORCE_RESET       5900  //[msec] This long button press forces ATX powerdown and GRBL reset, regardless of ATX state
 
 // Bluetooth serial is just a second serial port to receive data and send status. 
 // Bytes are inserted as they come over the serial port, not checking for line end.

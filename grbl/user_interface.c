@@ -25,18 +25,25 @@ void ui_task(void) {
                 user_interface.is_ATX_btn_intent_off = atx_power_isOn();
                 user_interface.LED_ATX.blink_counter = 0;
             } else {
-                if (user_interface.is_ATX_btn_intent_off == atx_power_isOn()) {
-                    // Intended ATX operation pending
-                    if (user_interface.is_ATX_btn_intent_off) {
-                        if ((sys.state == STATE_IDLE) || bit_istrue(sys.state, STATE_SLEEP | STATE_SAFETY_DOOR) || (user_interface.ATX_btn_down_msec > 3000)) {
-                            gc_execute_line("M81");
-                            user_interface.ATX_btn_down_msec = 0;
+                if (user_interface.ATX_btn_down_msec > ATX_BTN_FORCE_RESET) {
+                    //Holding ATX button very long, causing system shutdown and reset
+                    user_interface.is_ATX_btn_intent_off = true; //Pretend button requetsed poweroff
+                    gc_execute_line("M81"); //Poweroff ATX
+                    mc_reset(); //Reset GRBL
+                } else {
+                    if (user_interface.is_ATX_btn_intent_off == atx_power_isOn()) {
+                        // Intended ATX operation pending
+                        if (user_interface.is_ATX_btn_intent_off) {
+                            if ((sys.state == STATE_IDLE) || bit_istrue(sys.state, STATE_SLEEP | STATE_SAFETY_DOOR) || (user_interface.ATX_btn_down_msec > ATX_BTN_FORCE_POWERDOWN)) {
+                                gc_execute_line("M81");
+                                user_interface.ATX_btn_down_msec = 0;
+                            } else {
+                                LED_ATX_POWER_BLINK();
+                            }
                         } else {
-                            LED_ATX_POWER_BLINK();
+                            //Request to turn on the ATX power supply
+                            gc_execute_line("M80");
                         }
-                    } else {
-                        //Request to turn on the ATX power supply
-                        gc_execute_line("M80");
                     }
                 }
             }
