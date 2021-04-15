@@ -108,7 +108,7 @@ void spindle_stop() {
 void spindle_set_speed(uint16_t pwm_value) {
     PWM_SPINDLE_setDutyCycle(pwm_value); // Set PWM output level.
 #ifdef SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED
-    if (pwm_value == SPINDLE_PWM_OFF_VALUE) {
+    if (pwm_value <= SPINDLE_PWM_OFF_VALUE) {
         spindle_stop();
     } else {
         PWM_SPINDLE_unpause(); // Ensure PWM output is enabled.
@@ -119,7 +119,7 @@ void spindle_set_speed(uint16_t pwm_value) {
 #endif
     }
 #else
-    if (pwm_value == SPINDLE_PWM_OFF_VALUE) {
+    if (pwm_value <= SPINDLE_PWM_OFF_VALUE) {
         PWM_SPINDLE_halt(); // Disable PWM. Output voltage is zero.
     } else {
         PWM_SPINDLE_unpause(); // Ensure PWM output is enabled.
