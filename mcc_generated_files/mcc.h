@@ -69,6 +69,7 @@
 #include "tmr1.h"
 #include "uart2.h"
 #include "i2c1.h"
+#include "adc1.h"
 
 #ifndef _XTAL_FREQ
 #define _XTAL_FREQ  180000000UL
