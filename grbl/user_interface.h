@@ -20,8 +20,11 @@ extern "C" {
 
     typedef struct {
         bool is_manual_pwm_override_active; // Ture, if PWM shall output manual_pwm_knob_value
-        uint16_t manual_pwm_knob_value; // ADC value converted to PWM range, read from potentiometer
+        bool is_manual_pwm_override_reqest; // Ture, if PWM shall output manual_pwm_knob_value
+        uint16_t manual_pwm_knob_value; // ADC value, read from potentiometer
+        uint16_t pwm_automatic_value; // Last spindle PWM request value. (Not including enable/disable state)
         uint16_t manual_pwm_override_value; // PWM value that should be used for PWM
+        uint16_t manual_pwm_btn_down_msec; // PWM override button is engaged for this many msec
         blinky_t LED_manual_pwm; // Setting and state for the manual PWM LED
         uint16_t ATX_btn_down_msec; // ATX power button is engaged for this many msec
         bool is_ATX_btn_intent_off; // True if user wants to turn ATX off

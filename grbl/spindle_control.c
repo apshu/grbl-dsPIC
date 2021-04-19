@@ -106,7 +106,7 @@ void spindle_stop() {
 // and stepper ISR. Keep routine small and efficient.
 
 void spindle_set_speed(uint16_t pwm_value) {
-    PWM_SPINDLE_setDutyCycle(pwm_value); // Set PWM output level.
+    user_interface.pwm_automatic_value = pwm_value; //Remember PWM value when user disengages the manual override mode.
 #ifdef SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED
     if (pwm_value <= SPINDLE_PWM_OFF_VALUE) {
         spindle_stop();
@@ -121,10 +121,12 @@ void spindle_set_speed(uint16_t pwm_value) {
 #else
     if (pwm_value <= SPINDLE_PWM_OFF_VALUE) {
         PWM_SPINDLE_halt(); // Disable PWM. Output voltage is zero.
+        user_interface.pwm_automatic_value = 0;
     } else {
         PWM_SPINDLE_unpause(); // Ensure PWM output is enabled.
     }
 #endif
+    PWM_SPINDLE_setDutyCycle(user_interface.is_manual_pwm_override_active ? user_interface.manual_pwm_override_value : user_interface.pwm_automatic_value); // Set PWM output level.
 }
 
 

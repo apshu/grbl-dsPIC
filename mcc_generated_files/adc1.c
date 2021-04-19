@@ -64,8 +64,8 @@ void ADC1_Initialize (void)
     ADCON2L = 0x00;
     // SHRSAMC 0; 
     ADCON2H = 0x00;
-    // SWCTRG disabled; SHRSAMP disabled; SUSPEND disabled; SWLCTRG disabled; SUSPCIE disabled; CNVCHSEL AN0; REFSEL disabled; 
-    ADCON3L = 0x00;
+    // SWCTRG disabled; SHRSAMP disabled; SUSPEND disabled; SWLCTRG enabled; SUSPCIE disabled; CNVCHSEL AN14; REFSEL disabled; 
+    ADCON3L = 0x8E;
     // SHREN enabled; CLKDIV 1; CLKSEL FOSC/2; 
     ADCON3H = (0x80 & 0xFF00); //Disabling C0EN, C1EN, C2EN, C3EN and SHREN bits
     // SIGN0 disabled; SIGN4 disabled; SIGN3 disabled; SIGN2 disabled; SIGN1 disabled; SIGN7 disabled; SIGN6 disabled; SIGN5 disabled; 
@@ -126,8 +126,8 @@ void ADC1_Initialize (void)
     ADCMP2CON = 0x00;
     // HIHI disabled; LOLO disabled; HILO disabled; BTWN disabled; LOHI disabled; CMPEN disabled; IE disabled; 
     ADCMP3CON = 0x00;
-    // LVLEN9 disabled; LVLEN8 disabled; LVLEN11 disabled; LVLEN7 disabled; LVLEN10 disabled; LVLEN6 disabled; LVLEN13 disabled; LVLEN5 disabled; LVLEN12 disabled; LVLEN4 disabled; LVLEN15 disabled; LVLEN3 disabled; LVLEN14 disabled; LVLEN2 disabled; LVLEN1 disabled; LVLEN0 disabled; 
-    ADLVLTRGL = 0x00;
+    // LVLEN9 disabled; LVLEN8 disabled; LVLEN11 disabled; LVLEN7 disabled; LVLEN10 disabled; LVLEN6 disabled; LVLEN13 disabled; LVLEN5 disabled; LVLEN12 disabled; LVLEN4 disabled; LVLEN15 disabled; LVLEN3 disabled; LVLEN14 enabled; LVLEN2 disabled; LVLEN1 disabled; LVLEN0 disabled; 
+    ADLVLTRGL = 0x4000;
     // LVLEN20 disabled; LVLEN17 disabled; LVLEN16 disabled; LVLEN19 disabled; LVLEN18 disabled; 
     ADLVLTRGH = 0x00;
     // EIEN9 disabled; EIEN7 disabled; EIEN8 disabled; EIEN5 disabled; EIEN6 disabled; EIEN3 disabled; EIEN4 disabled; EIEN1 disabled; EIEN2 disabled; EIEN13 disabled; EIEN0 disabled; EIEN12 disabled; EIEN11 disabled; EIEN10 disabled; EIEN15 disabled; EIEN14 disabled; 
@@ -159,8 +159,8 @@ void ADC1_Initialize (void)
     ADTRIG2H = 0x00;
     //TRGSRC13 None; TRGSRC12 None; 
     ADTRIG3L = 0x00;
-    //TRGSRC15 None; TRGSRC14 None; 
-    ADTRIG3H = 0x00;
+    //TRGSRC15 None; TRGSRC14 Level Software Trigger; 
+    ADTRIG3H = 0x02;
     //TRGSRC17 None; TRGSRC16 None; 
     ADTRIG4L = 0x00;
     //TRGSRC19 None; TRGSRC18 None; 

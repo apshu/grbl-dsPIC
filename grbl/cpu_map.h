@@ -185,7 +185,7 @@
   #define LED_MANUAL_PWM_PORT          C   //Physical MCU port/pin
   #define LED_MANUAL_PWM_PIN           1   //Physical MCU port/pin
   #define LED_MANUAL_PWM_ON()          do { user_interface.LED_manual_pwm.blink_off_time = 0; user_interface.LED_manual_pwm.blink_period = 200; user_interface.LED_manual_pwm.blink_counter = 0; } while(0)
-  #define LED_MANUAL_PWM_BLINK()       do { user_interface.LED_manual_pwm.blink_off_time = 100; user_interface.LED_manual_pwm.blink_period = 200; user_interface.LED_manual_pwm.blink_counter = 0; } while(0)
+  #define LED_MANUAL_PWM_BLINK()       do { user_interface.LED_manual_pwm.blink_off_time = 100; user_interface.LED_manual_pwm.blink_period = 200; } while(0)
   #define LED_MANUAL_PWM_OFF()         do { GPIO_setPinHigh(LED_MANUAL_PWM_PORT, LED_MANUAL_PWM_PIN); user_interface.LED_manual_pwm.blink_off_time = UINT16_MAX; user_interface.LED_manual_pwm.blink_period = 200; user_interface.LED_manual_pwm.blink_counter = 0; } while(0)
 #endif
 

@@ -1,5 +1,9 @@
 #include "grbl.h"
 
+#define BTN_TIMING_MAX          (60000)         // Maximum counting msec for buttons
+#define ADC_MAX_VALUE           (4095)          // Absolute maximum value of ADC
+#define PWM_MATCH_THRESHOLD     (500)           // Error margin for comparing PWM values
+
 user_interface_t user_interface;
 volatile uint16_t ui_msec_since_last_update;
 
@@ -12,6 +16,12 @@ inline void ui_led_timer(blinky_t *led, uint16_t msec_ellapsed) {
 
 inline bool ui_is_led_on(blinky_t *led) {
     return led->blink_counter < led->blink_off_time;
+}
+
+void ui_disable_pwm_override(void) {
+    user_interface.is_manual_pwm_override_active = false; // No PWM override in laser mode
+    user_interface.manual_pwm_btn_down_msec = 0; // Reset button press
+    LED_MANUAL_PWM_OFF();
 }
 
 void ui_task(void) {
@@ -47,13 +57,57 @@ void ui_task(void) {
                     }
                 }
             }
-            user_interface.ATX_btn_down_msec = min(UINT16_MAX, user_interface.ATX_btn_down_msec + msec_sinceLastUpdate);
+            user_interface.ATX_btn_down_msec = min(BTN_TIMING_MAX, user_interface.ATX_btn_down_msec + msec_sinceLastUpdate);
         } else {
             user_interface.ATX_btn_down_msec = 0;
             if (atx_power_isOn()) {
                 LED_ATX_POWER_ON();
             } else {
                 LED_ATX_POWER_OFF();
+            }
+        }
+        if (settings.flags & BITFLAG_LASER_MODE) {
+            // Manual PWM override disabled in laser mode   
+            ui_disable_pwm_override();
+        } else {
+            // Laser mode not active
+            if (control_state & CONTROL_PIN_INDEX_MANUAL_PWM) {
+                //Button down
+                if (!user_interface.manual_pwm_btn_down_msec) {
+                    //Button just pressed
+                    user_interface.is_manual_pwm_override_reqest = !user_interface.is_manual_pwm_override_active; //Requested state is opposite to current state
+                    user_interface.LED_manual_pwm.blink_counter = 0; // Reset blinking timer
+                }
+                user_interface.manual_pwm_knob_value = (user_interface.manual_pwm_knob_value + ADC1_SharedChannelAN14ConversionResultGet()) >> 1;
+                user_interface.manual_pwm_override_value = ((uint32_t) user_interface.manual_pwm_knob_value * SPINDLE_PWM_MAX_VALUE / ADC_MAX_VALUE);
+                if (user_interface.is_manual_pwm_override_reqest != user_interface.is_manual_pwm_override_active) {
+                    //Did not lock on speed
+                    LED_MANUAL_PWM_BLINK(); // Indicate no lock
+                    if (user_interface.is_manual_pwm_override_reqest) {
+                        // Requested manual override, not yet locked
+                        user_interface.is_manual_pwm_override_active = (user_interface.pwm_automatic_value + PWM_MATCH_THRESHOLD >= user_interface.manual_pwm_override_value); // Engage manual mode if spindle slow down or keep speed requested
+                    } else {
+                        // Requested manual override disengage, not yet unlocked
+                        user_interface.is_manual_pwm_override_active = (user_interface.pwm_automatic_value >= user_interface.manual_pwm_override_value + PWM_MATCH_THRESHOLD); // Disengage manual mode if spindle slow down or keep speed requested
+                    }
+                } else {
+                    if (user_interface.is_manual_pwm_override_active) {
+                        LED_MANUAL_PWM_ON();
+                    } else {
+                        LED_MANUAL_PWM_OFF();
+                    }
+                }
+                user_interface.manual_pwm_btn_down_msec = min(BTN_TIMING_MAX, user_interface.manual_pwm_btn_down_msec + msec_sinceLastUpdate);
+            } else {
+                //PWM override button idle
+                user_interface.manual_pwm_btn_down_msec = 0;
+                if (user_interface.is_manual_pwm_override_active) {
+                    user_interface.manual_pwm_knob_value = (user_interface.manual_pwm_knob_value + ADC1_SharedChannelAN14ConversionResultGet()) >> 1;
+                    user_interface.manual_pwm_override_value = ((uint32_t) user_interface.manual_pwm_knob_value * SPINDLE_PWM_MAX_VALUE / ADC_MAX_VALUE);
+                    LED_MANUAL_PWM_ON();
+                } else {
+                    LED_MANUAL_PWM_OFF();
+                }
             }
         }
         ui_msec_since_last_update -= msec_sinceLastUpdate;
