@@ -696,6 +696,7 @@
  * Only PWM is overridden, spindle enable and direction are not overridden.
  */
 #define ENABLE_SPINDLE_MANUAL_OVERRIDE
+#define MANUAL_PWM_BTN_FORCE_OVERRIDE_MS        10000  //[msec] This long button press overrides safety rules
 
 /* ATX power supply control. 
  * M80 command turns on the ATX power supply

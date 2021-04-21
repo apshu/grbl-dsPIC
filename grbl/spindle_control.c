@@ -98,6 +98,7 @@ void spindle_stop() {
     GPIO_setPinLow(LASER_ENABLE_PORT, LASER_ENABLE_PIN);  //Disable laser
 #endif
 #endif
+    ui_disable_pwm_override(); // Stop spindle override if spindle stops
 }
 
 
@@ -107,6 +108,9 @@ void spindle_stop() {
 
 void spindle_set_speed(uint16_t pwm_value) {
     user_interface.pwm_automatic_value = pwm_value; //Remember PWM value when user disengages the manual override mode.
+    if (user_interface.is_manual_pwm_override_active) {
+        pwm_value = user_interface.manual_pwm_override_value;
+    }
 #ifdef SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED
     if (pwm_value <= SPINDLE_PWM_OFF_VALUE) {
         spindle_stop();
@@ -121,12 +125,11 @@ void spindle_set_speed(uint16_t pwm_value) {
 #else
     if (pwm_value <= SPINDLE_PWM_OFF_VALUE) {
         PWM_SPINDLE_halt(); // Disable PWM. Output voltage is zero.
-        user_interface.pwm_automatic_value = 0;
     } else {
         PWM_SPINDLE_unpause(); // Ensure PWM output is enabled.
     }
 #endif
-    PWM_SPINDLE_setDutyCycle(user_interface.is_manual_pwm_override_active ? user_interface.manual_pwm_override_value : user_interface.pwm_automatic_value); // Set PWM output level.
+    PWM_SPINDLE_setDutyCycle(pwm_value); // Set PWM output level.
 }
 
 
@@ -240,6 +243,7 @@ void _spindle_set_state(uint8_t state)
 #else
             GPIO_setPinHigh(LASER_ENABLE_PORT, LASER_ENABLE_PIN);  //Enable laser
 #endif
+            ui_disable_pwm_override(); // No PWM override in Laser mode
         } else {
             if (state == SPINDLE_ENABLE_CW) {
                 GPIO_setLow(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT);

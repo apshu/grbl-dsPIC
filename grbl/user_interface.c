@@ -19,9 +19,9 @@ inline bool ui_is_led_on(blinky_t *led) {
 }
 
 void ui_disable_pwm_override(void) {
-    user_interface.is_manual_pwm_override_active = false; // No PWM override in laser mode
+    user_interface.is_manual_pwm_override_reqest = user_interface.is_manual_pwm_override_active = false; // No PWM override in laser mode
     user_interface.manual_pwm_btn_down_msec = 0; // Reset button press
-    LED_MANUAL_PWM_OFF();
+    spindle_set_speed(user_interface.pwm_automatic_value); // Update PWM to automatic value
 }
 
 void ui_task(void) {
@@ -66,50 +66,81 @@ void ui_task(void) {
                 LED_ATX_POWER_OFF();
             }
         }
-        if (settings.flags & BITFLAG_LASER_MODE) {
-            // Manual PWM override disabled in laser mode   
-            ui_disable_pwm_override();
-        } else {
-            // Laser mode not active
-            if (control_state & CONTROL_PIN_INDEX_MANUAL_PWM) {
-                //Button down
-                if (!user_interface.manual_pwm_btn_down_msec) {
-                    //Button just pressed
-                    user_interface.is_manual_pwm_override_reqest = !user_interface.is_manual_pwm_override_active; //Requested state is opposite to current state
-                    user_interface.LED_manual_pwm.blink_counter = 0; // Reset blinking timer
-                }
-                user_interface.manual_pwm_knob_value = (user_interface.manual_pwm_knob_value + ADC1_SharedChannelAN14ConversionResultGet()) >> 1;
+        user_interface.manual_pwm_knob_value = (user_interface.manual_pwm_knob_value + ADC1_SharedChannelAN14ConversionResultGet()) >> 1;
+#ifdef ENABLE_SPINDLE_MANUAL_OVERRIDE
+        if (control_state & CONTROL_PIN_INDEX_MANUAL_PWM) {
+            //Button down
+            if (!user_interface.manual_pwm_btn_down_msec) {
+                //Button just pressed
+                user_interface.is_manual_pwm_override_reqest = !user_interface.is_manual_pwm_override_active; //Requested state is opposite to current state
+                user_interface.LED_manual_pwm.blink_counter = 0; // Reset blinking timer
+            }
+            if (settings.flags & BITFLAG_LASER_MODE) {
+                // Bad operation requested: No override when laser mode active
+                ui_disable_pwm_override();
+                LED_MANUAL_PWM_BAD_REQEST_BLINK();
+            } else {
+                // Not laser mode
                 user_interface.manual_pwm_override_value = ((uint32_t) user_interface.manual_pwm_knob_value * SPINDLE_PWM_MAX_VALUE / ADC_MAX_VALUE);
                 if (user_interface.is_manual_pwm_override_reqest != user_interface.is_manual_pwm_override_active) {
-                    //Did not lock on speed
-                    LED_MANUAL_PWM_BLINK(); // Indicate no lock
-                    if (user_interface.is_manual_pwm_override_reqest) {
-                        // Requested manual override, not yet locked
-                        user_interface.is_manual_pwm_override_active = (user_interface.pwm_automatic_value + PWM_MATCH_THRESHOLD >= user_interface.manual_pwm_override_value); // Engage manual mode if spindle slow down or keep speed requested
+                    // Pending override mode change
+                    if (user_interface.manual_pwm_btn_down_msec > MANUAL_PWM_BTN_FORCE_OVERRIDE_MS) {
+                        // Very long press overrides safety rules
+                        user_interface.is_manual_pwm_override_active = user_interface.is_manual_pwm_override_reqest;
+                        if (user_interface.is_manual_pwm_override_active) {
+                            LED_MANUAL_PWM_ON();
+                            spindle_set_speed(user_interface.pwm_automatic_value); // Run PWM update cycle. Routine takes care on automatic/manual setting
+                        } else {
+                            ui_disable_pwm_override();
+                            LED_MANUAL_PWM_OFF();
+                        }
                     } else {
-                        // Requested manual override disengage, not yet unlocked
-                        user_interface.is_manual_pwm_override_active = (user_interface.pwm_automatic_value >= user_interface.manual_pwm_override_value + PWM_MATCH_THRESHOLD); // Disengage manual mode if spindle slow down or keep speed requested
+                        //Did not lock on speed
+                        if (spindle_get_state() == SPINDLE_STATE_DISABLE) {
+                            //Bad operation: spindle disabled
+                            LED_MANUAL_PWM_BAD_REQEST_BLINK();
+                        } else {
+                            LED_MANUAL_PWM_BLINK(); // Indicate no lock
+                        }
+                        if (user_interface.is_manual_pwm_override_reqest) {
+                            // Requested manual override, not yet locked
+                            user_interface.is_manual_pwm_override_active = (user_interface.pwm_automatic_value + PWM_MATCH_THRESHOLD >= user_interface.manual_pwm_override_value); // Engage manual mode if spindle slow down or keep speed requested
+                        } else {
+                            // Requested manual override disengage, not yet unlocked
+                            user_interface.is_manual_pwm_override_active = (user_interface.pwm_automatic_value >= user_interface.manual_pwm_override_value + PWM_MATCH_THRESHOLD); // Disengage manual mode if spindle slow down or keep speed requested
+                            if (!user_interface.is_manual_pwm_override_active) {
+                                // Successfully disengaged manual mode 
+                                ui_disable_pwm_override(); // apply the automatic speed setting for PWM
+                            }
+                        }
                     }
                 } else {
+                    // No pending override change, PWM button down
                     if (user_interface.is_manual_pwm_override_active) {
+                        spindle_set_speed(user_interface.pwm_automatic_value); // Run PWM update cycle. Routine takes care on automatic/manual setting
                         LED_MANUAL_PWM_ON();
                     } else {
+                        ui_disable_pwm_override();
                         LED_MANUAL_PWM_OFF();
                     }
                 }
-                user_interface.manual_pwm_btn_down_msec = min(BTN_TIMING_MAX, user_interface.manual_pwm_btn_down_msec + msec_sinceLastUpdate);
+            }
+            user_interface.manual_pwm_btn_down_msec = min(BTN_TIMING_MAX, user_interface.manual_pwm_btn_down_msec + msec_sinceLastUpdate);
+        } else {
+            //PWM override button idle
+            user_interface.manual_pwm_btn_down_msec = 0;
+            if (user_interface.is_manual_pwm_override_active) {
+                user_interface.manual_pwm_override_value = ((uint32_t) user_interface.manual_pwm_knob_value * SPINDLE_PWM_MAX_VALUE / ADC_MAX_VALUE);
+                spindle_set_speed(user_interface.pwm_automatic_value); // Run PWM update cycle. Routine takes care on automatic/manual setting
+                LED_MANUAL_PWM_ON();
             } else {
-                //PWM override button idle
-                user_interface.manual_pwm_btn_down_msec = 0;
-                if (user_interface.is_manual_pwm_override_active) {
-                    user_interface.manual_pwm_knob_value = (user_interface.manual_pwm_knob_value + ADC1_SharedChannelAN14ConversionResultGet()) >> 1;
-                    user_interface.manual_pwm_override_value = ((uint32_t) user_interface.manual_pwm_knob_value * SPINDLE_PWM_MAX_VALUE / ADC_MAX_VALUE);
-                    LED_MANUAL_PWM_ON();
-                } else {
-                    LED_MANUAL_PWM_OFF();
-                }
+                LED_MANUAL_PWM_OFF();
             }
         }
+#else
+        LED_MANUAL_PWM_OFF();
+        user_interface.is_manual_pwm_override_active = false;
+#endif
         ui_msec_since_last_update -= msec_sinceLastUpdate;
         ui_led_timer(&user_interface.LED_ATX, msec_sinceLastUpdate);
         ui_led_timer(&user_interface.LED_manual_pwm, msec_sinceLastUpdate);

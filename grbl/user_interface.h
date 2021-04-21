@@ -34,7 +34,8 @@ extern "C" {
 
     void ui_task(void);
     void ui_tick(uint16_t msec);
-
+    void ui_disable_pwm_override(void);
+    
 #ifdef	__cplusplus
 }
 #endif
