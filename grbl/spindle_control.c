@@ -98,6 +98,7 @@ void spindle_stop() {
     GPIO_setPinLow(LASER_ENABLE_PORT, LASER_ENABLE_PIN);  //Disable laser
 #endif
 #endif
+    user_interface.pwm_automatic_value = 0;
     ui_disable_pwm_override(); // Stop spindle override if spindle stops
 }
 
