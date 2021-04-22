@@ -79,8 +79,8 @@ extern "C" {
 #define GPIO_pinchgNotifyDisable(port, bitmask)   do { _pre(CNEN0, port) &= ~(bitmask); _pre(CNEN1, port) = _pre(CNEN0, port); } while (0)
 #define GPIO_pinchgNotifyDisablePin(port, pin)    GPIO_pinchgNotifyDisable(port, 1<<pin)
 
-#define PWM_SPINDLE_halt()                        _prepost(S, SPINDLE_PWM_PERIPHERAL, _COMPARE_Stop)()
-#define PWM_SPINDLE_unpause()                     _prepost(S, SPINDLE_PWM_PERIPHERAL, _COMPARE_Start)()
+#define PWM_SPINDLE_halt()                        do { _pre(SPINDLE_PWM_PERIPHERAL, CON2Lbits).SSDG = 1; } while (0)
+#define PWM_SPINDLE_unpause()                     do { _pre(SPINDLE_PWM_PERIPHERAL, CON2Lbits).SSDG = 0; } while (0)
 #define PWM_SPINDLE_isEnabled()                   (_post(SPINDLE_PWM_PERIPHERAL,CON1Lbits).CCPON)
 #define PWM_SPINDLE_setDutyCycle(dutyCycle)       _prepost(S, SPINDLE_PWM_PERIPHERAL, _COMPARE_SingleCompare16ValueSet)(dutyCycle)
 #define TIMER0_initNormalCountingAndOverflowInterrupt() do { TIMER0_loadCount(0); _prepost(S,STEPPERS_STEP_RESET_TIMER, _COMPARE_Start)(); } while(0)

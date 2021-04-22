@@ -67,12 +67,12 @@ static uint16_t         gSCCP1Mode;
 
 void SCCP1_COMPARE_Initialize (void)
 {
-    // CCPON disabled; MOD Dual Edge Compare, Buffered(PWM); CCSEL disabled; CCPSIDL disabled; TMR32 16 Bit; CCPSLP disabled; TMRPS 1:4; CLKSEL FOSC/2; TMRSYNC disabled; 
-    CCP1CON1L = (0x45 & 0x7FFF); //Disabling CCPON bit
+    // CCPON enabled; MOD Dual Edge Compare, Buffered(PWM); CCSEL disabled; CCPSIDL disabled; TMR32 16 Bit; CCPSLP disabled; TMRPS 1:4; CLKSEL FOSC/2; TMRSYNC disabled; 
+    CCP1CON1L = (0x8045 & 0x7FFF); //Disabling CCPON bit
     //RTRGEN disabled; ALTSYNC disabled; ONESHOT disabled; TRIGEN disabled; IOPS Each Time Base Period Match; SYNC None; OPSRC Timer Interrupt Event; 
     CCP1CON1H = 0x00;
-    //ASDGM disabled; SSDG disabled; ASDG 0; PWMRSEN disabled; 
-    CCP1CON2L = 0x00;
+    //ASDGM disabled; SSDG enabled; ASDG 0; PWMRSEN enabled; 
+    CCP1CON2L = 0x9000;
     //ICGSM Level-Sensitive mode; ICSEL IC1; AUXOUT Disabled; OCAEN enabled; OENSYNC disabled; 
     CCP1CON2H = 0x100;
     //OETRIG disabled; OSCNT None; POLACE enabled; PSSACE Tri-state; 
@@ -96,6 +96,7 @@ void SCCP1_COMPARE_Initialize (void)
     //BUF 0; 
     CCP1BUFH = 0x00;
 
+    CCP1CON1Lbits.CCPON = 0x1; //Enabling CCP
 
     gSCCP1Mode = CCP1CON1Lbits.MOD;
 
