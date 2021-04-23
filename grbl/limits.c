@@ -427,7 +427,7 @@ void limits_go_home(uint8_t cycle_mask)
         sys.homing_axis_lock = axislock;
         #ifdef ENABLE_DUAL_AXIS
           if (sys.homing_axis_lock_dual) { // NOTE: Only true when homing dual axis.
-            if (limit_state & (1 << N_AXIS)) { 
+            if (limit_state & (1 << DUAL_AXIS)) { 
               sys.homing_axis_lock_dual = 0;
               dual_axis_async_check |= DUAL_AXIS_CHECK_TRIGGER_2;
             }
