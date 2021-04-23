@@ -54,10 +54,10 @@
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
   #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 0 // false
-  #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_HARD_LIMIT_ENABLE 1  // true
   #define DEFAULT_INVERT_PROBE_PIN 0 // false
   #define DEFAULT_LASER_MODE 0 // false
-  #define DEFAULT_HOMING_ENABLE 0  // false
+  #define DEFAULT_HOMING_ENABLE 1  // true
   #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 25.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 500.0 // mm/min
