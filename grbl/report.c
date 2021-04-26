@@ -505,17 +505,20 @@ void report_field_pin_state(void) {
             serial_write('P');
         }
         if (lim_pin_state) {
-            if (bit_istrue(lim_pin_state, bit(X_AXIS))) {
+            if (bit_istrue(lim_pin_state, bit(X_AXIS)
+#if defined (ENABLE_DUAL_AXIS) && (DUAL_AXIS_SELECT == X_AXIS)
+                    | bit(DUAL_AXIS)
+#endif
+                    )) {
                 serial_write('X');
             }
-            if (bit_istrue(lim_pin_state, bit(Y_AXIS))) {
+            if (bit_istrue(lim_pin_state, bit(Y_AXIS)
+#if defined (ENABLE_DUAL_AXIS) && (DUAL_AXIS_SELECT == Y_AXIS)
+                    | bit(DUAL_AXIS)
+#endif
+                    )) {
                 serial_write('Y');
             }
-#if defined (ENABLE_DUAL_AXIS)
-            if (bit_istrue(lim_pin_state, bit(DUAL_AXIS))) {
-                serial_write('2');
-            }
-#endif
             if (bit_istrue(lim_pin_state, bit(Z_AXIS))) {
                 serial_write('Z');
             }
