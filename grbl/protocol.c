@@ -631,7 +631,16 @@ static void protocol_exec_rt_suspend()
 
           sys.suspend &= ~(SUSPEND_RESTART_RETRACT);
           sys.suspend |= SUSPEND_RETRACT_COMPLETE;
-
+          
+#if defined (ENABLE_ATX_POWER)
+          if (atx_power_on()) {
+              // ATX powered
+              report_feedback_message(atx_power_off() ? MESSAGE_ATX_POWER_OFF : MESSAGE_ATX_POWER_ON); // Try to shutdown ATX, report shutdown state
+          }
+#endif
+#ifdef ENABLE_SPINDLE_MANUAL_OVERRIDE
+          ui_disable_pwm_override(); // Disable the PWM override if any
+#endif
         } else {
 
           
