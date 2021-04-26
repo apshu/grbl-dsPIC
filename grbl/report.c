@@ -366,6 +366,12 @@ void report_gcode_modes()
     }
   #endif
   
+#ifdef ENABLE_ATX_POWER
+  report_util_gcode_modes_M();
+  serial_write('8');
+  serial_write(atx_power_isOn() ? '0' : '1');
+#endif
+  
   printPgmString(PSTR(" T"));
   print_uint8_base10(gc_state.tool);
 
