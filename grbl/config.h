@@ -714,6 +714,8 @@
  */
 #define ENABLE_ATX_POWER              
 //#define ATX_POWER_DEFAULT_ON          // Default disabled. Uncomment to enable
+#define ATX_POWER_AUTOMATIC_ON          // Default enabled. Uncomment to enable
+#define ATX_AUTOMATIC_ON_WAIT     1000  // [ms] Wait this long when ATX just turns on
 #define ATX_POWER_PGOOD_TIMEOUT   300   //[msec] PGOOD setting time before reporting an ERROR
 #define ATX_POWER_PGOOD_DEBOUNCE  50    //[msec] PGOOD Accepted after this long setady state
 #define ATX_BTN_FORCE_POWERDOWN   3000  //[msec] This long button press forces ATX powerdown when ATX is on

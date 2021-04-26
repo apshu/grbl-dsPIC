@@ -45,7 +45,8 @@ const settings_t defaults = {\
              (DEFAULT_HOMING_ENABLE << BIT_HOMING_ENABLE) | \
              (DEFAULT_SOFT_LIMIT_ENABLE << BIT_SOFT_LIMIT_ENABLE) | \
              (DEFAULT_INVERT_LIMIT_PINS << BIT_INVERT_LIMIT_PINS) | \
-             (DEFAULT_INVERT_PROBE_PIN << BIT_INVERT_PROBE_PIN),
+             (DEFAULT_INVERT_PROBE_PIN << BIT_INVERT_PROBE_PIN) | \
+             (DEFAULT_AUTO_ATX_ENABLE << BIT_AUTO_ATX_ENABLE),
     .steps_per_mm[X_AXIS] = DEFAULT_X_STEPS_PER_MM,
     .steps_per_mm[Y_AXIS] = DEFAULT_Y_STEPS_PER_MM,
     .steps_per_mm[Z_AXIS] = DEFAULT_Z_STEPS_PER_MM,
@@ -303,6 +304,16 @@ uint8_t settings_store_global_setting(uint8_t parameter, float value) {
         #endif
       }
         break;
+      case 33:
+        #if defined (ENABLE_ATX_POWER) && defined (ATX_POWER_AUTOMATIC_ON)
+          if (int_value) {
+              bit_true(settings.flags, BITFLAG_AUTO_ATX_ENABLE);
+          } else {
+              bit_false(settings.flags, BITFLAG_AUTO_ATX_ENABLE);
+          }
+        #else
+          return(STATUS_SETTING_DISABLED_ATX);
+        #endif
       default:
         return(STATUS_INVALID_STATEMENT);
     }

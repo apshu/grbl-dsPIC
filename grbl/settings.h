@@ -38,6 +38,7 @@
 #define BIT_SOFT_LIMIT_ENABLE  5
 #define BIT_INVERT_LIMIT_PINS  6
 #define BIT_INVERT_PROBE_PIN   7
+#define BIT_AUTO_ATX_ENABLE    8
 
 #define BITFLAG_REPORT_INCHES      bit(BIT_REPORT_INCHES)
 #define BITFLAG_LASER_MODE         bit(BIT_LASER_MODE)
@@ -47,6 +48,7 @@
 #define BITFLAG_SOFT_LIMIT_ENABLE  bit(BIT_SOFT_LIMIT_ENABLE)
 #define BITFLAG_INVERT_LIMIT_PINS  bit(BIT_INVERT_LIMIT_PINS)
 #define BITFLAG_INVERT_PROBE_PIN   bit(BIT_INVERT_PROBE_PIN)
+#define BITFLAG_AUTO_ATX_ENABLE    bit(BIT_AUTO_ATX_ENABLE)
 
 // Define status reporting boolean enable bit flags in settings.status_report_mask
 #define BITFLAG_RT_STATUS_POSITION_TYPE     bit(0)
@@ -103,7 +105,7 @@ typedef struct {
   float rpm_max;
   float rpm_min;
 
-  uint8_t flags;  // Contains default boolean settings
+  uint16_t flags;  // Contains default boolean settings
 
   uint8_t homing_dir_mask;
   float homing_feed_rate;
