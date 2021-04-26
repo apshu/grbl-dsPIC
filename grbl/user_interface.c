@@ -143,6 +143,18 @@ void ui_task(void) {
         LED_MANUAL_PWM_OFF();
         user_interface.is_manual_pwm_override_active = false;
 #endif
+        if (bit_istrue(control_state, CONTROL_PIN_INDEX_RESET)) {
+            //Button down
+            if (user_interface.reset_btn_down_msec > RESET_BTN_FORCE_UNLOCK_MS) {
+                //Long press on RESET button unlocks machine
+                system_execute_line("$X");
+                user_interface.reset_btn_down_msec = 0;
+            }
+            user_interface.reset_btn_down_msec = min(BTN_TIMING_MAX, user_interface.reset_btn_down_msec + msec_sinceLastUpdate);
+        } else {
+            //Reset button idle
+            user_interface.reset_btn_down_msec = 0;
+        }
         ui_msec_since_last_update -= msec_sinceLastUpdate;
         ui_led_timer(&user_interface.LED_ATX, msec_sinceLastUpdate);
         ui_led_timer(&user_interface.LED_manual_pwm, msec_sinceLastUpdate);

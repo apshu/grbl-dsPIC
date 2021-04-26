@@ -53,6 +53,8 @@
 #define CMD_CYCLE_START '~'
 #define CMD_FEED_HOLD '!'
 
+#define RESET_BTN_FORCE_UNLOCK_MS  (5000)  // [ms] After holding RESET button this long, Unlock is executed
+
 // NOTE: All override realtime commands must be in the extended ASCII character set, starting
 // at character value 128 (0x80) and up to 255 (0xFF). If the normal set of realtime commands,
 // such as status reports, feed hold, reset, and cycle start, are moved to the extended set

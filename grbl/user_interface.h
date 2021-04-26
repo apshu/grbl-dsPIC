@@ -29,6 +29,7 @@ extern "C" {
         uint16_t ATX_btn_down_msec; // ATX power button is engaged for this many msec
         bool is_ATX_btn_intent_off; // True if user wants to turn ATX off
         blinky_t LED_ATX; // Setting and state for the ATX LED
+        uint16_t reset_btn_down_msec; // Reset button is engaged for this many msec
     } user_interface_t;
     extern user_interface_t user_interface;
 
