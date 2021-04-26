@@ -477,6 +477,9 @@ void report_build_info(char *line)
   #ifdef ENABLE_ATX_POWER
     serial_write('X');
   #endif 
+#if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
+    serial_write('O');
+#endif
   // NOTE: Compiled values, like override increments/max/min values, may be added at some point later.
   serial_write(',');
   print_uint8_base10(BLOCK_BUFFER_SIZE-1);
@@ -538,6 +541,16 @@ void report_field_pin_state(void) {
             if (bit_istrue(ctrl_pin_state, CONTROL_PIN_INDEX_CYCLE_START)) {
                 serial_write('S');
             }
+#if defined( ENABLE_SPINDLE_MANUAL_OVERRIDE ) && defined( CONTROL_MANUAL_PWM_BIT )
+            if (bit_istrue(ctrl_pin_state, CONTROL_PIN_INDEX_MANUAL_PWM)) {
+                serial_write('M');
+            }
+#endif
+#ifdef CONTROL_ATX_POWER_BIT
+            if (bit_istrue(ctrl_pin_state, CONTROL_PIN_INDEX_ATX_POWER)) {
+                serial_write('A');
+            }
+#endif
         }
     }
 }
