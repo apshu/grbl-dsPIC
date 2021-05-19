@@ -63,6 +63,11 @@ void protocol_main_loop()
     system_execute_startup(line); // Execute startup script.
   }
 
+#ifndef ATX_POWER_DEFAULT_ON
+  //Default on power supply not enabled
+  atx_auto_off(); // At each reset, turn off the atx power supply if auto off enabled
+#endif
+  
   // ---------------------------------------------------------------------------------
   // Primary loop! Upon a system abort, this exits back to main() to reset the system.
   // This is also where Grbl idles while waiting for something to do.
@@ -650,6 +655,8 @@ static void protocol_exec_rt_suspend()
             spindle_set_state(SPINDLE_DISABLE,0.0); // De-energize
             coolant_set_state(COOLANT_DISABLE); // De-energize
             st_go_idle(); // Disable steppers
+            //System powered down. Shutdown ATX
+            atx_auto_off();
             //TODO: check if sleep instruction help here
             while (!(sys.abort)) { protocol_exec_rt_system(); } // Do nothing until reset.
             return; // Abort received. Return to re-initialize.
