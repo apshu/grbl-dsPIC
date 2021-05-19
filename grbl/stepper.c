@@ -223,19 +223,7 @@ static st_prep_t prep;
 // enabled. Startup init and limits call this function but shouldn't start the cycle.
 void st_wake_up()
 {
-  #if defined (ENABLE_ATX_POWER) && defined (ATX_POWER_AUTOMATIC_ON)
-    if (bit_istrue(settings.flags, BITFLAG_AUTO_ATX_ENABLE) && !atx_power_isOn()) {
-      // If Automatic ATX is enabled, and ATX is off, turn it on.
-      if (atx_power_on()) {
-        delay_ms(ATX_AUTOMATIC_ON_WAIT); // Wait for ATX settle
-        report_feedback_message(MESSAGE_ATX_POWER_ON);
-      } else {
-        system_set_exec_alarm(EXEC_ALARM_ATX_POWER_FAIL);
-        report_feedback_message(MESSAGE_ATX_POWER_OFF);
-        report_status_message(STATUS_ATX_POWER_FAIL);
-      }
-    }
-  #endif
+  atx_auto_on();
   // Enable stepper drivers.
   if (bit_istrue(settings.flags,BITFLAG_INVERT_ST_ENABLE)) { GPIO_setHigh(STEPPERS_DISABLE_PORT, 1<<STEPPERS_DISABLE_BIT); }
   else { GPIO_setLow(STEPPERS_DISABLE_PORT, 1<<STEPPERS_DISABLE_BIT); }

@@ -234,19 +234,7 @@ void _spindle_set_state(uint8_t state)
         spindle_stop();
 
     } else {
-        #if defined (ENABLE_ATX_POWER) && defined (ATX_POWER_AUTOMATIC_ON)
-            if (bit_istrue(settings.flags, BITFLAG_AUTO_ATX_ENABLE) && !atx_power_isOn()) {
-                // If Automatic ATX is enabled, and ATX is off, turn it on.
-                if (atx_power_on()) {
-                    delay_ms(ATX_AUTOMATIC_ON_WAIT); // Wait for ATX settle
-                    report_feedback_message(MESSAGE_ATX_POWER_ON);
-                } else {
-                    system_set_exec_alarm(EXEC_ALARM_ATX_POWER_FAIL);
-                    report_feedback_message(MESSAGE_ATX_POWER_OFF);
-                    report_status_message(STATUS_ATX_POWER_FAIL);
-                }
-            }
-        #endif
+        atx_auto_on();
         if (settings.flags & BITFLAG_LASER_MODE) {
             //Laser mode
             if (state == SPINDLE_ENABLE_CCW) {

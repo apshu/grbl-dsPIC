@@ -90,6 +90,7 @@ void ui_task(void) {
                         if (user_interface.is_manual_pwm_override_active) {
                             LED_MANUAL_PWM_ON();
                             uint16_t saved_pwm_value = user_interface.pwm_automatic_value; //Set state will override automatic value
+                            atx_auto_on();
                             spindle_set_state((gc_state.modal.spindle == SPINDLE_ENABLE_CCW) ? SPINDLE_ENABLE_CCW : SPINDLE_ENABLE_CW, 0.0); // Run PWM update cycle. Routine takes care on automatic/manual setting
                             user_interface.pwm_automatic_value = saved_pwm_value; // Restore overridden PWM value
                         } else {

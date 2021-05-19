@@ -8,7 +8,7 @@
 bool atx_is_powered_on = false;
 #endif
 
-bool atx_power_init() {
+bool atx_power_init(void) {
 
     _prepost(ODC, ATX_POWER_ON_PORT, bits)._prepost(ODC, ATX_POWER_ON_PORT, ATX_POWER_ON_BIT) = 1; //Enable open-drain pin or the power port
 
@@ -19,7 +19,7 @@ bool atx_power_init() {
 #endif
 }
 
-bool atx_power_on() {
+bool atx_power_on(void) {
 #ifdef ATX_POWER_ON
     ATX_POWER_ON();
 #else
@@ -56,7 +56,7 @@ bool atx_power_on() {
 #endif
 }
 
-bool atx_power_isOn() {
+bool atx_power_isOn(void) {
 #ifdef ATX_IS_ON
     return ATX_IS_ON();
 #else 
@@ -72,7 +72,7 @@ bool atx_power_isOn() {
 #endif
 }
 
-bool atx_power_off() {
+bool atx_power_off(void) {
 #ifdef ATX_POWER_OFF
     ATX_POWER_OFF();
 #else
@@ -107,3 +107,19 @@ bool atx_power_off() {
 #endif
 }
 
+bool atx_auto_on(void) {
+#if defined (ENABLE_ATX_POWER) && defined (ATX_POWER_AUTOMATIC_ON)
+    if (bit_istrue(settings.flags, BITFLAG_AUTO_ATX_ENABLE) && !atx_power_isOn()) {
+        // If Automatic ATX is enabled, and ATX is off, turn it on.
+        if (atx_power_on()) {
+            delay_ms(ATX_AUTOMATIC_ON_WAIT); // Wait for ATX settle
+            report_feedback_message(MESSAGE_ATX_POWER_ON);
+        } else {
+            system_set_exec_alarm(EXEC_ALARM_ATX_POWER_FAIL);
+            report_feedback_message(MESSAGE_ATX_POWER_OFF);
+            report_status_message(STATUS_ATX_POWER_FAIL);
+        }
+    }
+#endif
+    return atx_power_isOn();
+}
