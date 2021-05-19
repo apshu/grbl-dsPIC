@@ -43,17 +43,19 @@ bool atx_power_on(void) {
             msdebounce = 0;
         }
         if (msdebounce > ATX_POWER_PGOOD_DEBOUNCE) {
-            LED_ATX_POWER_ON();
-            return true;
+            break;
         }
         if (--msecctr) {
             __delay_ms(1);
         }
     }
-    return false;
-#else
-    return atx_power_isOn();
 #endif
+    if (atx_power_isOn()) {
+        LED_ATX_POWER_ON();
+        return true;
+    }
+    LED_ATX_POWER_OFF();
+    return false;
 }
 
 bool atx_power_isOn(void) {
@@ -94,17 +96,19 @@ bool atx_power_off(void) {
             ++msdebounce;
         }
         if (msdebounce > ATX_POWER_PGOOD_DEBOUNCE) {
-            LED_ATX_POWER_OFF();
-            return true;
+            break;
         }
         if (--msecctr) {
             __delay_ms(1);
         }
     }
-    return false;
-#else
-    return !atx_power_isOn();
 #endif
+    if (atx_power_isOn()) {
+        LED_ATX_POWER_ON();
+        return false;
+    }
+    LED_ATX_POWER_OFF();
+    return true;
 }
 
 bool atx_auto_on(void) {
