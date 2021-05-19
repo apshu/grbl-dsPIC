@@ -16,10 +16,11 @@ extern "C" {
 
     bool atx_power_init(void);
     bool atx_power_on(void);
-    bool atx_auto_on(void);   //Returns True if success. Sets alarms if no success. Sends status messages
+    bool atx_auto_on(void);    //Returns True if success. Sets alarms if no success. Sends status messages
     bool atx_power_isOn(void);
     bool atx_power_off(void);
-
+    bool atx_auto_off(void);   //Returns True if success. Sets alarms if no success. Sends status messages
+    
 #endif
     
 #ifdef	__cplusplus

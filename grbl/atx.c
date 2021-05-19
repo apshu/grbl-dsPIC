@@ -118,8 +118,28 @@ bool atx_auto_on(void) {
             system_set_exec_alarm(EXEC_ALARM_ATX_POWER_FAIL);
             report_feedback_message(MESSAGE_ATX_POWER_OFF);
             report_status_message(STATUS_ATX_POWER_FAIL);
+            return false;
         }
     }
 #endif
-    return atx_power_isOn();
+    return true;
+}
+
+bool atx_auto_off(void) {
+#if defined (ENABLE_ATX_POWER) && defined (ATX_POWER_AUTOMATIC_ON)
+    if (bit_istrue(settings.flags, BITFLAG_AUTO_ATX_ENABLE) && atx_power_isOn()) {
+        // If Automatic ATX is enabled, and ATX is on, turn it off.
+        if (atx_power_off()) {
+            //ATX is successfully off
+            report_feedback_message(MESSAGE_ATX_POWER_OFF);
+        } else {
+            //ATX power off failed
+            system_set_exec_alarm(EXEC_ALARM_ATX_POWER_FAIL);
+            report_feedback_message(MESSAGE_ATX_POWER_ON);
+            report_status_message(STATUS_ATX_POWER_FAIL);
+            return false;
+        }
+    }
+#endif
+    return true;
 }
