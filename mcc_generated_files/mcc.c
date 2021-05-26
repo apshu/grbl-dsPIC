@@ -45,17 +45,17 @@
 // Configuration bits: selected in the GUI
 
 // FSEC
-#pragma config BWRP = OFF    //Boot Segment Write-Protect bit->Boot Segment may be written
+#pragma config BWRP = ON    //Boot Segment Write-Protect bit->Boot Segment is write protected
 #pragma config BSS = DISABLED    //Boot Segment Code-Protect Level bits->No Protection (other than BWRP)
-#pragma config BSEN = OFF    //Boot Segment Control bit->No Boot Segment
+#pragma config BSEN = ON    //Boot Segment Control bit->Boot Segment size determined by FBSLIM
 #pragma config GWRP = OFF    //General Segment Write-Protect bit->General Segment may be written
 #pragma config GSS = DISABLED    //General Segment Code-Protect Level bits->No Protection (other than GWRP)
 #pragma config CWRP = OFF    //Configuration Segment Write-Protect bit->Configuration Segment may be written
 #pragma config CSS = DISABLED    //Configuration Segment Code-Protect Level bits->No Protection (other than CWRP)
-#pragma config AIVTDIS = OFF    //Alternate Interrupt Vector Table bit->Disabled AIVT
+#pragma config AIVTDIS = ON    //Alternate Interrupt Vector Table bit->Enabled AIVT
 
 // FBSLIM
-#pragma config BSLIM = 8191    //Boot Segment Flash Page Address Limit bits->8191
+#pragma config BSLIM = 8175    //Boot Segment Flash Page Address Limit bits->8175
 
 // FOSCSEL
 #pragma config FNOSC = FRC    //Oscillator Source Selection->FRC
@@ -127,11 +127,11 @@
 #pragma config CPRB4 = MSTR    //Pin RB4 Ownership Bits->Master core owns pin.
 #pragma config CPRB5 = MSTR    //Pin RB5 Ownership Bits->Master core owns pin.
 #pragma config CPRB6 = MSTR    //Pin RB6 Ownership Bits->Master core owns pin.
-#pragma config CPRB7 = MSTR    //Pin RB7 Ownership Bits->Master core owns pin.
-#pragma config CPRB8 = MSTR    //Pin RB8 Ownership Bits->Master core owns pin.
-#pragma config CPRB9 = MSTR    //Pin RB9 Ownership Bits->Master core owns pin.
-#pragma config CPRB10 = MSTR    //Pin RB10 Ownership Bits->Master core owns pin.
-#pragma config CPRB11 = MSTR    //Pin RB11 Ownership Bits->Master core owns pin.
+#pragma config CPRB7 = SLV1    //Pin RB7 Ownership Bits->Slave 1 core owns pin.
+#pragma config CPRB8 = SLV1    //Pin RB8 Ownership Bits->Slave 1 core owns pin.
+#pragma config CPRB9 = SLV1    //Pin RB9 Ownership Bits->Slave 1 core owns pin.
+#pragma config CPRB10 = SLV1    //Pin RB10 Ownership Bits->Slave 1 core owns pin.
+#pragma config CPRB11 = SLV1    //Pin RB11 Ownership Bits->Slave 1 core owns pin.
 #pragma config CPRB12 = MSTR    //Pin RB12 Ownership Bits->Master core owns pin.
 #pragma config CPRB13 = MSTR    //Pin RB13 Ownership Bits->Master core owns pin.
 #pragma config CPRB14 = MSTR    //Pin RB14 Ownership Bits->Master core owns pin.
@@ -142,28 +142,28 @@
 #pragma config CPRC1 = MSTR    //Pin RC1 Ownership Bits->Master core owns pin.
 #pragma config CPRC2 = MSTR    //Pin RC2 Ownership Bits->Master core owns pin.
 #pragma config CPRC3 = MSTR    //Pin RC3 Ownership Bits->Master core owns pin.
-#pragma config CPRC4 = MSTR    //Pin RC4 Ownership Bits->Master core owns pin.
-#pragma config CPRC5 = MSTR    //Pin RC5 Ownership Bits->Master core owns pin.
+#pragma config CPRC4 = SLV1    //Pin RC4 Ownership Bits->Slave 1 core owns pin.
+#pragma config CPRC5 = SLV1    //Pin RC5 Ownership Bits->Slave 1 core owns pin.
 #pragma config CPRC6 = MSTR    //Pin RC6 Ownership Bits->Master core owns pin.
 #pragma config CPRC7 = MSTR    //Pin RC7 Ownership Bits->Master core owns pin.
 #pragma config CPRC8 = MSTR    //Pin RC8 Ownership Bits->Master core owns pin.
 #pragma config CPRC9 = MSTR    //Pin RC9 Ownership Bits->Master core owns pin.
-#pragma config CPRC10 = MSTR    //Pin RC10 Ownership Bits->Master core owns pin.
-#pragma config CPRC11 = MSTR    //Pin RC11 Ownership Bits->Master core owns pin.
+#pragma config CPRC10 = SLV1    //Pin RC10 Ownership Bits->Slave 1 core owns pin.
+#pragma config CPRC11 = SLV1    //Pin RC11 Ownership Bits->Slave 1 core owns pin.
 #pragma config CPRC12 = MSTR    //Pin RC12 Ownership Bits->Master core owns pin.
 #pragma config CPRC13 = MSTR    //Pin RC13 Ownership Bits->Master core owns pin.
 #pragma config CPRC14 = MSTR    //Pin RC14 Ownership Bits->Master core owns pin.
 #pragma config CPRC15 = MSTR    //Pin RC15 Ownership Bits->Master core owns pin.
 
 // FCFGPRD0
-#pragma config CPRD0 = MSTR    //Pin RD0 Ownership Bits->Master core owns pin.
-#pragma config CPRD1 = MSTR    //Pin RD1 Ownership Bits->Master core owns pin.
+#pragma config CPRD0 = SLV1    //Pin RD0 Ownership Bits->Slave 1 core owns pin.
+#pragma config CPRD1 = SLV1    //Pin RD1 Ownership Bits->Slave 1 core owns pin.
 #pragma config CPRD2 = MSTR    //Pin RD2 Ownership Bits->Master core owns pin.
 #pragma config CPRD3 = MSTR    //Pin RD3 Ownership Bits->Master core owns pin.
 #pragma config CPRD4 = MSTR    //Pin RD4 Ownership Bits->Master core owns pin.
-#pragma config CPRD5 = MSTR    //Pin RD5 Ownership Bits->Master core owns pin.
-#pragma config CPRD6 = MSTR    //Pin RD6 Ownership Bits->Master core owns pin.
-#pragma config CPRD7 = MSTR    //Pin RD7 Ownership Bits->Master core owns pin.
+#pragma config CPRD5 = SLV1    //Pin RD5 Ownership Bits->Slave 1 core owns pin.
+#pragma config CPRD6 = SLV1    //Pin RD6 Ownership Bits->Slave 1 core owns pin.
+#pragma config CPRD7 = SLV1    //Pin RD7 Ownership Bits->Slave 1 core owns pin.
 #pragma config CPRD8 = MSTR    //Pin RD8 Ownership Bits->Master core owns pin.
 #pragma config CPRD9 = MSTR    //Pin RD9 Ownership Bits->Master core owns pin.
 #pragma config CPRD10 = MSTR    //Pin RD10 Ownership Bits->Master core owns pin.
