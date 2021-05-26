@@ -9,4 +9,4 @@
 "8","Homing fail","Homing fail. Pull off travel failed to clear limit switch. Try increasing pull-off setting or check wiring."
 "9","Homing fail","Homing fail. Could not find limit switch within search distances. Try increasing max travel, decreasing pull-off distance, or check wiring."
 "10","Homing fail","Homing fail. Second dual axis limit switch failed to trigger within configured search distance after first. Try increasing trigger fail distance or check wiring."
-"100","Power fail","ATX power supply switching failed. The PGOOD signal was not on for extensive period of time. Short circuit or ATX power supply faile cuold cause this problem.'
+"100","Power fail","ATX power supply switching failed. The PGOOD signal was not on for extensive period of time. Short circuit or ATX power supply faile could cause this problem."
