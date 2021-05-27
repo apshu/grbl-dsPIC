@@ -69,7 +69,7 @@ void PIN_MANAGER_Initialize (void)
     LATA = 0x0000;
     LATB = 0x0000;
     LATC = 0x0800;
-    LATD = 0x0002;
+    LATD = 0x000A;
 
     /****************************************************************************
      * Setting the GPIO Direction SFR(s)
